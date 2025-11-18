@@ -141,7 +141,7 @@ const Payment = ({
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
         amount: rzpOrder.amount,
         currency: rzpOrder.currency || "INR",
-        name: "Your Store",
+        name: "ACE Hydraulic",
         description: "Order Payment",
         order_id: rzpOrder.id,
         handler: async function (response: any) {
