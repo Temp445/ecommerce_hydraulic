@@ -3,13 +3,13 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useAuth } from "@/context/AuthProvider";
-import { Loader2, ShoppingBag, Star } from "lucide-react";
+import { ShoppingBag, Star } from "lucide-react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 type OrderItem = {
-  _id: string; // ✅ ensure itemId exists here
+  _id: string; 
   productId: string;
   productName: string;
   productImage: string;

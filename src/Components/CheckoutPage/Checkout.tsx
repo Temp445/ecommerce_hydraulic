@@ -278,54 +278,58 @@ const Checkout = () => {
           </div>
 
           <div className="lg:col-span-1">
-            <div className="bg-white rounded-xl border border-gray-200 p-6 sticky top-6 shadow-sm">
-              <h3 className="text-lg font-bold text-gray-900 mb-5 pb-3 border-b border-gray-200">
-                Price Details
-              </h3>
+            {availableCartItems.length > 0 ? (
+              <div className="bg-white rounded-xl border border-gray-200 p-6 sticky top-6 shadow-sm">
+                <h3 className="text-lg font-bold text-gray-900 mb-5 pb-3 border-b border-gray-200">
+                  Price Details
+                </h3>
 
-              <div className="space-y-4 mb-5">
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-600 text-sm">
-                    Price ({availableCartItems.length}{" "}
-                    {availableCartItems.length === 1 ? "item" : "items"})
-                  </span>
-                  <span className="font-semibold font-sans text-gray-900">
-                    ₹{totalProductAmount.toLocaleString()}
-                  </span>
-                </div>
-
-                <div className="flex justify-between items-center font-sans">
-                  <span className="text-gray-600 text-sm">Delivery fee</span>
-                  {totalDeliveryCharge > 0 ? (
-                    <span> ₹{totalDeliveryCharge.toLocaleString()} </span>
-                  ) : (
-                    "Free"
-                  )}
-                </div>
-              </div>
-
-              <div className="pt-4 border-t-2 border-gray-300 mb-5">
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-900 font-bold text-base">
-                    Total Amount
-                  </span>
-                  <span className="text-xl font-bold font-sans text-gray-900">
-                    ₹{totalAmount.toLocaleString()}
-                  </span>
-                </div>
-              </div>
-
-              <div className="bg-emerald-50 border border-emerald-500  rounded-lg p-3">
-                <div className="flex items-start gap-2">
-                  <LockKeyhole className="text-emerald-700" />
-                  <div>
-                    <p className="text-sm font-semibold text-emerald-900">
-                      Safe & Secure
-                    </p>
-                    <p className="text-xs text-emerald-700 mt-0.5">
-                      100% secure payments
-                    </p>
+                <div className="space-y-4 mb-5">
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-600 text-sm">
+                      Price ({availableCartItems.length}{" "}
+                      {availableCartItems.length === 1 ? "item" : "items"})
+                    </span>
+                    <span className="font-semibold font-sans text-gray-900">
+                      ₹{totalProductAmount.toLocaleString()}
+                    </span>
                   </div>
+
+                  <div className="flex justify-between items-center font-sans">
+                    <span className="text-gray-600 text-sm">Delivery fee</span>
+                    {totalDeliveryCharge > 0 ? (
+                      <span> ₹{totalDeliveryCharge.toLocaleString()} </span>
+                    ) : (
+                      "Free"
+                    )}
+                  </div>
+                </div>
+
+                <div className="pt-4 border-t-2 border-gray-300 mb-5">
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-900 font-bold text-base">
+                      Total Amount
+                    </span>
+                    <span className="text-xl font-bold font-sans text-gray-900">
+                      ₹{totalAmount.toLocaleString()}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              ""
+            )}
+
+            <div className="bg-emerald-50 border border-emerald-500  rounded-lg p-3 mt-2">
+              <div className="flex items-start gap-2">
+                <LockKeyhole className="text-emerald-700" />
+                <div>
+                  <p className="text-sm font-semibold text-emerald-900">
+                    Safe & Secure
+                  </p>
+                  <p className="text-xs text-emerald-700 mt-0.5">
+                    100% secure payments
+                  </p>
                 </div>
               </div>
             </div>

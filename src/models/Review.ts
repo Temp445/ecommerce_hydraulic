@@ -15,11 +15,6 @@ const ReviewSchema = new mongoose.Schema(
       required: true,
     },
 
-    orderId: {
-      type: Schema.Types.ObjectId,
-      ref: "Order",
-    },
-
     rating: {
       type: Number,
       required: true,
@@ -44,12 +39,7 @@ const ReviewSchema = new mongoose.Schema(
       {
         type: String,
       },
-    ],
-
-    isVerifiedPurchase: {
-      type: Boolean,
-      default: false,
-    }
+    ]
 
   },
   { timestamps: true}

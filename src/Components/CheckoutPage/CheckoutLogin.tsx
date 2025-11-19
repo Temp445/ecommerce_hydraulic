@@ -94,7 +94,7 @@ const CheckoutLogin = ({setShowRegister}: {
                 setLoginData({ ...loginData, email: e.target.value })
               }
               className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg"
-              placeholder="you@example.com"
+              placeholder="Enter your email"
               required
             />
           </div>

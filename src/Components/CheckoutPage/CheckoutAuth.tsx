@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { User, CheckCircle, Mail, UserCircle } from "lucide-react";
+import { CheckCircle, Mail, UserCircle } from "lucide-react";
 import CheckoutLogin from "./CheckoutLogin";
 import CheckoutRegister from "./CheckoutRegister";
 

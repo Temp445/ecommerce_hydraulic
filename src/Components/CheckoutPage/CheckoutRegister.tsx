@@ -66,7 +66,6 @@ const CheckoutRegister = ({
       localStorage.setItem("role", loginData.user.role);
       localStorage.setItem("user", JSON.stringify(loginData.user));
 
-      // Merge guest cart if any
       const guestCart = JSON.parse(localStorage.getItem("guestCart") || "[]");
       if (guestCart.length > 0) {
         try {
