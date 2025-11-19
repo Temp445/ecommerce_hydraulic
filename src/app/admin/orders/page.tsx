@@ -56,7 +56,6 @@ export default function AdminOrdersPage() {
 
       await axios.patch(`/api/orders/${orderId}/items/${itemId}`, data);
 
-      // Update state locally
       setOrders((prev) =>
         prev.map((order) =>
           order._id === orderId
@@ -390,7 +389,7 @@ export default function AdminOrdersPage() {
                             Delivery Address
                           </p>
                           <p className="text-gray-900 text-sm">
-                            {order.shippingAddress?.Address}
+                            {order.shippingAddress?.Address} {order.shippingAddress.City}, {order.shippingAddress.State} - {order.shippingAddress.PinCode}, {order.shippingAddress.Country}
                           </p>
                         </div>
                       </div>
