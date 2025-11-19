@@ -1,5 +1,6 @@
-"use client";
+// Product Review Page - Add, Edit, and Delete reviews
 
+"use client";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useAuth } from "@/context/AuthProvider";
@@ -8,7 +9,7 @@ import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 
 interface ReviewPageProps {
-  params: Promise<{ productId: string; orderId?: string }>; 
+  params: Promise<{ productId: string; orderId?: string }>;
 }
 
 interface ReviewData {
@@ -19,7 +20,7 @@ interface ReviewData {
   images: string[];
 }
 
-export default function ReviewPage({ params }: ReviewPageProps) {
+const ReviewPage = ({ params }: ReviewPageProps) => {
   const [productId, setProductId] = useState<string>("");
   const [orderId, setOrderId] = useState<string | undefined>();
   const { user } = useAuth();
@@ -46,7 +47,9 @@ export default function ReviewPage({ params }: ReviewPageProps) {
 
     const fetchReview = async () => {
       try {
-        const res = await axios.get(`/api/review?userId=${user._id}&productId=${productId}`);
+        const res = await axios.get(
+          `/api/review?userId=${user._id}&productId=${productId}`
+        );
         if (res.data.data && res.data.data.length > 0) {
           const review: ReviewData = res.data.data[0];
           setExistingReview(review);
@@ -74,7 +77,10 @@ export default function ReviewPage({ params }: ReviewPageProps) {
       const newExisting = [...existingReview.images];
       newExisting.splice(index, 1);
       setExistingReview({ ...existingReview, images: newExisting });
-      setPreview([...newExisting, ...images.map((f) => URL.createObjectURL(f))]);
+      setPreview([
+        ...newExisting,
+        ...images.map((f) => URL.createObjectURL(f)),
+      ]);
     } else {
       const newImages = [...images];
       newImages.splice(index - (existingReview?.images?.length || 0), 1);
@@ -102,7 +108,10 @@ export default function ReviewPage({ params }: ReviewPageProps) {
       images.forEach((file) => formData.append("images", file));
 
       if (existingReview) {
-        formData.append("existingImages", JSON.stringify(existingReview.images || []));
+        formData.append(
+          "existingImages",
+          JSON.stringify(existingReview.images || [])
+        );
         await axios.patch(`/api/review/${existingReview._id}`, formData, {
           headers: { "Content-Type": "multipart/form-data" },
         });
@@ -158,14 +167,18 @@ export default function ReviewPage({ params }: ReviewPageProps) {
 
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Rating</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Rating
+            </label>
             <div className="flex gap-2">
               {[1, 2, 3, 4, 5].map((star) => (
                 <Star
                   key={star}
                   onClick={() => setRating(star)}
                   className={`w-6 h-6 cursor-pointer transition ${
-                    star <= rating ? "text-yellow-400 fill-yellow-400" : "text-gray-300"
+                    star <= rating
+                      ? "text-yellow-400 fill-yellow-400"
+                      : "text-gray-300"
                   }`}
                 />
               ))}
@@ -190,10 +203,14 @@ export default function ReviewPage({ params }: ReviewPageProps) {
           />
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Upload Images</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Upload Images
+            </label>
             <label className="flex flex-col items-center justify-center w-full border-2 border-dashed border-gray-300 rounded-lg p-4 cursor-pointer hover:border-emerald-500 transition">
               <Upload className="w-5 h-5 text-gray-400 mb-2" />
-              <span className="text-gray-500 text-sm">Click to upload images</span>
+              <span className="text-gray-500 text-sm">
+                Click to upload images
+              </span>
               <input
                 type="file"
                 accept="image/*"
@@ -208,7 +225,10 @@ export default function ReviewPage({ params }: ReviewPageProps) {
             <div className="grid grid-cols-3 gap-2 mt-3">
               {preview.map((url, i) => (
                 <div key={i} className="relative">
-                  <img src={url} className="w-full h-20 object-cover rounded-lg border" />
+                  <img
+                    src={url}
+                    className="w-full h-20 object-cover rounded-lg border"
+                  />
                   <button
                     type="button"
                     onClick={() => handleRemoveImage(i)}
@@ -227,7 +247,13 @@ export default function ReviewPage({ params }: ReviewPageProps) {
               disabled={loading}
               className="flex-1 bg-emerald-600 text-white py-2 rounded-lg font-medium hover:bg-emerald-700 transition flex justify-center items-center"
             >
-              {loading ? <Loader2 className="w-5 h-5 mr-2 animate-spin" /> : existingReview ? "Update Review" : "Submit Review"}
+              {loading ? (
+                <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+              ) : existingReview ? (
+                "Update Review"
+              ) : (
+                "Submit Review"
+              )}
             </button>
 
             {existingReview && (
@@ -246,3 +272,5 @@ export default function ReviewPage({ params }: ReviewPageProps) {
     </div>
   );
 }
+
+export default ReviewPage

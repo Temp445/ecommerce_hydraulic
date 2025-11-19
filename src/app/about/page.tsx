@@ -1,18 +1,19 @@
-"use client";
+// About Page 
+// Components Used:
+// - @/Components/AboutPage/HeroSection
+// - @/Components/AboutPage/WhyChooseUsSection
+// - @/Components/AboutPage/VisionMissionSection
+// - @/Components/AboutPage/ManufacturingProcessSection
+// - @/Components/AboutPage/whyShopWithUs
+// - @/Components/LandingPage/Testimonials
+
 
 import React from "react";
 import {
-  Wrench,
-  ShieldCheck,
   Truck,
   Award,
-  Factory,
-  CheckCircle,
   Users,
-  Target,
-  Eye,
   PackageCheck,
-  IndianRupee,
 } from "lucide-react";
 import VisionMissionSection from "@/Components/AboutPage/VisionMissionSection";
 import HeroSection from "@/Components/AboutPage/HeroSection";

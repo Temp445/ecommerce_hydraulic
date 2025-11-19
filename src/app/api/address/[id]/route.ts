@@ -1,8 +1,13 @@
+
+// Address API — Get, Update, Delete a user address by ID
+// Route: /api/address/${id}
+ 
+
 import dbConnect from "@/lib/dbConnect";
 import Address from "@/models/Address";
 import { NextResponse } from "next/server";
 
-
+// GET by ID
 export async function GET(req: Request, { params }: { params: Promise <{ id: string }> }) {
   try {
     await dbConnect();
@@ -26,7 +31,7 @@ export async function GET(req: Request, { params }: { params: Promise <{ id: str
   }
 }
 
-
+// PUT by ID
 export async function PUT(req: Request, { params }: { params:  Promise <{ id: string }> }) {
   try {
     await dbConnect();
@@ -57,7 +62,7 @@ export async function PUT(req: Request, { params }: { params:  Promise <{ id: st
   }
 }
 
-
+// DELETE by ID
 export async function DELETE(
   req: Request,
   { params }: { params: Promise <{ id: string }> }

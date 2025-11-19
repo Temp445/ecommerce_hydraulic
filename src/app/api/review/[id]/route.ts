@@ -1,3 +1,6 @@
+// Review API : Get, Update and Delete by ID
+// Route: /api/review/${id}
+
 import { NextResponse } from "next/server";
 import mongoose from "mongoose";
 import dbConnect from "@/lib/dbConnect";

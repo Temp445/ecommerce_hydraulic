@@ -1,3 +1,6 @@
+// Product API : GET, PUT, DELETE by pathUrl
+// Route: /api/product/${pathUrl}
+
 import dbConnect from "@/lib/dbConnect";
 import cloudinary from "@/lib/cloudinary";
 import "@/models/Category";

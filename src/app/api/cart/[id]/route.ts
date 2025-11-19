@@ -1,3 +1,5 @@
+//Route: /api/cart/${id}
+
 import { NextResponse } from "next/server";
 import dbconnect from "@/lib/dbConnect";
 import Cart from "@/models/Cart";

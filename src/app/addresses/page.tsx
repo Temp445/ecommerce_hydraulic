@@ -1,3 +1,8 @@
+// Address Page — List, Add, Edit, and Delete user addresses
+// Components Used:
+// - @/Components/AddressPage/AddressForm
+// - @/Components/AddressPage/AddressList
+
 "use client";
 
 import React, { useEffect, useState } from "react";

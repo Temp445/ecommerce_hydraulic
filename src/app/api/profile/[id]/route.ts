@@ -1,3 +1,6 @@
+// Profile API : Get and Update user profile 
+// Route: /api/profile/${id}
+
 import dbConnect from "@/lib/dbConnect";
 import User from "@/models/User";
 import { NextResponse } from "next/server";

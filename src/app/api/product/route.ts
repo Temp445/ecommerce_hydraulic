@@ -1,3 +1,6 @@
+// Product API : GET all products and POST a new product
+// Route: /api/product
+
 import { NextResponse } from "next/server";
 import mongoose from "mongoose";
 import dbConnect from "@/lib/dbConnect";
@@ -17,7 +20,10 @@ export async function GET(req: Request) {
       .sort({ createdAt: -1 })
       .populate("category", "_id Name");
 
-    return NextResponse.json({ success: true, data: products }, { status: 200 });
+    return NextResponse.json(
+      { success: true, data: products },
+      { status: 200 }
+    );
   } catch (err: any) {
     return NextResponse.json(
       { success: false, message: err.message || "Failed to fetch products" },
@@ -25,7 +31,6 @@ export async function GET(req: Request) {
     );
   }
 }
-
 
 export async function POST(req: Request) {
   try {

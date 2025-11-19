@@ -305,7 +305,7 @@ const Checkout = () => {
                   </div>
                 </div>
 
-                <div className="pt-4 border-t-2 border-gray-300 mb-5">
+                <div className="pt-4 border-t-2 border-gray-300">
                   <div className="flex justify-between items-center">
                     <span className="text-gray-900 font-bold text-base">
                       Total Amount

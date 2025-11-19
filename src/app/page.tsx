@@ -1,3 +1,5 @@
+//  Home Page
+
 import About from '@/Components/LandingPage/About'
 import BlogSection from '@/Components/LandingPage/BlogSection'
 import CategorySection from '@/Components/LandingPage/CategorySection'
@@ -13,7 +15,6 @@ import React from 'react'
 const page = () => {
   return (
     <div>
-      
       <HeroSection/>
       <FeatureList/>
       <CategorySection/>

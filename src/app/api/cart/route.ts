@@ -1,3 +1,6 @@
+// Cart API : Get cart items base on userId and post cart item based on userId
+// Route: /api/cart
+
 import { NextResponse } from "next/server";
 import dbConnect from "@/lib/dbConnect";
 import "@/models/Product";

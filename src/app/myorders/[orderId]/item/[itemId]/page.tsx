@@ -1,3 +1,5 @@
+// Order Detail Page — View complete order item details, track status, and cancel an item
+
 "use client";
 
 import { useEffect, useState } from "react";

@@ -1,160 +1,294 @@
-"use client";
+// ContactForm 
 
-import { useState } from "react";
-import { Send, User, Mail, Building2, Package, Phone, MessageSquare } from "lucide-react";
-import { FaWhatsapp } from "react-icons/fa";
+"use client";
+import { useState, useEffect, useRef, FormEvent } from "react";
+import PhoneInput, { isValidPhoneNumber } from "react-phone-number-input";
+import "react-phone-number-input/style.css";
+import emailjs from "@emailjs/browser";
+import toast from "react-hot-toast";
+
+const service_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || "";
+const template_ID = process.env.NEXT_PUBLIC_EMAILJS_ENQ_TEMPLATE_ID || "";
+const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || "";
+
+const endpoint = "/api/proxy-validate-email";
 
 const ContactForm = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    company: "",
-    product: "",
-    contact: "",
-    email: "",
-    message: "",
-  });
-  const [isHovered, setIsHovered] = useState(false);
+  const formRef = useRef<HTMLFormElement>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [formType, setFormType] = useState("");
+  const [email, setEmail] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [phone, setPhone] = useState<string>();
+  const [phoneError, setPhoneError] = useState("");
+  const [orderId, setOrderId] = useState("");
+  const [orderProducts, setOrderProducts] = useState<any[]>([]);
+  const [selectedProducts, setSelectedProducts] = useState<string[]>([]);
+  const [orderError, setOrderError] = useState("");
+  const [sending, setSending] = useState(false);
+
+  const validateEmail = async (email: string): Promise<string> => {
+    try {
+      const res = await fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+
+      if (res.status !== 200) return "Invalid Email";
+
+      const data = await res.json();
+      return data.isValid ? "" : "Invalid Email Address";
+    } catch {
+      return "Validation unavailable";
+    }
+  };
+
+  useEffect(() => {
+    if (!orderId || orderId.trim().length < 5) {
+      setOrderProducts([]);
+      setOrderError("");
+      return;
+    }
+
+    const delayFetch = setTimeout(async () => {
+      try {
+        setOrderError("");
+
+        const response = await fetch(`/api/orders/${orderId}`);
+
+        if (!response.ok) {
+          setOrderProducts([]);
+          setOrderError("Order not found");
+          return;
+        }
+
+        const data = await response.json();
+        setOrderProducts(data.items || []);
+      } catch {
+        setOrderError("Error fetching order");
+      }
+    }, 500);
+
+    return () => clearTimeout(delayFetch);
+  }, [orderId]);
+
+  const toggleProductSelect = (productName: string) => {
+    setSelectedProducts((prev) =>
+      prev.includes(productName)
+        ? prev.filter((p) => p !== productName)
+        : [...prev, productName]
+    );
+  };
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    alert("Quote request submitted!");
-    setFormData({ name: "", company: "", product: "", contact: "", email: "", message: "" });
+    const form = formRef.current;
+    if (!form) return;
+
+    if (!phone || !isValidPhoneNumber(phone)) {
+      setPhoneError("Enter a valid phone number");
+      return;
+    }
+    setPhoneError("");
+
+    const emailValidationMsg = await validateEmail(email);
+    if (emailValidationMsg) {
+      setEmailError(emailValidationMsg);
+      return;
+    }
+    setEmailError("");
+
+    setSending(true);
+
+    const formData = {
+      fullName: (form["fullName"] as HTMLInputElement).value,
+      email,
+      phone,
+      formType,
+      companyName: (form["companyName"] as HTMLInputElement)?.value || "",
+      product: (form["product"] as HTMLInputElement)?.value || "",
+      message: (form["message"] as HTMLTextAreaElement)?.value || "",
+      orderId,
+      selectedProducts: selectedProducts.join(", "),
+      issueMessage: (form["issueMessage"] as HTMLTextAreaElement)?.value || "",
+      Originate_From: "Hydraulic",
+    };
+
+    try {
+      await emailjs.send(service_ID, template_ID, formData, publicKey);
+
+      toast.success("Your enquiry has been sent successfully!");
+
+      form.reset();
+      setEmail("");
+      setPhone("");
+      setOrderId("");
+      setOrderProducts([]);
+      setSelectedProducts([]);
+      setFormType("");
+    } catch (error) {
+      toast.error("Failed to send. Please try again.");
+    } finally {
+      setSending(false);
+    }
   };
 
   return (
-    <section className="relative overflow-hidden">
-      <div className="relative  mx-auto">
-      
-        <div className="relative bg-white/80 backdrop-blur-lg p-8 rounded shadow-2xl border border-gray-200 transition-all duration-300 hover:shadow-3xl overflow-clip">
-          
-          <div className="grid  gap-6 mb-6">
-            <div className="relative group">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Your Name *
-              </label>
-              <input
-                type="text"
-                placeholder="Your Name"
-                className="w-full p-4 pl-12 rounded-xl border-2 border-gray-200 focus:border-gray-600 transition-all outline-none bg-white"
-                required
-                value={formData.name}
-                onChange={(e) =>
-                  setFormData({ ...formData, name: e.target.value })
-                }
-              />
-              <div className="absolute left-4 top-[46px] text-gray-400 group-focus-within:text-gray-600 transition-colors">
-                <User/>
-              </div>
-            </div>
+    <div className="max-w-2xl mx-auto bg-white shadow-lg border border-gray-200 p-6 md:p-8 rounded-xl">
+      <h2 className="text-xl md:text-2xl font-medium mb-6">Contact / Support Form</h2>
 
-            <div className="relative group">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Company Name
-              </label>
-              <input
-                type="text"
-                placeholder="Your Company"
-                className="w-full p-4 pl-12 rounded-xl border-2 border-gray-200 focus:border-gray-500 focus:ring-4 focus:ring-gray-100 transition-all outline-none bg-white"
-                value={formData.company}
-                onChange={(e) =>
-                  setFormData({ ...formData, company: e.target.value })
-                }
-              />
-              <Building2 className="absolute left-4 top-[46px] w-5 h-5 text-gray-400 group-focus-within:text-gray-500 transition-colors" />
-            </div>
-          </div>
-
-          <div className="relative group mb-6">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Product Interested In *
-            </label>
-            <input
-              type="text"
-              placeholder="Hydraulic Cylinder"
-              className="w-full p-4 pl-12 rounded-xl border-2 border-gray-200 focus:border-gray-500 focus:ring-4 focus:ring-gray-100 transition-all outline-none bg-white"
-              required
-              value={formData.product}
-              onChange={(e) =>
-                setFormData({ ...formData, product: e.target.value })
-              }
-            />
-            <Package className="absolute left-4 top-[46px] w-5 h-5 text-gray-400 group-focus-within:text-gray-500 transition-colors" />
-          </div>
-
-          <div className="relative group mb-6">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Phone Number *
-            </label>
-            <input
-              type="text"
-              placeholder="Phone Number"
-              className="w-full p-4 pl-12 rounded-xl border-2 border-gray-200 focus:border-gray-500 focus:ring-4 focus:ring-gray-100 transition-all outline-none bg-white"
-              required
-              value={formData.contact}
-              onChange={(e) =>
-                setFormData({ ...formData, contact: e.target.value })
-              }
-            />
-            <Phone className="absolute left-4 top-[46px] w-5 h-5 text-gray-400 group-focus-within:text-gray-500 transition-colors" />
-          </div>
-
-          <div className="relative group mb-6">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Email ID *
-            </label>
-            <input
-              type="email"
-              placeholder="Email Id"
-              className="w-full p-4 pl-12 rounded-xl border-2 border-gray-200 focus:border-gray-500 focus:ring-4 focus:ring-gray-100 transition-all outline-none bg-white"
-              required
-              value={formData.email}
-              onChange={(e) =>
-                setFormData({ ...formData, email: e.target.value })
-              }
-            />
-            <Mail className="absolute left-4 top-[46px] w-5 h-5 text-gray-400 group-focus-within:text-gray-500 transition-colors" />
-          </div>
-
-          <div className="relative group mb-6">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Message
-            </label>
-            <textarea
-              placeholder="Enter your message..."
-              className="w-full p-4 pl-12 rounded-xl border-2 border-gray-200 focus:border-gray-500 focus:ring-4 focus:ring-gray-100 transition-all outline-none bg-white resize-none"
-              rows={4}
-              value={formData.message}
-              onChange={(e) =>
-                setFormData({ ...formData, message: e.target.value })
-              }
-            />
-            <MessageSquare className="absolute left-4 top-[46px] w-5 h-5 text-gray-400 group-focus-within:text-gray-500 transition-colors" />
-          </div>
-
-          <button
-            type="button"
-            onClick={handleSubmit}
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
-            className="w-full bg-gray-800 text-white p-4 rounded-xl font-semibold text-lg shadow-lg hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-300 flex items-center justify-center gap-2 group"
-          >
-            <span>Submit Request</span>
-            <Send className={`w-5 h-5 transition-transform duration-300 ${isHovered ? 'translate-x-1' : ''}`} />
-          </button>
-
-          <div className="mt-6 text-center">
-            <p className="text-gray-600 mb-3">or reach us instantly on</p>
-            <a
-              href="https://wa.me/7339139431"
-              className="inline-flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-full font-medium shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
-            >
-              <FaWhatsapp className="text-white text-2xl" />
-              <span>Chat on WhatsApp</span>
-            </a>
-          </div>
+      <form ref={formRef} onSubmit={handleSubmit} className="grid gap-5">
+        <div>
+          <label className="block mb-1 font-medium">Full Name *</label>
+          <input
+            required
+            name="fullName"
+            className="w-full p-3 border rounded-lg"
+            placeholder="Enter your name"
+          />
         </div>
-      </div>
-    </section>
+
+        <div>
+          <label className="block mb-1 font-medium">Email *</label>
+          <input
+            required
+            name="email"
+            type="email"
+            value={email}
+            onChange={(e) => {
+              setEmail(e.target.value);
+              setEmailError("");
+            }}
+            className="w-full p-3 border rounded-lg"
+            placeholder="Enter your email"
+          />
+          {emailError && <p className="text-red-600 text-sm">{emailError}</p>}
+        </div>
+
+        <div>
+          <label className="block mb-1 font-medium">Mobile Number *</label>
+          <PhoneInput
+            international
+            defaultCountry="IN"
+            value={phone}
+            onChange={setPhone}
+            className="rounded-lg border p-2  [&>input]:border-none [&>input]:outline-none [&>input]:bg-transparent"
+          />
+          {phoneError && <p className="text-red-600">{phoneError}</p>}
+        </div>
+
+        <div>
+          <label className="block mb-1 font-medium">Select Option *</label>
+          <select
+            required
+            value={formType}
+            onChange={(e) => setFormType(e.target.value)}
+            className="w-full p-3 border rounded-lg"
+          >
+            <option value="">-- Select Option --</option>
+            <option value="Product Quote / Pricing">
+              Product Quote / Pricing
+            </option>
+            <option value="Delivery Issue">Delivery Issue</option>
+            <option value="Refund Issue">Refund Issue</option>
+          </select>
+        </div>
+
+        {formType === "Product Quote / Pricing" && (
+          <>
+            <div>
+              <label className="block mb-1 font-medium">Company Name</label>
+              <input
+                name="companyName"
+                className="w-full p-3 border rounded-lg"
+                placeholder="Your company"
+              />
+            </div>
+
+            <div>
+              <label className="block mb-1 font-medium">
+                Product Interested *
+              </label>
+              <input
+                required
+                name="product"
+                className="w-full p-3 border rounded-lg"
+                placeholder="Hydraulic Cylinder"
+              />
+            </div>
+
+            <div>
+              <label className="block mb-1 font-medium">Message</label>
+              <textarea
+                name="message"
+                rows={3}
+                className="w-full p-3 border rounded-lg"
+                placeholder="Enter your message"
+              ></textarea>
+            </div>
+          </>
+        )}
+
+        {(formType === "Delivery Issue" || formType === "Refund Issue") && (
+          <>
+            <div>
+              <label className="block mb-1 font-medium">Order ID *</label>
+              <input
+                required
+                value={orderId}
+                onChange={(e) => setOrderId(e.target.value)}
+                className="w-full p-3 border rounded-lg"
+                placeholder="Enter your order ID"
+              />
+              {orderError && (
+                <p className="text-red-600 text-sm">{orderError}</p>
+              )}
+              
+            </div>
+
+            {orderProducts.length > 0 && (
+              <div className="border p-4 rounded-lg mt-2">
+                <h3 className="font-medium mb-3">
+                  Select product with issue *
+                </h3>
+
+                {orderProducts.map((item: any, index: number) => (
+                  <label key={index} className="flex items-center gap-2 mb-2">
+                    <input
+                      type="checkbox"
+                      checked={selectedProducts.includes(item.productName)}
+                      onChange={() => toggleProductSelect(item.productName)}
+                    />
+                    <span>{item.productName}</span>
+                  </label>
+                ))}
+              </div>
+            )}
+
+            <div>
+              <label className="block mb-1 font-medium">
+                Describe the Issue *
+              </label>
+              <textarea
+                required
+                name="issueMessage"
+                rows={4}
+                className="w-full p-3 border rounded-lg"
+                placeholder="Explain your issue..."
+              ></textarea>
+            </div>
+          </>
+        )}
+
+        <button
+          disabled={sending}
+          className="w-full bg-black text-white py-3 rounded-lg text-lg font-semibold disabled:opacity-60"
+        >
+          {sending ? "Sending..." : "Submit"}
+        </button>
+      </form>
+    </div>
   );
 }
 

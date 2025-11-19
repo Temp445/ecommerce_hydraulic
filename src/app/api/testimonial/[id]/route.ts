@@ -1,3 +1,6 @@
+// Testimonial API: Get , Update and Delete by ID
+// Route: /api/testimonial/${id}
+
 import dbConnect from "@/lib/dbConnect";
 import Testimonial from "@/models/Testimonial";
 import { NextResponse } from "next/server";

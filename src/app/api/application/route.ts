@@ -1,3 +1,6 @@
+// Applications API — GET all applications and POST a new application
+// Route: /api/appliaction
+
 import dbConnect from "@/lib/dbConnect";
 import Application from "@/models/Application";
 import cloudinary from "@/lib/cloudinary";

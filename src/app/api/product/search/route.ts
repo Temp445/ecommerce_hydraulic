@@ -1,3 +1,6 @@
+// Product Search Api: search product based on product name
+// Route: /api/product/search?q=hydraulic
+
 import { NextResponse } from "next/server";
 import dbConnect from "@/lib/dbConnect";
 import Product from "@/models/Product";
@@ -18,7 +21,6 @@ export async function GET(req: Request) {
         { name: { $regex: query, $options: "i" } },
       ],
     })
-      .populate("category", "name pathUrl")
       .limit(20)
       .lean();
 

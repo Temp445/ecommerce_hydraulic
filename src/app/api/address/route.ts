@@ -1,9 +1,12 @@
+// Address API — GET all user addresses and POST new  user address
+// Route: /api/address
+
 import dbConnect from "@/lib/dbConnect";
 import Address from "@/models/Address";
 import { NextResponse } from "next/server";
 import mongoose from "mongoose";
 
-
+// GET ALL
 export async function GET(req: Request) {
   try {
     await dbConnect();
@@ -30,7 +33,7 @@ export async function GET(req: Request) {
   }
 }
 
-
+// POST
 export async function POST(req: Request) {
   try {
     await dbConnect();

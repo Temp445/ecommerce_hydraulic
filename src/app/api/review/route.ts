@@ -1,3 +1,6 @@
+// Review API : GET all Product reviews and POST a new Product review
+// Route: /api/review
+
 import { NextResponse } from "next/server";
 import mongoose from "mongoose";
 import dbConnect from "@/lib/dbConnect";

@@ -1,3 +1,8 @@
+// Order Cancel API — Allows a user to cancel a single order item by orderId and itemId,
+// useful when multiple items are placed in a single order to cancel them individually.
+
+// Route: /api/orders/${orderId}/items/${itemId}/cancel
+
 import { NextResponse } from "next/server";
 import dbConnect from "@/lib/dbConnect";
 import Order from "@/models/Order";

@@ -1,3 +1,9 @@
+// Product Page: Lists all products
+// Components Used:
+// - @/components/ProductPage/FiltersSidebar
+// - @/components/ProductPage/ProductCard
+// - @/components/Common/Pagination
+
 "use client";
 
 import React, { useEffect, useState } from "react";

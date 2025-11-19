@@ -1,8 +1,12 @@
+// Applications API — GET, PUT, DELETE a application by ID
+// Route: /api/application/${id}
+
 import dbConnect from "@/lib/dbConnect";
 import Application from "@/models/Application";
 import cloudinary from "@/lib/cloudinary";
 import { NextResponse } from "next/server";
 
+// GET by ID
 export async function GET(req: Request, { params }: { params: Promise <{ id: string }> }) {
   try {
     await dbConnect();
@@ -19,6 +23,7 @@ export async function GET(req: Request, { params }: { params: Promise <{ id: str
   }
 }
 
+// PUT by ID
 export async function PUT(req: Request, { params }: { params: Promise <{ id: string }> }) {
   try {
     await dbConnect();
@@ -71,6 +76,7 @@ export async function PUT(req: Request, { params }: { params: Promise <{ id: str
   }
 }
 
+// DELETE by ID
 export async function DELETE(req: Request, { params }: { params: Promise <{ id: string }> }) {
   try {
     await dbConnect();

@@ -1,3 +1,5 @@
+//  List out All blog page
+
 "use client";
 
 import React, { useEffect, useState } from "react";

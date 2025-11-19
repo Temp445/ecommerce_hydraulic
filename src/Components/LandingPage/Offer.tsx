@@ -1,8 +1,10 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
 
 const Offer = () => {
+  const Router = useRouter()
   return (
     <div className="bg-white">
         <section className="relative bg-gray-950 text-white py-20 text-center px-6 rounded-3xl mx-4 overflow-hidden">
@@ -24,7 +26,7 @@ const Offer = () => {
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           className=" px-4 py-2 md:px-8 md:py-3 bg-white text-black font-medium rounded-full shadow-md"
-          onClick={() => alert("Offer claimed! Our team will contact you soon.")}
+          onClick={()=> Router.push('/contact')}
         >
           Contact Us
         </motion.button>

@@ -1,3 +1,9 @@
+// Product Detail Page
+// Component used:
+// - @/Components/ProductPage/RelatedProducts
+// - @/Components/ProductPage/ProductReviews
+// - @/Components/Button/AddToCartButton
+
 "use client";
 
 import { useEffect, useState } from "react";

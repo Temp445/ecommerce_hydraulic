@@ -1,3 +1,6 @@
+// Blog API: Get all blogs and Post a new blog
+// Route: /api/blog
+
 import { NextResponse } from "next/server";
 import dbConnect from "@/lib/dbConnect";
 import Blog from "@/models/Blog";

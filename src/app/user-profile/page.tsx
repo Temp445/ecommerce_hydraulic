@@ -1,3 +1,5 @@
+// User Profile Page: View and update user details
+
 "use client";
 
 import React, { useEffect, useState } from "react";
@@ -28,7 +30,7 @@ const ProfilePage = () => {
     const fetchUser = async () => {
       try {
         setLoading(true);
-        const res = await axios.get(`/api/auth/users/${id}`);
+        const res = await axios.get(`/api/profile/${id}`);
         if (res.data?.success && res.data?.data) {
           setProfile(res.data.data);
           setOriginalUser(res.data.data);
@@ -52,7 +54,7 @@ const ProfilePage = () => {
 const handleSave = async () => {
   try {
     setSaving(true);
-    const res = await axios.put(`/api/auth/users/${id}`, profile);
+    const res = await axios.put(`/api/profile/${id}`, profile);
     if (res.data?.success && res.data?.data) {
       const updatedUser = res.data.data;
 

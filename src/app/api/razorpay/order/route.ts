@@ -1,3 +1,6 @@
+// Razorpay API — Create an online order
+// Route: /api/razorpay/order
+
 import Razorpay from "razorpay";
 import { NextResponse } from "next/server";
 
@@ -15,7 +18,7 @@ export async function POST(req: Request) {
     });
 
     const options = {
-      amount: amount * 100, // convert to paise
+      amount: amount * 100,
       currency: "INR",
       receipt: `order_rcpt_${Date.now()}`,
     };

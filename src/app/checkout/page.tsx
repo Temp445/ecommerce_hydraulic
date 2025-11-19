@@ -1,3 +1,5 @@
+// Product Checkout Page
+
 import Checkout from '@/Components/CheckoutPage/Checkout'
 import React from 'react'
 

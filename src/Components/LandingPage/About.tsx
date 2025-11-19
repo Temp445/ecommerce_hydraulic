@@ -1,7 +1,7 @@
-'use client'
+"use client";
 
-import Link from 'next/link'
-import Bg from '@/assets/Bg.png'
+import Link from "next/link";
+import Bg from "@/assets/Bg.png";
 
 const About = () => {
   return (
@@ -9,9 +9,9 @@ const About = () => {
       className="relative bg-fixed bg-center bg-cover py-20 text-white"
       style={{
         backgroundImage: `url(${Bg.src})`,
-        backgroundAttachment: 'fixed',
-        backgroundPosition: 'center',
-        backgroundSize: 'cover',
+        backgroundAttachment: "fixed",
+        backgroundPosition: "center",
+        backgroundSize: "cover",
       }}
     >
       <div className="absolute inset-0 bg-black/75"></div>
@@ -21,12 +21,14 @@ const About = () => {
 
         <h2 className="text-2xl md:text-5xl xl:text-6xl font-extrabold leading-tight mb-6 drop-shadow-lg">
           Driving Industry Forward with
-          <br  className='hidden lg:block'/> <span className="text-yellow-500">Hydraulic Excellence</span>
+          <br className="hidden lg:block" />{" "}
+          <span className="text-yellow-500">Hydraulic Excellence</span>
         </h2>
 
         <p className="text-gray-300  md:text-xl leading-relaxed mb-10 max-w-2xl">
-          At <span className="font-semibold text-yellow-500">ACE Hydraulics</span>, we
-          engineer powerful and reliable hydraulic systems built for modern
+          At{" "}
+          <span className="font-semibold text-yellow-500">ACE Hydraulics</span>,
+          we engineer powerful and reliable hydraulic systems built for modern
           industries. With precision CNC technology and ISO-certified standards,
           our products deliver strength, accuracy, and long-lasting performance.
         </p>
@@ -39,7 +41,7 @@ const About = () => {
         </Link>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default About
+export default About;

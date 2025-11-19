@@ -1,3 +1,9 @@
+// Orders API — GET and PATCH by orderId and itemId
+// This API is used to fetch and update a single order item within an order,
+// allowing management of individual products when a user places multiple items in one order.
+
+// Route: /api/orders/${orderId}/items/${itemId}
+
 import { NextResponse } from "next/server";
 import dbConnect from "@/lib/dbConnect";
 import Order from "@/models/Order";

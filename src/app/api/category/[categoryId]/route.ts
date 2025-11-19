@@ -1,3 +1,6 @@
+// Category API — GET products filtered by category (used in RelatedProducts components)
+// Route: /api/products/category/${categoryId}
+
 import { NextResponse } from "next/server";
 import dbConnect from "@/lib/dbConnect";
 import Product from "@/models/Product";

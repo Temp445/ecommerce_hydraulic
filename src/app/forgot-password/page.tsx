@@ -1,3 +1,5 @@
+// Forgot Password Page — Allows users to request a password reset link via email
+
 "use client";
 
 import { useEffect, useState } from "react";

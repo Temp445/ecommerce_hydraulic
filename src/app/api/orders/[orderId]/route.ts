@@ -1,3 +1,6 @@
+// Order API - GET and PATCH by ID
+// Route: /api/orders/${orderId}
+
 import { NextResponse } from "next/server";
 import dbConnect from "@/lib/dbConnect";
 import "@/models/User";
@@ -79,7 +82,6 @@ export async function GET(
     );
   }
 }
-
 
 
 export async function PATCH(

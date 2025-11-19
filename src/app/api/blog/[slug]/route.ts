@@ -1,3 +1,6 @@
+// Blog API : Get, Update and Delete by slug
+// Route: /api/blog/${slug}
+
 import { NextResponse } from "next/server";
 import dbConnect from "@/lib/dbConnect";
 import Blog from "@/models/Blog";

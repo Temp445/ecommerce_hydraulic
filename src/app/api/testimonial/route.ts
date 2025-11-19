@@ -1,3 +1,6 @@
+// Testimonial API : Get all testimonials and Post a new testimonial
+// Route: /api/testimonial
+
 import dbConnect from "@/lib/dbConnect";
 import Testimonial from "@/models/Testimonial";
 import { NextResponse } from "next/server";

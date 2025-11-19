@@ -1,3 +1,6 @@
+// Order API - (USER) : GET all orders and POST a new order
+// Route: /api/orders
+
 import { NextResponse } from "next/server";
 import dbConnect from "@/lib/dbConnect";
 import Order from "@/models/Order";

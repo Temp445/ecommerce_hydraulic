@@ -1,17 +1,29 @@
-import dbConnect from "@/lib/dbConnect";
-import User from "@/models/User";
-import { NextResponse } from "next/server";
+
+
+import { NextResponse } from 'next/server';
+import dbConnect from '@/lib/dbConnect';
+import User from '@/models/User';
 
 export async function GET() {
   try {
     await dbConnect();
+    const users = await User.find().select('-password');
 
-    const user = await User.find().sort({ updatedAt: -1 });
-
-    return NextResponse.json({ success: true, data: user }, { status: 200 });
-  } catch (err: any) {
     return NextResponse.json(
-      { success: false, message: err.message || "Failed to fetch users data" },
+      {
+        success: true,
+        count: users.length,
+        data: users,
+      },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error('Error fetching users:', error);
+    return NextResponse.json(
+      {
+        success: false,
+        message: 'Failed to fetch users',
+      },
       { status: 500 }
     );
   }

@@ -1,9 +1,13 @@
+// Category API for (ADMIN) - GET , PUT, DELETE by ID
+// Route: /api/category/admin/{id}
+
 import dbConnect from "@/lib/dbConnect";
 import cloudinary from "@/lib/cloudinary";
 import Category from "@/models/Category";
 import Product from "@/models/Product";
 import { NextResponse } from "next/server";
 
+// GET by ID
 export async function GET(
   req: Request,
   { params }: { params: Promise<{ id: string }> }
@@ -33,7 +37,7 @@ export async function GET(
   }
 }
 
-
+// PUT by ID
 export async function PUT(
   req: Request,
   { params }: { params: Promise<{ id: string }> }
@@ -103,7 +107,7 @@ export async function PUT(
   }
 }
 
-
+// DELETE by ID
 export async function DELETE(
   req: Request,
   { params }: { params: Promise<{ id: string }> }

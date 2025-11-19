@@ -1,3 +1,5 @@
+// Order Page: Displays a list of all orders placed by the user
+
 "use client";
 
 import React, { useEffect, useState } from "react";

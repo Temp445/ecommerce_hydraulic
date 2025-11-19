@@ -1,7 +1,11 @@
+// Orders API (Admin)  — GET all orders for admin management
+// Route: /api/admin/orders
+
 import { NextResponse } from "next/server";
 import dbConnect from "@/lib/dbConnect";
 import Order from "@/models/Order";
 
+// GET all
 export async function GET() {
   try {
   await dbConnect();

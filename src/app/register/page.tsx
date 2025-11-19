@@ -1,3 +1,5 @@
+// User Register page for new user
+
 "use client";
 
 import { useEffect, useState } from "react";

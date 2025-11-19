@@ -1,3 +1,6 @@
+// Category API : GET all Category and POST new Category
+// Route: /api/category
+
 import dbConnect from "@/lib/dbConnect";
 import cloudinary from "@/lib/cloudinary";
 import Category from "@/models/Category";

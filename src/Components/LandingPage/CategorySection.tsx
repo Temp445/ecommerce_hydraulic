@@ -47,7 +47,7 @@ const CategorySection = () => {
                   <img
                     src={cat.CatImage}
                     alt={cat.Name}
-                    className="h-24 md:h-32 object-contain group-hover:scale-110 transition-transform duration-300"
+                    className="h-24 md:h-40 object-contain group-hover:scale-110 transition-transform duration-300"
                   />
                 </div>
                 <h3 className="text-sm  font-medium text-white line-clamp-2">

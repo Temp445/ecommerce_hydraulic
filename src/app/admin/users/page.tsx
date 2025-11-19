@@ -19,7 +19,7 @@ const Users = () => {
     const fetchUsers = async () => {
       try {
         setIsLoading(true);
-        const res = await fetch(`/api/user`);
+        const res = await fetch(`/api/auth/users`);
         if (!res.ok) throw new Error('Failed to fetch users');
 
         const json = await res.json();
@@ -36,7 +36,7 @@ const Users = () => {
 
   const handleRoleChange = async (userId: string, newRole: string) => {
     try {
-      const res = await fetch(`/api/user/${userId}`, {
+      const res = await fetch(`/api/auth/users/${userId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ role: newRole }),
@@ -57,7 +57,7 @@ const Users = () => {
     if (!confirm('Are you sure you want to delete this user?')) return;
 
     try {
-      const res = await fetch(`/api/user/${userId}`, {
+      const res = await fetch(`/api/auth/users/${userId}`, {
         method: 'DELETE',
       });
 
