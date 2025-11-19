@@ -25,6 +25,7 @@ export default function AdminOrdersPage() {
   const [updatingId, setUpdatingId] = useState<string | null>(null);
   const [search, setSearch] = useState("");
   const [expandedOrder, setExpandedOrder] = useState<string | null>(null);
+  const [statusFilter, setStatusFilter] = useState<string | null>(null);
 
   useEffect(() => {
     fetchOrders();
@@ -129,13 +130,22 @@ export default function AdminOrdersPage() {
     );
   };
 
-  const filteredOrders = orders.filter((order) => {
-    const name = order?.shippingAddress?.Name || "";
-    return (
-      order._id?.toLowerCase().includes(search.toLowerCase()) ||
-      name.toLowerCase().includes(search.toLowerCase())
-    );
-  });
+  const filteredOrders = orders
+    .filter((order) => {
+      const name = order?.shippingAddress?.Name || "";
+      return (
+        order._id?.toLowerCase().includes(search.toLowerCase()) ||
+        name.toLowerCase().includes(search.toLowerCase())
+      );
+    })
+    .map((order) => {
+      if (!statusFilter || statusFilter === "All") return order;
+      const filteredItems = order.items.filter(
+        (item: { orderStatus: string }) => item.orderStatus === statusFilter
+      );
+      return { ...order, items: filteredItems };
+    })
+    .filter((order) => order.items.length > 0);
 
   const stats = {
     total: orders.reduce((acc, order) => acc + order.items.length, 0),
@@ -169,21 +179,6 @@ export default function AdminOrdersPage() {
     ),
   };
 
-  if (!loading && filteredOrders.length === 0) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 p-6">
-        <div className="max-w-7xl mx-auto">
-          <div className="bg-white rounded-xl border border-gray-200 p-12 text-center">
-            <AlertCircle className="mx-auto mb-4 text-gray-400" size={48} />
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">
-              No orders found
-            </h3>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 p-4 xl:p-8">
       <div className="max-w-7xl mx-auto">
@@ -197,61 +192,72 @@ export default function AdminOrdersPage() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-6">
-          <div className=" rounded p-4 border ">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className=" text-sm font-medium">Total Orders</p>
-                <p className="text-2xl font-bold mt-1">{stats.total}</p>
+          {[
+            {
+              label: "All Orders",
+              value: null,
+              count: stats.total,
+              icon: <Package className="w-10 h-10" />,
+              bg: "bg-white",
+              text: "text-gray-900",
+            },
+            {
+              label: "Processing",
+              value: "Processing",
+              count: stats.processing,
+              icon: (
+                <ClockFading className="w-10 h-10 text-yellow-600 opacity-80" />
+              ),
+              bg: "bg-yellow-50",
+              text: "text-yellow-900",
+            },
+            {
+              label: "Shipped",
+              value: "Shipped",
+              count: stats.shipped,
+              icon: <Truck className="w-10 h-10 text-blue-600 opacity-80" />,
+              bg: "bg-blue-50",
+              text: "text-blue-900",
+            },
+            {
+              label: "Delivered",
+              value: "Delivered",
+              count: stats.delivered,
+              icon: (
+                <PackageCheck className="w-10 h-10 text-green-600 opacity-80" />
+              ),
+              bg: "bg-green-50",
+              text: "text-green-900",
+            },
+            {
+              label: "Cancelled",
+              value: "Cancelled",
+              count: stats.cancelled,
+              icon: <PackageX className="w-10 h-10 text-red-600 opacity-80" />,
+              bg: "bg-red-50",
+              text: "text-red-900",
+            },
+          ].map((stat) => (
+            <div
+              key={stat.label}
+              className={`rounded p-4 border cursor-pointer hover:shadow-md transition ${
+                statusFilter === stat.value ? "ring ring-gray-900" : ""
+              } ${stat.bg} border-gray-200`}
+              onClick={() => setStatusFilter(stat.value)}
+            >
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className={`text-sm font-medium ${stat.text}`}>
+                    {stat.label}
+                  </p>
+                  <p className={`text-2xl font-bold mt-1 ${stat.text}`}>
+                    {stat.count}
+                  </p>
+                </div>
+                {stat.icon}
               </div>
-              <Package className="w-10 h-10" />
             </div>
-          </div>
-          <div className="bg-gradient-to-br from-yellow-50 to-yellow-100 rounded p-4 border border-yellow-200">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-yellow-600 text-sm font-medium">
-                  Processing
-                </p>
-                <p className="text-2xl font-bold text-yellow-900 mt-1">
-                  {stats.processing}
-                </p>
-              </div>
-              <ClockFading className="w-10 h-10 text-yellow-600 opacity-80" />
-            </div>
-          </div>
-          <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded p-4 border border-blue-200">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-blue-600 text-sm font-medium">Shipped</p>
-                <p className="text-2xl font-bold text-blue-900 mt-1">
-                  {stats.shipped}
-                </p>
-              </div>
-              <Truck className="w-10 h-10 text-blue-600 opacity-80" />
-            </div>
-          </div>
-          <div className="bg-gradient-to-br from-green-50 to-green-100 rounded p-4 border border-green-200">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-green-600 text-sm font-medium">Delivered</p>
-                <p className="text-2xl font-bold text-green-900 mt-1">
-                  {stats.delivered}
-                </p>
-              </div>
-              <PackageCheck className="w-10 h-10 text-green-600 opacity-80" />
-            </div>
-          </div>
-          <div className="bg-gradient-to-br from-red-50 to-red-100 rounded p-4 border border-red-200">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-red-700 text-sm font-medium">Cancelled</p>
-                <p className="text-2xl font-bold text-red-900 mt-1">
-                  {stats.cancelled}
-                </p>
-              </div>
-              <PackageX className="w-10 h-10 text-red-600 opacity-80" />
-            </div>
-          </div>
+          ))}
         </div>
 
         <div className="mb-6">
@@ -286,7 +292,16 @@ export default function AdminOrdersPage() {
               </div>
             ))}
           </div>
-        ) : (
+        ) : !loading && filteredOrders.length === 0 ? (<div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 p-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="bg-white rounded-xl border border-gray-200 p-12 text-center">
+            <AlertCircle className="mx-auto mb-4 text-gray-400" size={48} />
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">
+              No orders found
+            </h3>
+          </div>
+        </div>
+      </div>): (
           <div className="space-y-4">
             {filteredOrders.map((order) => {
               const isExpanded = expandedOrder === order._id;
@@ -389,7 +404,11 @@ export default function AdminOrdersPage() {
                             Delivery Address
                           </p>
                           <p className="text-gray-900 text-sm">
-                            {order.shippingAddress?.Address} {order.shippingAddress.City}, {order.shippingAddress.State} - {order.shippingAddress.PinCode}, {order.shippingAddress.Country}
+                            {order.shippingAddress?.Address}{" "}
+                            {order.shippingAddress.City},{" "}
+                            {order.shippingAddress.State} -{" "}
+                            {order.shippingAddress.PinCode},{" "}
+                            {order.shippingAddress.Country}
                           </p>
                         </div>
                       </div>
