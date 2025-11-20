@@ -28,7 +28,7 @@ const Footer = () => {
     <footer className="bg-gray-900 text-gray-300">
       
       <div className="max-w-7xl mx-auto px-6 py-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12">
           
           <div className="lg:col-span-1">
             <div className="flex items-center gap-3 mb-4">
@@ -66,9 +66,9 @@ const Footer = () => {
               <li><Link href="/products" className="text-gray-400 hover:text-white hover:translate-x-1 transition duration-300 inline-flex items-center">Products</Link></li>
               <li><Link href="/blog" className="text-gray-400 hover:text-white hover:translate-x-1 transition duration-300 inline-flex items-center">Blog</Link></li>
               <li><Link href="/contact" className="text-gray-400 hover:text-white hover:translate-x-1 transition duration-300 inline-flex items-center">Contact</Link></li>
-              <li><Link href="/policy" className="text-gray-400 hover:text-white hover:translate-x-1 transition duration-300 inline-flex items-center">Policy</Link></li>
             </ul>
           </div>
+      
 
           <div>
             <h3 className="text-white font-medium mb-5 text-lg flex items-center gap-2">
@@ -81,6 +81,19 @@ const Footer = () => {
               <li><Link href={`/products?category=${cat._id}`} className="text-gray-400 py-2 hover:text-white hover:translate-x-1 transition duration-300 inline-flex items-center">{cat.Name}</Link></li>
             </ul>
             ))}
+          </div>
+
+              <div>
+            <h3 className="text-white font-medium mb-5 text-lg flex items-center gap-2">
+              <span className="w-1 h-6 bg-white rounded"></span>
+              Policy & Information
+            </h3>
+            <ul className="space-y-3 text-sm">
+              <li><Link href="/terms" className="text-gray-400 hover:text-white hover:translate-x-1 transition duration-300 inline-flex items-center">Terms & Conditions</Link></li>
+              <li><Link href="/policy" className="text-gray-400 hover:text-white hover:translate-x-1 transition duration-300 inline-flex items-center">Privacy Policy</Link></li>
+              <li><Link href="/cancellation-refund" className="text-gray-400 hover:text-white hover:translate-x-1 transition duration-300 inline-flex items-center">Cancellation & Refund Policy</Link></li>
+              <li><Link href="/shipping-policy" className="text-gray-400 hover:text-white hover:translate-x-1 transition duration-300 inline-flex items-center">Shipping Policy</Link></li>
+            </ul>
           </div>
 
           <div>

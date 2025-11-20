@@ -1,90 +1,97 @@
-
-const PolicyPage = () => {
+const PrivacyPolicyPage = () => {
   return (
-    <div className="max-w-4xl mx-auto p-6 space-y-8">
-      <h1 className="text-3xl font-bold mb-6">Our Policy</h1>
+    <div className="max-w-4xl mx-auto p-6 space-y-6">
+      <h1 className="text-3xl font-bold">Privacy Policy</h1>
 
-      <section>
-        <h2 className="text-xl font-semibold mb-2">1. Shipping Policy</h2>
-        <p className="text-gray-700">
-          We ship all Hydraulic Cylinders within <strong>2–5 business days</strong> after order confirmation.
-          Heavy-weight items may require special logistics, and our team will contact you if needed.
-          Delivery timeline is usually <strong>5–10 business days</strong>.
+      <section className="space-y-4 text-gray-700">
+        <p>
+          This Privacy Policy explains how we collect, use, and protect your
+          personal information when you visit our website or purchase hydraulic
+          cylinders and related products from our store.
         </p>
-      </section>
 
-      <section>
-        <h2 className="text-xl font-semibold mb-2">2. Return & Refund Policy</h2>
-        <p className="text-gray-700">
-          Returns are accepted only for damaged, defective, or wrongly delivered products.
-          Customers must report issues within <strong>48 hours</strong> of delivery with photo or video proof.
-          Used, installed, or physically damaged products are not eligible for return.
-          Refunds are processed within <strong>5–7 business days</strong> after verification.
+        <h2 className="text-xl font-semibold">1. Information We Collect</h2>
+        <p>We collect the following types of information:</p>
+        <ul className="list-disc list-inside space-y-1">
+          <li><strong>Personal Details:</strong> Name, email, phone number, billing & shipping address.</li>
+          <li><strong>Order Information:</strong> Product details, payment status, purchase history.</li>
+          <li><strong>Technical Data:</strong> IP address, browser type, device information.</li>
+          <li><strong>Payment Information:</strong> Collected securely via payment gateways. We do not store card/UPI details.</li>
+        </ul>
+
+        <h2 className="text-xl font-semibold">2. How We Use Your Information</h2>
+        <p>We use your data for the following purposes:</p>
+        <ul className="list-disc list-inside space-y-1">
+          <li>To process and deliver your orders</li>
+          <li>To provide order updates and shipping notifications</li>
+          <li>To improve our website performance and user experience</li>
+          <li>To communicate regarding support, service updates, or offers</li>
+          <li>To prevent fraud or unauthorized transactions</li>
+        </ul>
+
+        <h2 className="text-xl font-semibold">3. Sharing Your Information</h2>
+        <p>
+          We do not sell or trade your personal information.  
+          However, we may share it with:
         </p>
-      </section>
-
-      {/* Cancellation Policy */}
-      <section>
-        <h2 className="text-xl font-semibold mb-2">3. Cancellation Policy</h2>
-        <p className="text-gray-700">
-          Orders can be cancelled <strong>before dispatch</strong>. Once shipped, cancellation is not possible due
-          to heavy logistics. COD customers with repeated cancellations may face restrictions.
+        <ul className="list-disc list-inside space-y-1">
+          <li><strong>Courier partners</strong> for delivery</li>
+          <li><strong>Payment gateways</strong> for secure transaction processing</li>
+          <li><strong>Technical service providers</strong> for website hosting or analytics</li>
+        </ul>
+        <p>
+          All third-party partners follow strict data protection standards.
         </p>
-      </section>
 
-      {/* Warranty Policy */}
-      <section>
-        <h2 className="text-xl font-semibold mb-2">4. Warranty Policy</h2>
-        <p className="text-gray-700">
-          All Hydraulic Cylinders come with a manufacturer warranty (if mentioned on the product page).
-          Warranty covers <strong>manufacturing defects only</strong>. Improper installation, misuse, or overload
-          is not covered.
+        <h2 className="text-xl font-semibold">4. Cookies & Tracking</h2>
+        <p>
+          Our website uses cookies to enhance your browsing experience by
+          remembering preferences, improving performance, and analyzing site traffic.
         </p>
-      </section>
-
-      {/* Product Guarantee */}
-      <section>
-        <h2 className="text-xl font-semibold mb-2">5. Product Guarantee</h2>
-        <p className="text-gray-700">
-          All products are genuine and industry-grade. Specifications such as tonnage, stroke length, bore
-          size, and pressure rating are clearly mentioned. Customers must check compatibility before purchasing.
+        <p>
+          You may disable cookies through your browser settings, but it may affect
+          website functionality.
         </p>
-      </section>
 
-      {/* Privacy Policy */}
-      <section>
-        <h2 className="text-xl font-semibold mb-2">6. Privacy Policy</h2>
-        <p className="text-gray-700">
-          We value your privacy and do not share personal information with third parties except for delivery
-          and verification. Payment details are encrypted and handled by secure payment gateways.
+        <h2 className="text-xl font-semibold">5. Data Security</h2>
+        <p>
+          We implement industry-standard security measures to protect your personal
+          information from unauthorized access, misuse, or disclosure.
         </p>
-      </section>
-
-      {/* Payment Policy */}
-      <section>
-        <h2 className="text-xl font-semibold mb-2">7. Payment Policy</h2>
-        <p className="text-gray-700">
-          We accept Online Payments and Cash on Delivery (COD in selected locations). Online payments are
-          securely processed through certified payment providers. COD may include extra handling charges.
+        <p>
+          While we strive for maximum security, no online platform can guarantee
+          100% protection.
         </p>
-      </section>
 
-      <section>
-        <h2 className="text-xl font-semibold mb-2">8. Safety & Installation Disclaimer</h2>
-        <p className="text-gray-700">
-          Hydraulic Cylinders must be installed by trained professionals. Incorrect installation may cause
-          equipment failure or injury. The company is not responsible for damages caused by improper handling.
+        <h2 className="text-xl font-semibold">6. Your Rights</h2>
+        <p>You have the right to:</p>
+        <ul className="list-disc list-inside space-y-1">
+          <li>Access your personal data</li>
+          <li>Request corrections or updates</li>
+          <li>Request data deletion (where applicable)</li>
+          <li>Withdraw consent for marketing communication</li>
+        </ul>
+
+        <h2 className="text-xl font-semibold">7. Third-Party Links</h2>
+        <p>
+          Our website may contain links to external sites.  
+          We are not responsible for their content, privacy practices, or policies.
         </p>
-      </section>
 
-      <section>
-        <h2 className="text-xl font-semibold mb-2">9. Contact Us</h2>
-        <p className="text-gray-700">Email: support@hydraulic.com</p>
-        <p className="text-gray-700">Phone: +91 7339139431</p>
-        <p className="text-gray-700">Address: Your Company Address Here</p>
+        <h2 className="text-xl font-semibold">8. Updates to This Policy</h2>
+        <p>
+          We may update this Privacy Policy periodically.  
+          Changes will be posted on this page with a revised effective date.
+        </p>
+
+        <h2 className="text-xl font-semibold">9. Contact Us</h2>
+        <p>
+          For questions, concerns, or data-related requests, contact us at:
+        </p>
+        <p className="font-medium">support@yourdomain.com</p>
       </section>
     </div>
   );
-}
+};
 
-export default PolicyPage
+export default PrivacyPolicyPage;
