@@ -8,7 +8,7 @@ import { Facebook, Twitter, Linkedin, Mail, Phone, MapPin, } from "lucide-react"
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-export default function Footer() {
+const Footer = () => {
     const [categories, setCategories] = useState<any[]>([]);
     
       const fetchCategories = async () => {
@@ -66,6 +66,7 @@ export default function Footer() {
               <li><Link href="/products" className="text-gray-400 hover:text-white hover:translate-x-1 transition duration-300 inline-flex items-center">Products</Link></li>
               <li><Link href="/blog" className="text-gray-400 hover:text-white hover:translate-x-1 transition duration-300 inline-flex items-center">Blog</Link></li>
               <li><Link href="/contact" className="text-gray-400 hover:text-white hover:translate-x-1 transition duration-300 inline-flex items-center">Contact</Link></li>
+              <li><Link href="/policy" className="text-gray-400 hover:text-white hover:translate-x-1 transition duration-300 inline-flex items-center">Policy</Link></li>
             </ul>
           </div>
 
@@ -116,3 +117,5 @@ export default function Footer() {
     </footer>
   );
 }
+
+export default Footer
