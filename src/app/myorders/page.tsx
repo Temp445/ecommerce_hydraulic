@@ -9,6 +9,7 @@ import { ShoppingBag, Star } from "lucide-react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import Pagination from "@/Components/Common/Pagination";
 
 type OrderItem = {
   _id: string; 
@@ -36,6 +37,9 @@ const OrdersPage = () => {
   const [loading, setLoading] = useState(true);
   const [reviewedProducts, setReviewedProducts] = useState<string[]>([]);
   const router = useRouter();
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
 
   const fetchOrders = async (userId: string) => {
     try {
@@ -137,6 +141,12 @@ const OrdersPage = () => {
     }))
   );
 
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = flattenedItems.slice(indexOfFirstItem, indexOfLastItem);
+
+
   if (!flattenedItems.length) {
     return (
       <div className="min-h-screen flex flex-col justify-center items-center bg-gray-100 px-4">
@@ -161,7 +171,7 @@ const OrdersPage = () => {
         <h1 className="text-2xl md:text-3xl font-medium text-gray-800 mb-6">My Orders</h1>
 
         <div className="space-y-4">
-          {flattenedItems.map((item, index) => {
+          {currentItems.map((item, index) => {
             const hasReviewed = reviewedProducts.includes(item.productId);
             const statusColor = getStatusColor(item.orderStatus);
 
@@ -241,6 +251,13 @@ const OrdersPage = () => {
             );
           })}
         </div>
+
+         <Pagination
+          currentPage={currentPage}
+          totalItems={flattenedItems.length}
+          itemsPerPage={itemsPerPage}
+          onPageChange={setCurrentPage}
+        />
       </div>
     </div>
   );
