@@ -9,10 +9,11 @@ import {
   ShieldCheck,
   CheckCircle2,
 } from "lucide-react";
-import axios from "axios";
 import toast from "react-hot-toast";
+import axios from "axios";
 import { useRouter } from "next/navigation";
 import { CartItem } from "./Checkout";
+import RazorpayPayment from "./RazorpayPayment";
 
 interface PaymentProps {
   user: any;
@@ -37,18 +38,6 @@ const Payment = ({
   const nav = router ?? internalRouter;
 
   const [placingOrder, setPlacingOrder] = useState(false);
-
-  const loadRazorpay = () =>
-    new Promise<boolean>((resolve) => {
-      if (typeof window === "undefined") return resolve(false);
-      if ((window as any).Razorpay) return resolve(true);
-
-      const script = document.createElement("script");
-      script.src = "https://checkout.razorpay.com/v1/checkout.js";
-      script.onload = () => resolve(true);
-      script.onerror = () => resolve(false);
-      document.body.appendChild(script);
-    });
 
   const buildOrderPayload = (
     paymentStatus: "Paid" | "Pending",
@@ -104,6 +93,7 @@ const Payment = ({
     setPlacingOrder(true);
 
     try {
+      // ----------------- COD ORDER -----------------
       if (paymentMethod === "COD") {
         const payload = buildOrderPayload("Pending");
         const res = await axios.post("/api/orders", payload);
@@ -114,75 +104,23 @@ const Payment = ({
         } else {
           toast.error(res.data?.error || "Failed to place order");
         }
+
         setPlacingOrder(false);
         return;
       }
 
-      const ok = await loadRazorpay();
-      if (!ok) {
-        toast.error("Failed to load Razorpay SDK");
-        setPlacingOrder(false);
-        return;
-      }
-
-      const createOrderRes = await axios.post("/api/razorpay/order", {
-        amount: totalAmount,
+      // ----------------- ONLINE PAYMENT -----------------
+      const razorpay = RazorpayPayment({
+        user,
+        cartItems,
+        totalAmount,
+        buildOrderPayload,
+        onSuccess: () => nav.push("/myorders"),
       });
 
-      if (!createOrderRes.data?.order) {
-        toast.error(createOrderRes.data?.error || "Unable to create payment");
-        setPlacingOrder(false);
-        return;
-      }
-
-      const rzpOrder = createOrderRes.data.order;
-
-      const options: any = {
-        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
-        amount: rzpOrder.amount,
-        currency: rzpOrder.currency || "INR",
-        name: "ACE Hydraulic",
-        description: "Order Payment",
-        order_id: rzpOrder.id,
-        handler: async function (response: any) {
-          try {
-            const orderPayload = buildOrderPayload("Paid", {
-              orderId: rzpOrder.id,
-              paymentId: response.razorpay_payment_id,
-              signature: response.razorpay_signature,
-            });
-
-            const orderRes = await axios.post("/api/orders", orderPayload);
-
-            if (orderRes.data.success) {
-              toast.success("Payment successful! Order placed.");
-              nav.push("/myorders");
-            } else {
-              toast.error("Order failed to create after payment");
-            }
-          } catch (err) {
-            console.error(err);
-            toast.error("Server error while creating order");
-          }
-        },
-        prefill: {
-          name: user?.name || "",
-          email: user?.email || "",
-          contact: user?.mobile || "",
-        },
-        theme: { color: "#10b981" },
-      };
-
-      const rzp = new (window as any).Razorpay(options);
-      rzp.open();
-
-      rzp.on("payment.failed", (failure: any) => {
-        console.error("Payment failed:", failure);
-        toast.error("Payment failed. Try another method.");
-      });
-    } catch (err) {
-      console.error(err);
-      toast.error("Payment flow error");
+      await razorpay.startPayment();
+    } catch (error) {
+      toast.error("Payment process failed!");
     } finally {
       setPlacingOrder(false);
     }
