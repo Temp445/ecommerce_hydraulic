@@ -18,6 +18,7 @@ import {
   WalletCards,
   PackageX,
 } from "lucide-react";
+import Pagination from "@/Components/Common/Pagination";
 
 export default function AdminOrdersPage() {
   const [orders, setOrders] = useState<any[]>([]);
@@ -26,6 +27,9 @@ export default function AdminOrdersPage() {
   const [search, setSearch] = useState("");
   const [expandedOrder, setExpandedOrder] = useState<string | null>(null);
   const [statusFilter, setStatusFilter] = useState<string | null>(null);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
 
   useEffect(() => {
     fetchOrders();
@@ -146,6 +150,10 @@ export default function AdminOrdersPage() {
       return { ...order, items: filteredItems };
     })
     .filter((order) => order.items.length > 0);
+
+    const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = filteredOrders.slice(indexOfFirstItem, indexOfLastItem);
 
   const stats = {
     total: orders.reduce((acc, order) => acc + order.items.length, 0),
@@ -303,7 +311,7 @@ export default function AdminOrdersPage() {
         </div>
       </div>): (
           <div className="space-y-4">
-            {filteredOrders.map((order) => {
+            {currentItems.map((order) => {
               const isExpanded = expandedOrder === order._id;
               return (
                 <div
@@ -654,6 +662,12 @@ export default function AdminOrdersPage() {
             })}
           </div>
         )}
+          <Pagination
+          currentPage={currentPage}
+          totalItems={filteredOrders.length}
+          itemsPerPage={itemsPerPage}
+          onPageChange={setCurrentPage}
+        />
       </div>
     </div>
   );

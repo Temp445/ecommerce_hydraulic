@@ -5,12 +5,16 @@ import axios from "axios";
 import Link from "next/link";
 import { Edit, Trash2, Plus, Loader2 } from "lucide-react";
 import toast from "react-hot-toast";
+import Pagination from "@/Components/Common/Pagination";
 
 const ProductPage = () => {
   const [products, setProducts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [deleting, setDeleting] = useState<string | null>(null);
   const [filter, setFilter] = useState<"all" | "inStock" | "outOfStock">("all");
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 8;
 
   useEffect(() => {
     fetchProducts();
@@ -51,6 +55,10 @@ const ProductPage = () => {
     if (filter === "outOfStock") return p.stock <= 0;
     return true;
   });
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = filteredProducts.slice(indexOfFirstItem, indexOfLastItem);
 
   return (
     <div className="p-6 pb-32 lg:pb-52">
@@ -106,7 +114,7 @@ const ProductPage = () => {
         <p className="text-center text-gray-500">No products found for this filter.</p>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {filteredProducts.map((product) => (
+          {currentItems.map((product) => (
             <div
               key={product._id}
               className="bg-white border rounded-xl shadow-sm hover:shadow-md transition p-4 flex flex-col"
@@ -174,6 +182,13 @@ const ProductPage = () => {
           ))}
         </div>
       )}
+
+        <Pagination
+          currentPage={currentPage}
+          totalItems={filteredProducts.length}
+          itemsPerPage={itemsPerPage}
+          onPageChange={setCurrentPage}
+        />
     </div>
   );
 };
