@@ -67,6 +67,7 @@ export async function PUT(
       : 0;
     
     const isNewArrival = formData.get("isNewArrival") === "true";
+    const isActive = formData.get("isActive") === "true";
     const returnPolicy = formData.get("returnPolicy") === "true";
     const warranty = formData.get("warranty") as string;
 
@@ -99,9 +100,8 @@ export async function PUT(
     if (deliveryCharge !== undefined) product.deliveryCharge = deliveryCharge;
     if (technicalDetails) product.technicalDetails = technicalDetails;
     if (benefits) product.benefits = benefits;
-    if (formData.get("isNewArrival") !== null)
       product.isNewArrival = isNewArrival;
-    if (formData.get("returnPolicy") !== null)
+      product.isActive = isActive;
       product.returnPolicy = returnPolicy;
     if (warranty) product.warranty = warranty;
 

@@ -129,7 +129,7 @@ const ProductEditPage: React.FC = () => {
         stock: product.stock?.toString() || "",
         deliveryCharge: product.deliveryCharge?.toString() || "",
         isNewArrival: product.isNewArrival || false,
-        isActive: product.isActive || true,
+        isActive: product.isActive || false,
         warranty: product.warranty || "",
         returnPolicy: product.returnPolicy || false,
       });
@@ -227,6 +227,11 @@ const ProductEditPage: React.FC = () => {
 
       data.append("technicalDetails", JSON.stringify(technicalDetails));
       data.append("benefits", JSON.stringify(benefits));
+
+      data.append("isActive", String(formData.isActive));
+      data.append("isNewArrival", String(formData.isNewArrival));
+      data.append("returnPolicy", String(formData.returnPolicy));
+
       if (thumbnail) data.append("thumbnail", thumbnail);
       if (existingThumbnail)
         data.append("existingThumbnail", existingThumbnail);
@@ -241,7 +246,6 @@ const ProductEditPage: React.FC = () => {
       toast.success("Product updated successfully!");
       router.push("/admin/product");
     } catch (error: any) {
-      console.error(error);
       toast.error(error.response?.data?.message || "Failed to update product");
     } finally {
       setLoading(false);
@@ -689,7 +693,7 @@ const ProductEditPage: React.FC = () => {
                     Active Product
                   </span>
                 </label>
-                <label className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100 transition">
+                {/* <label className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100 transition">
                   <input
                     type="checkbox"
                     name="returnPolicy"
@@ -700,7 +704,7 @@ const ProductEditPage: React.FC = () => {
                   <span className="text-sm font-medium text-gray-700">
                     Return Policy Available
                   </span>
-                </label>
+                </label> */}
               </div>
             </div>
 

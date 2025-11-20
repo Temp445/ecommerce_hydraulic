@@ -47,6 +47,7 @@ export async function POST(req: Request) {
     const stock = Number(formData.get("stock"));
     const deliveryCharge = Number(formData.get("deliveryCharge")) || 0;
     const isNewArrival = formData.get("isNewArrival") === "true";
+    const isActive = formData.get("isActive") === "true";
     const returnPolicy = formData.get("returnPolicy") === "true";
     const warranty = formData.get("warranty") as string;
 
@@ -137,7 +138,7 @@ export async function POST(req: Request) {
       technicalDetails,
       benefits,
       isNewArrival,
-      isActive: true,
+      isActive,
       returnPolicy,
       warranty,
     });

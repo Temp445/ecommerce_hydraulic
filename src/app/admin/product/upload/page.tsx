@@ -528,8 +528,8 @@ const ProductUploadPage: React.FC = () => {
                 />
               </div>
 
-         <div className="grid grid-cols-3 gap-4">
-               <div className="flex gap-4 mt-3">
+         <div className="flex space-x-3 items-center gap-4">
+               {/* <div className="flex gap-4 mt-3">
               <label className="flex items-center gap-2 text-gray-700">
                 <input
                   type="checkbox"
@@ -540,8 +540,8 @@ const ProductUploadPage: React.FC = () => {
                 Return Policy Available
               </label>
               
-            </div>
-            <div className="flex gap-4 mt-3">
+            </div> */}
+            <div className="flex gap-4 space-x-4 mt-3">
               <label className="flex items-center gap-2 text-gray-700">
                 <input
                   type="checkbox"
@@ -551,9 +551,8 @@ const ProductUploadPage: React.FC = () => {
                 />
                Mark as New Arrival
               </label>
-              
-            </div>
-            <label className="flex items-center gap-2 text-gray-700">
+
+                  <label className="flex items-center gap-2 text-gray-700">
                 <input
                   type="checkbox"
                   name="isActive"
@@ -562,6 +561,9 @@ const ProductUploadPage: React.FC = () => {
                 />
                 Active Product
               </label>
+              
+            </div>
+        
          </div>
               
             </div>

@@ -51,7 +51,7 @@ const ProductSchema = new mongoose.Schema(
     warranty: { type: String },
     returnPolicy: { type: Boolean, default: false},
     isNewArrival: { type: Boolean, default: false },
-    isActive: { type: Boolean, default: true },
+    isActive: { type: Boolean, default: false },
   },
   { timestamps: true }
 );

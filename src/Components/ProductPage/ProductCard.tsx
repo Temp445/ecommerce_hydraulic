@@ -13,6 +13,8 @@ export default function ProductCard({
 }) {
   const router = useRouter();
 
+ if (!product.isActive) return null;
+
   const discountPercentage =
     product.discountPrice > 0
       ? Math.round(
