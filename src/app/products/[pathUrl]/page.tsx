@@ -33,6 +33,10 @@ const ProductDetailPage = () => {
   const [loading, setLoading] = useState(true);
   const { user } = useAuth();
 
+  const allImages = product
+  ? [product.thumbnail, ...(product.images || [])]
+  : [];
+
   useEffect(() => {
     if (pathUrl) fetchProduct();
   }, [pathUrl]);
@@ -174,16 +178,16 @@ const ProductDetailPage = () => {
                   </span>
                 )}
                 <img
-                  src={product.images?.[selectedImage] || product.thumbnail}
+                  src={allImages[selectedImage]}
                   alt={product.name}
                   className="w-full h-full object-contain bg-white"
                 />
               </div>
             </div>
 
-            {product.images && product.images.length > 1 && (
+           
               <div className="flex gap-4 overflow-x-auto pb-2">
-                {product.images.map((img: string, idx: number) => (
+                {allImages.map((img: string, idx: number) => (
                   <button
                     key={idx}
                     onClick={() => setSelectedImage(idx)}
@@ -201,7 +205,6 @@ const ProductDetailPage = () => {
                   </button>
                 ))}
               </div>
-            )}
           </div>
 
           <div className="lg:col-span-5">
@@ -383,26 +386,19 @@ const ProductDetailPage = () => {
             </h2>
 
             <div className="space-y-4">
-              {product.technicalDetails &&
-                Object.entries(product.technicalDetails).map(([key, value]) => {
-                  if (!value || key === "_id") return null;
-                  const label = key
-                    .replace(/([A-Z])/g, " $1")
-                    .replace(/^./, (str) => str.toUpperCase());
-                  return (
+              {product.technicalDetails?.map((item: any, idx: number) => (
                     <div
-                      key={key}
+                      key={idx}
                       className="flex justify-between py-3 border-b border-neutral-200"
                     >
                       <span className="text-xs uppercase tracking-widest text-neutral-700">
-                        {label}
+                        {item.title}
                       </span>
                       <span className="text-sm font-medium text-neutral-900 text-right max-w-[200px]">
-                        {value as string}
+                        {item.value}
                       </span>
                     </div>
-                  );
-                })}
+                ))}
 
               {(!product.technicalDetails ||
                 Object.keys(product.technicalDetails).filter(

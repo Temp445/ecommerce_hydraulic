@@ -55,8 +55,7 @@ export async function POST(req: Request) {
     const benefitsRaw = formData.get("benefits") as string;
 
     const technicalDetails = technicalDetailsRaw
-      ? JSON.parse(technicalDetailsRaw)
-      : {};
+      ? JSON.parse(technicalDetailsRaw) : [];
     const benefits = benefitsRaw ? JSON.parse(benefitsRaw) : [];
 
     if (!name || !description || !price || !stock || !category) {

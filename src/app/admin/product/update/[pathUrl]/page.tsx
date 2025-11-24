@@ -2,13 +2,7 @@
 
 import React, { useEffect, useState, ChangeEvent, FormEvent } from "react";
 import axios from "axios";
-import {
-  Loader2,
-  Upload,
-  X,
-  Plus,
-  FileImage,
-} from "lucide-react";
+import { Loader2, Upload, X, Plus, FileImage } from "lucide-react";
 import toast from "react-hot-toast";
 import { useRouter, useParams } from "next/navigation";
 
@@ -34,14 +28,8 @@ interface FormDataState {
 }
 
 interface TechnicalDetails {
-  boreDiameter: string;
-  rodDiameter: string;
-  strokeLength: string;
-  mountingType: string;
-  workingPressure: string;
-  material: string;
-  sealType: string;
-  application: string;
+  title: string;
+  value: string;
 }
 
 interface Benefit {
@@ -73,16 +61,9 @@ const ProductEditPage: React.FC = () => {
     warranty: "",
   });
 
-  const [technicalDetails, setTechnicalDetails] = useState<TechnicalDetails>({
-    boreDiameter: "",
-    rodDiameter: "",
-    strokeLength: "",
-    mountingType: "",
-    workingPressure: "",
-    material: "",
-    sealType: "",
-    application: "",
-  });
+  const [technicalDetails, setTechnicalDetails] = useState<TechnicalDetails[]>([
+    { title: "", value: "" },
+  ]);
 
   const [benefits, setBenefits] = useState<Benefit[]>([
     { title: "", description: "" },
@@ -134,13 +115,12 @@ const ProductEditPage: React.FC = () => {
         returnPolicy: product.returnPolicy || false,
       });
 
-      if (product.technicalDetails)
+      if (product.technicalDetails?.length > 0)
         setTechnicalDetails(product.technicalDetails);
       if (product.benefits?.length > 0) setBenefits(product.benefits);
       if (product.thumbnail) setExistingThumbnail(product.thumbnail);
       if (product.images?.length > 0) setExistingImages(product.images);
     } catch (error) {
-      console.error(error);
       toast.error("Failed to fetch product data");
     }
   };
@@ -161,13 +141,20 @@ const ProductEditPage: React.FC = () => {
     }
   };
 
-  const handleTechChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setTechnicalDetails((prev) => ({
-      ...prev,
-      [name as keyof TechnicalDetails]: value,
-    }));
+  const handleTechChange = (
+    index: number,
+    field: keyof TechnicalDetails,
+    value: string
+  ) => {
+    const updated = [...technicalDetails];
+    updated[index][field] = value;
+    setTechnicalDetails(updated);
   };
+
+  const addTechnicalDetails = () =>
+    setTechnicalDetails((prev) => [...prev, { title: "", value: "" }]);
+  const removeTechnicalDetails = (index: number) =>
+    setTechnicalDetails((prev) => prev.filter((_, i) => i !== index));
 
   const handleBenefitChange = (
     index: number,
@@ -253,15 +240,13 @@ const ProductEditPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white py-8 pb-32 px-4">
-      <div className="max-w-7xl mx-auto">
-        <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
-          <div className="bg-gray-900 px-8 py-6">
-            <h1 className="text-3xl font-bold text-white">Edit Product</h1>
-          </div>
+    <div className="min-h-screen py-8 bg-gray-50 pb-32 px-4">
+      <div className="max-w-5xl mx-auto">
+        <div className=" overflow-hidden">
+          <h1 className="text-3xl px-5  text-gray-900">Update Product</h1>
 
-          <div className="p-4">
-            <div className="grid grid-cols-1  gap-8">
+          <div className="md:p-4">
+            <div>
               <div className="lg:col-span-2 space-y-6">
                 <div className="bg-white border border-gray-200 rounded-xl p-6">
                   <div className="flex items-center gap-2 mb-4">
@@ -280,7 +265,7 @@ const ProductEditPage: React.FC = () => {
                         value={formData.name}
                         onChange={handleChange}
                         placeholder="Enter product name"
-                        className="w-full px-4 py-2.5 border rounded-lg"
+                        className="w-full px-4 py-2.5 border border-gray-300 rounded-lg"
                       />
                     </div>
 
@@ -346,112 +331,101 @@ const ProductEditPage: React.FC = () => {
                         onChange={handleChange}
                         rows={4}
                         placeholder="Detailed product description"
-                        className="w-full px-4 py-2.5 border  rounded-lg resize-none"
+                        className="w-full px-4 py-2.5 border border-gray-300 rounded-lg resize-none"
                       />
                     </div>
                   </div>
                 </div>
 
-                <div className="bg-white border border-gray-200 rounded-xl p-6">
-                  <div className="flex items-center gap-2 mb-4">
-                    <h2 className="text-lg font-bold text-gray-800">
-                      Pricing & Stock
-                    </h2>
+                <section className="border border-gray-300 bg-white p-6 rounded-xl space-y-4">
+                  <h2 className="flex items-center gap-2 text-lg font-semibold text-gray-800">
+                    Pricing & Stock
+                  </h2>
+                  <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                    {[
+                      { name: "price", label: "Price" },
+                      { name: "discountPrice", label: "Discount Price" },
+                      { name: "stock", label: "Stock Quantity" },
+                      { name: "deliveryCharge", label: "Delivery Charge" },
+                    ].map((field) => (
+                      <div key={field.name} className="space-y-2">
+                        <label className="font-medium text-gray-700">
+                          {field.label}
+                        </label>
+                        <input
+                          type="number"
+                          name={field.name}
+                          value={(formData as any)[field.name]}
+                          onChange={handleChange}
+                          className="border  border-gray-300 rounded-lg p-3 w-full text-sm no-spinner"
+                          placeholder={`Enter ${field.label}`}
+                        />
+                      </div>
+                    ))}
                   </div>
-                  <div className="grid grid-cols-3 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                        Price <span className="text-red-500">*</span>
-                      </label>
-                      <input
-                        type="number"
-                        name="price"
-                        value={formData.price}
-                        onChange={handleChange}
-                        placeholder="5000"
-                        min="0"
-                        className="w-full px-4 py-2.5 border  rounded-lg no-spinner"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                        Discount Price
-                      </label>
-                      <input
-                        type="number"
-                        name="discountPrice"
-                        value={formData.discountPrice}
-                        onChange={handleChange}
-                        placeholder="2000"
-                        min="0"
-                        className="w-full px-4 py-2.5 border rounded-lg no-spinner"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                        Stock Quantity <span className="text-red-500">*</span>
-                      </label>
-                      <input
-                        type="number"
-                        name="stock"
-                        value={formData.stock}
-                        onChange={handleChange}
-                        placeholder="Available quantity"
-                        min="0"
-                        className={`w-full px-4 py-2.5 border ${
-                          errors.stock
-                            ? "border-red-300 bg-red-50"
-                            : "border-gray-300"
-                        } rounded-lg no-spinner transition`}
-                      />
-                    </div>
-                  </div>
-                </div>
+                </section>
 
-              
+                <section className="bg-white border border-gray-200 rounded-xl p-6 space-y-5">
+                  <h2 className="text-lg font-bold text-gray-800">
+                    Technical Details
+                  </h2>
 
-                <div className="bg-white border border-gray-200 rounded-xl p-6 space-y-5">
-                  <div className="flex items-center gap-2 mb-4">
-                    <h2 className="text-lg font-bold text-gray-800">
-                      Technical Details
-                    </h2>
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-4">
-                    {Object.entries(technicalDetails)
-                      .filter(([key]) => key !== "_id" && key !== "id")
-                      .map(([key, value]) => (
-                        <div key={key} className="space-y-2">
-                          <label className="font-medium text-gray-700 capitalize">
-                            {key.replace(/([A-Z])/g, " $1")}
+                  <div className="w-full">
+                    {technicalDetails.map((technicalDetail, i) => (
+                      <div key={i} className="flex space-x-2 space-y-3">
+                        <div className="w-full">
+                          <label className="font-medium text-sm text-gray-700 mt-32 pt-32 py-3">
+                            Title
                           </label>
                           <input
-                            name={key}
-                            value={value}
-                            onChange={handleTechChange}
-                            className="w-full border border-gray-300 rounded-lg p-3"
-                            placeholder={`Enter ${key.replace(
-                              /([A-Z])/g,
-                              " $1"
-                            )}`}
+                            type="text"
+                            placeholder="eg: Rod Diameter"
+                            value={technicalDetail.title}
+                            onChange={(e) =>
+                              handleTechChange(i, "title", e.target.value)
+                            }
+                            className="w-full p-3 border border-gray-300 rounded-lg text-sm "
                           />
                         </div>
-                      ))}
+                        <div className="w-full">
+                          <label className="font-medium text-sm text-gray-700">
+                            Value
+                          </label>
+                          <input
+                            placeholder="200 mm"
+                            value={technicalDetail.value}
+                            onChange={(e) =>
+                              handleTechChange(i, "value", e.target.value)
+                            }
+                            className="w-full p-3 border border-gray-300 rounded-lg text-sm"
+                          />
+                        </div>
+                        {removeTechnicalDetails && (
+                          <button
+                            type="button"
+                            onClick={() => removeTechnicalDetails(i)}
+                            className="text-red-500 hover:text-red-700 rounded-lg   mt-2 transition-colors"
+                          >
+                            <X className="w-5 h-5" />
+                          </button>
+                        )}
+                      </div>
+                    ))}
                   </div>
-                </div>
+                  <button
+                    type="button"
+                    onClick={addTechnicalDetails}
+                    className="text-blue-600 font-medium flex items-center gap-1 hover:text-blue-700 border p-2 rounded transition-colors text-sm"
+                  >
+                    <Plus className="w-4 h-4" /> Add Value
+                  </button>
+                </section>
 
-                <div className="bg-white border border-gray-200 rounded-xl p-6">
+                <section className="bg-white border border-gray-200 rounded-xl p-4 md:p-6">
                   <div className="flex justify-between items-center mb-4">
                     <h2 className="text-lg font-bold text-gray-800">
                       Product Benefits
                     </h2>
-                    <button
-                      type="button"
-                      onClick={addBenefit}
-                      className="text-blue-600 font-medium flex items-center gap-1 hover:text-blue-700 transition-colors text-sm"
-                    >
-                      <Plus className="w-4 h-4" /> Add Benefit
-                    </button>
                   </div>
                   <div className="space-y-3">
                     {benefits.map((benefit, index) => (
@@ -460,6 +434,9 @@ const ProductEditPage: React.FC = () => {
                         className="flex gap-3 p-3 bg-gray-50 rounded-lg"
                       >
                         <div className="flex-1 space-y-2">
+                          <label className="font-medium text-sm text-gray-700">
+                            Title
+                          </label>
                           <input
                             type="text"
                             placeholder="Benefit title"
@@ -473,6 +450,9 @@ const ProductEditPage: React.FC = () => {
                             }
                             className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm "
                           />
+                          <label className="font-medium text-sm text-gray-700">
+                            Description
+                          </label>
                           <textarea
                             placeholder="Benefit description"
                             value={benefit.description}
@@ -491,7 +471,7 @@ const ProductEditPage: React.FC = () => {
                           <button
                             type="button"
                             onClick={() => removeBenefit(index)}
-                            className="text-red-500 hover:text-red-700 hover:bg-red-50 rounded-lg px-2 transition-colors"
+                            className="text-red-500 hover:text-red-700  rounded-lg px-2 transition-colors"
                           >
                             <X className="w-5 h-5" />
                           </button>
@@ -499,9 +479,17 @@ const ProductEditPage: React.FC = () => {
                       </div>
                     ))}
                   </div>
-                </div>
+                  <button
+                    type="button"
+                    onClick={addBenefit}
+                    className="text-blue-600 font-medium flex items-center border rounded p-2 gap-1 hover:text-blue-700 transition-colors text-sm"
+                  >
+                    <Plus className="w-4 h-4" /> Add Benefit
+                  </button>
+                </section>
               </div>
-              <div className="grid grid-cols-2 gap-6 mb-8">
+
+              <section className="grid lg:grid-cols-2 gap-6 my-8">
                 <div className="bg-white border border-gray-200 rounded-xl p-6">
                   <h2 className="text-lg font-bold text-gray-800 mb-4">
                     Thumbnail
@@ -622,110 +610,81 @@ const ProductEditPage: React.FC = () => {
                     </div>
                   )}
                 </div>
-              </div>
+              </section>
             </div>
-             <div className="bg-white p-6">
-                  <div className="flex items-center gap-2 mb-4">
-                    <h2 className="text-lg font-bold text-gray-800">
-                     Delivery Charge
-                    </h2>
-                  </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      
-                      <input
-                        type="number"
-                        name="deliveryCharge"
-                        value={formData.deliveryCharge}
-                        onChange={handleChange}
-                        placeholder="50"
-                        min="0"
-                        className="w-full px-4 py-2.5 border border-gray-300 rounded-lg no-spinner transition"
-                      />
-                    </div>
-                   
-                  </div>
-                </div>
-             <div className="bg-white p-6">
-                  <div className="flex items-center gap-2 mb-4">
-                    <h2 className="text-lg font-bold text-gray-800">
-                      Warranty Information
-                    </h2>
-                  </div>
-                  <div className="grid grid-cols-1 gap-4">
-                    <div>
-                      
-                      <input
-                        type="text"
-                        name="warranty"
-                        value={formData.warranty}
-                        onChange={handleChange}
-                        placeholder="1 Year Warranty"
-                        className="w-full px-4 py-2.5 border border-gray-300 rounded-lg no-spinner transition"
-                      />
-                    </div>
-                   
-                  </div>
-                </div>
-            <div className=" p-6">
+
+            <div className="bg-white p-6">
+              <div className="flex items-center gap-2 mb-4">
+                <h2 className="text-lg font-bold text-gray-800">
+                  Warranty Information
+                </h2>
+              </div>
+              <input
+                type="text"
+                name="warranty"
+                value={formData.warranty}
+                onChange={handleChange}
+                placeholder="1 Year Warranty"
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg no-spinner transition"
+              />
+            </div>
+            <div className=" p-4">
               <div className="space-x-3 flex">
-                <label className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100 transition">
+                <label className="flex items-center gap-3 p-3 bg-gray-50 border border-gray-300 rounded cursor-pointer hover:bg-gray-100 transition">
                   <input
                     type="checkbox"
                     name="isNewArrival"
                     checked={formData.isNewArrival}
                     onChange={handleChange}
-                    className="w-4 h-4 text-blue-600 rounded focus:ring-2 focus:ring-blue-500"
+                    className="w-4 h-4 text-blue-600 rounded "
                   />
                   <span className="text-sm font-medium text-gray-700">
                     Mark as New Arrival
                   </span>
                 </label>
-                <label className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100 transition">
+                <label className="flex items-center gap-3 p-3 bg-gray-50 rounded border border-gray-300 cursor-pointer hover:bg-gray-100 transition">
                   <input
                     type="checkbox"
                     name="isActive"
                     checked={formData.isActive}
                     onChange={handleChange}
-                    className="w-4 h-4 text-blue-600 rounded focus:ring-2 focus:ring-blue-500"
+                    className="w-4 h-4 text-blue-600 rounded"
                   />
                   <span className="text-sm font-medium text-gray-700">
                     Active Product
                   </span>
                 </label>
-                {/* <label className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100 transition">
-                  <input
-                    type="checkbox"
-                    name="returnPolicy"
-                    checked={formData.returnPolicy}
-                    onChange={handleChange}
-                    className="w-4 h-4 text-blue-600 rounded focus:ring-2 focus:ring-blue-500"
-                  />
-                  <span className="text-sm font-medium text-gray-700">
-                    Return Policy Available
-                  </span>
-                </label> */}
               </div>
             </div>
 
-            <button
-              type="button"
-              onClick={handleSubmit}
-              disabled={loading}
-              className="w-full bg-emerald-600 text-white py-3.5 rounded-lg flex items-center justify-center font-semibold transition-all shadow-lg disabled:opacity-50 disabled:cursor-not-allowed mt-6"
-            >
-              {loading ? (
-                <>
-                  <Loader2 className="animate-spin mr-2 w-5 h-5" />
-                  Updating...
-                </>
-              ) : (
-                <>
-                  <Upload className="mr-2 w-5 h-5" />
-                  Update Product
-                </>
-              )}
-            </button>
+            <div className="grid grid-cols-2 gap-3">
+              <button
+                type="button"
+                onClick={() => router.back()}
+                disabled={loading}
+                className="w-full bg-gray-950 text-white py-3.5 rounded-lg flex items-center justify-center font-semibold transition-all shadow-lg disabled:opacity-50 disabled:cursor-not-allowed mt-6"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={handleSubmit}
+                disabled={loading}
+                className="w-full bg-emerald-600 text-white py-3.5 rounded-lg flex items-center justify-center font-semibold transition-all shadow-lg disabled:opacity-50 disabled:cursor-not-allowed mt-6"
+              >
+                {loading ? (
+                  <>
+                    <Loader2 className="animate-spin mr-2 w-5 h-5" />
+                    Updating...
+                  </>
+                ) : (
+                  <>
+                    <Upload className="mr-2 w-5 h-5" />
+                    Update Product
+                  </>
+                )}
+              </button>
+            </div>
           </div>
         </div>
       </div>

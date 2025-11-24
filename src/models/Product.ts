@@ -10,15 +10,10 @@ const BenefitSchema = new mongoose.Schema(
 
 const TechnicalDetailsSchema = new mongoose.Schema(
   {
-    boreDiameter: { type: String, trim: true },
-    rodDiameter: { type: String, trim: true },
-    strokeLength: { type: String, trim: true },
-    mountingType: { type: String, trim: true },
-    workingPressure: { type: String, trim: true },
-    material: { type: String, trim: true },
-    sealType: { type: String, trim: true },
-    application: { type: String, trim: true },
-  }
+    title: { type: String, required: true, trim: true },
+    value: { type: String, required: true, trim: true}
+  },
+  { _id: false }
 );
 
 const ProductSchema = new mongoose.Schema(
@@ -44,7 +39,7 @@ const ProductSchema = new mongoose.Schema(
       required: true,
     },
 
-    technicalDetails: TechnicalDetailsSchema,
+    technicalDetails: [TechnicalDetailsSchema],
     benefits: [BenefitSchema],
 
     deliveryCharge: { type: Number },

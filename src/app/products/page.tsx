@@ -1,13 +1,7 @@
-import { Suspense } from "react";
-import ProductsClient from './ProductsClient'
-export const dynamic = "force-dynamic";
+import ProductsClient from "./ProductsClient";
 
 const ProductPage = () => {
-  return (
-    <Suspense fallback={<div className="p-8 text-center"></div>}>
-        <ProductsClient />
-    </Suspense>
-  )
-}
+  return <ProductsClient />;
+};
 
-export default ProductPage
+export default ProductPage;

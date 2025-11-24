@@ -100,10 +100,11 @@ export async function PUT(
     if (deliveryCharge !== undefined) product.deliveryCharge = deliveryCharge;
     if (technicalDetails) product.technicalDetails = technicalDetails;
     if (benefits) product.benefits = benefits;
+    if (warranty) product.warranty = warranty;
+
       product.isNewArrival = isNewArrival;
       product.isActive = isActive;
       product.returnPolicy = returnPolicy;
-    if (warranty) product.warranty = warranty;
 
     const thumbnailFile = formData.get("thumbnail") as File | null;
     if (thumbnailFile) {

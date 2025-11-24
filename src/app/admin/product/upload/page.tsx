@@ -22,14 +22,8 @@ interface Category {
 }
 
 interface TechnicalDetails {
-  boreDiameter: string;
-  rodDiameter: string;
-  strokeLength: string;
-  mountingType: string;
-  workingPressure: string;
-  material: string;
-  sealType: string;
-  application: string;
+  title: string;
+  value: string;
 }
 
 interface Benefit {
@@ -78,16 +72,7 @@ const ProductUploadPage: React.FC = () => {
     returnPolicy: false,
   });
 
-  const [technicalDetails, setTechnicalDetails] = useState<TechnicalDetails>({
-    boreDiameter: "",
-    rodDiameter: "",
-    strokeLength: "",
-    mountingType: "",
-    workingPressure: "",
-    material: "",
-    sealType: "",
-    application: "",
-  });
+  const [technicalDetails, setTechnicalDetails] = useState<TechnicalDetails[]>([ { title: "", value: ""} ]);
 
   const [benefits, setBenefits] = useState<Benefit[]>([
     { title: "", description: "" },
@@ -147,13 +132,18 @@ const ProductUploadPage: React.FC = () => {
     if (errors[name]) setErrors((prev) => ({ ...prev, [name]: undefined }));
   };
 
-  const handleTechChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setTechnicalDetails((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
+
+  const handleTechChange = (index: number, field: keyof TechnicalDetails, value: string) => {
+    const updated = [ ...technicalDetails];
+    updated[index][field] = value;
+    setTechnicalDetails(updated)
+  }
+
+  const addTechnicalDetails = () =>
+    setTechnicalDetails((prev) => [...prev, { title: "", value: "" }]);
+
+  const removeTechnicalDetails = (index: number) =>
+    setTechnicalDetails((prev) => prev.filter((_, i) => i !== index));
 
   const handleBenefitChange = (
     index: number,
@@ -319,11 +309,12 @@ const ProductUploadPage: React.FC = () => {
             <h2 className="flex items-center gap-2 text-xl font-semibold text-gray-900">
               <IndianRupee  className="w-5 h-5" /> Pricing & Stock
             </h2>
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
               {[
                 { name: "price", label: "Price" },
                 { name: "discountPrice", label: "Discount Price" },
                 { name: "stock", label: "Stock Quantity" },
+                { name: "deliveryCharge", label: "Delivery Charge" },
               ].map((field) => (
                 <div key={field.name} className="space-y-2">
                   <label className="font-medium text-gray-700">
@@ -346,22 +337,53 @@ const ProductUploadPage: React.FC = () => {
             <h2 className="flex items-center gap-2 text-xl font-semibold text-gray-900">
               <Wrench className="w-6 h-6" /> Technical Details
             </h2>
-            <div className="grid grid-cols-2 gap-4">
-              {Object.entries(technicalDetails).map(([key, value]) => (
-                <div key={key} className="space-y-2">
-                  <label className="font-medium text-gray-700 capitalize">
-                    {key.replace(/([A-Z])/g, " $1")}
+            
+            <div className="gap-4">
+                {technicalDetails.map((technicalDetail, i) => (
+              <div key={i} className="flex gap-3">
+                <div className="flex w-full gap-2 space-y-3">
+                 <div className="w-full">
+                   <label className="font-medium text-gray-700">Title</label>
+                  <input
+                    type="text"
+                    value={technicalDetail.title}
+                    onChange={(e) => handleTechChange(i, "title", e.target.value)}
+                    className="w-full border border-gray-300 rounded-lg p-3"
+                    placeholder="eg: Rod Diameter"
+                  />
+                  </div>
+                 <div className="w-full">
+                   <label className="font-medium text-gray-700">
+                    Value
                   </label>
                   <input
-                    name={key}
-                    value={value}
-                    onChange={handleTechChange}
-                    className="w-full border border-gray-300 rounded-lg p-3"
-                    placeholder={`Enter ${key.replace(/([A-Z])/g, " $1")}`}
+                    value={technicalDetail.value}
+                    onChange={(e) => handleTechChange(i, "value", e.target.value)}
+                    className="w-full border border-gray-300 rounded-lg p-3 "
+                    placeholder="200 mm"
                   />
+                  </div>
                 </div>
-              ))}
+                {technicalDetails.length > 1 && (
+                  <button
+                    type="button"
+                    onClick={() => removeTechnicalDetails(i)}
+                    className="text-red-600 hover:text-red-800 mt-3"
+                  >
+                    <X className="w-5 h-5" />
+                  </button>
+                )}
+              </div>
+            ))}
+           
             </div>
+             <button
+                type="button"
+                onClick={addTechnicalDetails}
+                className="text-blue-600 flex items-center border rounded p-2 gap-1"
+              >
+                <Plus className="w-4 h-4" /> Add Value
+              </button>
           </section>
 
           <section className="border border-gray-300 p-6 rounded-xl space-y-4">
@@ -488,25 +510,7 @@ const ProductUploadPage: React.FC = () => {
             </div>
           </section>
 
-          <section className=" p-4 rounded-xl space-y-4">
-            <h2 className="flex items-center gap-2 text-xl font-semibold text-gray-900">
-              <Truck className="w-6 h-6" /> Delivery Charge 
-            </h2>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-2">
-               
-                <input
-                  type="number"
-                  name="deliveryCharge"
-                  value={formData.deliveryCharge}
-                  onChange={handleChange}
-                  className="border border-gray-300 rounded-lg p-3 w-full no-spinner"
-                  placeholder="Enter delivery charge"
-                />
-              </div>
-             
-            </div>
-          </section>
+       
 
 
           <section className=" p-4 rounded-xl space-y-4">
@@ -529,18 +533,7 @@ const ProductUploadPage: React.FC = () => {
               </div>
 
          <div className="flex space-x-3 items-center gap-4">
-               {/* <div className="flex gap-4 mt-3">
-              <label className="flex items-center gap-2 text-gray-700">
-                <input
-                  type="checkbox"
-                  name="returnPolicy"
-                  checked={formData.returnPolicy}
-                  onChange={handleChange}
-                />
-                Return Policy Available
-              </label>
-              
-            </div> */}
+          
             <div className="flex gap-4 space-x-4 mt-3">
               <label className="flex items-center gap-2 text-gray-700">
                 <input

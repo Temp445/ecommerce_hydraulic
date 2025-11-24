@@ -10,17 +10,25 @@ import Offer from '@/Components/LandingPage/Offer'
 import PopularProducts from '@/Components/LandingPage/PopularProducts'
 import Testimonials from '@/Components/LandingPage/Testimonials'
 import FeatureList from '@/Components/LandingPage/WhyChooseUs'
-import React from 'react'
 
-const page = () => {
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || ''
+
+const page = async () => {
+  
+  
+  const res = await fetch(`${BASE_URL}/api/product`, {cache: "no-store"})
+  const result = await res.json()
+  const products = result?.data || []
+
+
   return (
     <div>
       <HeroSection/>
       <FeatureList/>
       <CategorySection/>
-      <NewProduct/>
+      <NewProduct products={products}/>
       <Offer/>
-      <PopularProducts/>
+      <PopularProducts products={products}/>
       <About/>
       <IndustryUsage/>
       <Testimonials/>

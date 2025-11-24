@@ -47,7 +47,6 @@ const CartPage = () => {
   const [cart, setCart] = useState<Cart | null>(null);
   const [loading, setLoading] = useState(true);
   const [updatingId, setUpdatingId] = useState<string | null>(null);
-  const [outOfStockItems, setOutOfStockItems] = useState<CartProductType[]>([]);
 
   const { refreshCart } = useCart();
   const { user } = useAuth();
@@ -221,19 +220,6 @@ const CartPage = () => {
     }
   };
 
-  const handleCheckoutClick = () => {
-    const outOfStock =
-      cart?.items.filter((item) => {
-        const product = item.productId || item.product;
-        return !product || item.quantity > (product.stock ?? 0);
-      }) || [];
-
-    if (outOfStock.length > 0) {
-      setOutOfStockItems(outOfStock);
-    } else {
-      router.push("/checkout");
-    }
-  };
 
   const inStockItems =
     cart?.items.filter((item) => {
@@ -596,12 +582,12 @@ const CartPage = () => {
               </div>
             )}
             <button
-              onClick={handleCheckoutClick}
+              onClick={() => router.push("/checkout")}   
               disabled={inStockItems.length === 0}
               className={`w-full py-4 rounded-lg font-semibold shadow transition-all ${
                 inStockItems.length === 0
                   ? "bg-gray-400 cursor-not-allowed"
-                  : "bg-emerald-700 hover:bg-emerald-800 text-white"
+                  : "bg-emerald-700 hover:bg-emerald-800 text-white hover:cursor-pointer"
               }`}
             >
               Proceed to Checkout

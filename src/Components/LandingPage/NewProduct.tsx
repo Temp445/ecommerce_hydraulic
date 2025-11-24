@@ -1,35 +1,25 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import axios from "axios";
 import Link from "next/link";
 import { CircleChevronRight } from "lucide-react";
-
 import { useAuth } from "@/context/AuthProvider";
 import AddToCartButton from "../Button/AddToCartButton";
 
-export default function NewProduct() {
-  const [newArrivals, setNewArrivals] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
+interface Product {
+  _id: string;
+  name: string;
+  description: string;
+  thumbnail?: string;
+  images: string[];
+  price: number;
+  discountPrice?: number;
+  stock?: number;
+}
+
+const NewProduct = ({ products }: { products: Product[] }) => {
   const { user } = useAuth();
 
-  useEffect(() => {
-    fetchNewArrivals();
-  }, []);
-
-  const fetchNewArrivals = async () => {
-    try {
-      setLoading(true);
-      const res = await axios.get("/api/product");
-      const allProducts = res.data?.data || [];
-      const filtered = allProducts.filter((p: any) => p.isNewArrival);
-      setNewArrivals(filtered);
-    } catch (err) {
-      console.error("Error fetching new arrivals:", err);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const newArrivals = products.filter((p: any) => p.isNewArrival);
 
   return (
     <section className="py-5 md:py-14 bg-gradient-to-b from-slate-100 to-white">
@@ -39,9 +29,9 @@ export default function NewProduct() {
             New Arrivals
           </h2>
         </div>
-        {!loading && newArrivals.length > 0 && (
+        {newArrivals.length > 0 && (
           <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-6">
-            {newArrivals.slice(0, 8).map((product, idx) => (
+            {newArrivals.slice(0, 8).map((product: any, idx: any) => (
               <div
                 key={product._id}
                 className="group relative bg-white rounded-sm border border-gray-200 hover:border-slate-700 transition-all duration-300 overflow-hidden"
@@ -84,28 +74,9 @@ export default function NewProduct() {
                       </h3>
 
                       <div className="space-y-2 mb-4 text-sm">
-                        <div className="flex items-center justify-between">
-                          <span className="text-gray-600 font-medium">
-                            Max Capacity:
-                          </span>
-                          <span className="font-mono font-bold text-gray-900">
-                            {product.technicalDetails.workingPressure}
-                          </span>
-                        </div>
-
-                        {product.technicalDetails.material && (
-                          <div className="flex items-center justify-between">
-                            <span className="text-gray-600 font-medium">
-                              Material:
-                            </span>
-                            <span className="font-mono font-bold text-gray-900 line-clamp-1 ">
-                              {product.technicalDetails.material
-                                .split(" ")
-                                .slice(0, 2)
-                                .join(" ")}
-                            </span>
-                          </div>
-                        )}
+                        <span className="font-mono line-clamp-2 font-bold text-gray-900">
+                          {product.description}
+                        </span>
                       </div>
                     </div>
 
@@ -145,35 +116,14 @@ export default function NewProduct() {
             ))}
           </div>
         )}
-        {!loading && newArrivals.length === 0 && (
+        {newArrivals.length === 0 && (
           <div className="text-center py-16">
             <p className="text-gray-600 text-base">No New Arrivals found</p>
-          </div>
-        )}
-        {loading && (
-          <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-6">
-            {[...Array(6)].map((_, index) => (
-              <div
-                key={index}
-                className="flex bg-white rounded-sm border border-gray-200  transition-all duration-300 overflow-hidden"
-              >
-                <div className="bg-gray-300 h-64 w-52 animate-pulse"></div>
-                <div className="p-6 flex-1 flex flex-col justify-between">
-                  <div>
-                    <div className="h-4 bg-gray-300 rounded w-3/4 mb-4 animate-pulse"></div>
-                    <div className="h-4 bg-gray-300 rounded w-full mb-2 animate-pulse"></div>
-                    <div className="h-4 bg-gray-300 rounded w-5/6 mb-2 animate-pulse"></div>
-                  </div>
-                  <div className="mt-4">
-                    <div className="h-6 bg-gray-300 rounded w-1/4 mb-2 animate-pulse"></div>
-                    <div className="h-8 bg-gray-300 rounded w-3/4 animate-pulse"></div>
-                  </div>
-                </div>
-              </div>
-            ))}
           </div>
         )}
       </div>
     </section>
   );
 }
+
+export default NewProduct

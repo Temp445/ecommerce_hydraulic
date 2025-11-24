@@ -20,7 +20,7 @@ import {
 } from "lucide-react";
 import Pagination from "@/Components/Common/Pagination";
 
-export default function AdminOrdersPage() {
+const AdminOrdersPage = () => {
   const [orders, setOrders] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [updatingId, setUpdatingId] = useState<string | null>(null);
@@ -145,7 +145,7 @@ export default function AdminOrdersPage() {
     .map((order) => {
       if (!statusFilter || statusFilter === "All") return order;
       const filteredItems = order.items.filter(
-        (item: { orderStatus: string }) => item.orderStatus === statusFilter
+        (item: any) => item.orderStatus === statusFilter
       );
       return { ...order, items: filteredItems };
     })
@@ -159,9 +159,7 @@ export default function AdminOrdersPage() {
     total: orders.reduce((acc, order) => acc + order.items.length, 0),
     processing: orders.reduce(
       (acc, order) =>
-        acc +
-        order.items.filter((item: any) => item.orderStatus === "Processing")
-          .length,
+        acc + order.items.filter((item: any) => item.orderStatus === "Processing").length,
       0
     ),
     shipped: orders.reduce(
@@ -300,7 +298,7 @@ export default function AdminOrdersPage() {
               </div>
             ))}
           </div>
-        ) : !loading && filteredOrders.length === 0 ? (<div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 p-6">
+        ) : currentItems.length === 0 ? (<div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 p-6">
         <div className="max-w-7xl mx-auto">
           <div className="bg-white rounded-xl border border-gray-200 p-12 text-center">
             <AlertCircle className="mx-auto mb-4 text-gray-400" size={48} />
@@ -309,7 +307,7 @@ export default function AdminOrdersPage() {
             </h3>
           </div>
         </div>
-      </div>): (
+      </div> ) : (
           <div className="space-y-4">
             {currentItems.map((order) => {
               const isExpanded = expandedOrder === order._id;
@@ -413,10 +411,10 @@ export default function AdminOrdersPage() {
                           </p>
                           <p className="text-gray-900 text-sm">
                             {order.shippingAddress?.Address}{" "}
-                            {order.shippingAddress.City},{" "}
-                            {order.shippingAddress.State} -{" "}
-                            {order.shippingAddress.PinCode},{" "}
-                            {order.shippingAddress.Country}
+                            {order.shippingAddress?.City},{" "}
+                            {order.shippingAddress?.State} -{" "}
+                            {order.shippingAddress?.PinCode},{" "}
+                            {order.shippingAddress?.Country}
                           </p>
                         </div>
                       </div>
@@ -496,11 +494,7 @@ export default function AdminOrdersPage() {
                                             }
                                             disabled={
                                               updatingId === item._id ||
-                                              item.orderStatus ===
-                                                "Cancelled" ||
-                                              item.itemPaymentStatus ===
-                                                "Paid" ||
-                                              item.orderStatus !== "Delivered"
+                                              item.orderStatus ==="Cancelled" || item.itemPaymentStatus === "Paid" ||  item.orderStatus !== "Delivered"
                                             }
                                             className={`${
                                               item.orderStatus === "Cancelled"
@@ -511,37 +505,21 @@ export default function AdminOrdersPage() {
                                                 : "bg-amber-50 text-amber-700"
                                             } rounded px-3 py-2 text-sm font-medium transition cursor-pointer outline-none ${
                                               updatingId === item._id ||
-                                              item.orderStatus ===
-                                                "Cancelled" ||
-                                              item.itemPaymentStatus ===
-                                                "Paid" ||
-                                              item.orderStatus !== "Delivered"
+                                              item.orderStatus === "Cancelled" || item.itemPaymentStatus === "Paid" || item.orderStatus !== "Delivered"
                                                 ? "opacity-80 cursor-not-allowed"
                                                 : ""
-                                            }`}
-                                          >
+                                            }`} >
                                             <option
                                               value="Pending"
                                               disabled={
-                                                item.orderStatus !==
-                                                  "Delivered" ||
-                                                item.orderStatus ===
-                                                  "Cancelled" ||
-                                                item.itemPaymentStatus ===
-                                                  "Paid"
-                                              }
-                                            >
+                                                item.orderStatus !== "Delivered" || item.orderStatus === "Cancelled" || item.itemPaymentStatus === "Paid"
+                                              } >
                                               Pending
                                             </option>
                                             <option
                                               value="Paid"
                                               disabled={
-                                                item.orderStatus !==
-                                                  "Delivered" ||
-                                                item.orderStatus ===
-                                                  "Cancelled" ||
-                                                item.itemPaymentStatus ===
-                                                  "Paid"
+                                                item.orderStatus !== "Delivered" || item.orderStatus === "Cancelled" || item.itemPaymentStatus === "Paid"
                                               }
                                             >
                                               Paid
@@ -574,9 +552,7 @@ export default function AdminOrdersPage() {
                                             ₹{item.itemRefundAmount}
                                           </p>
                                         </div>
-                                      ) : (
-                                        ""
-                                      )}
+                                      ) : ("")}
                                     </div>
                                   </div>
 
@@ -672,3 +648,6 @@ export default function AdminOrdersPage() {
     </div>
   );
 }
+
+
+export default AdminOrdersPage

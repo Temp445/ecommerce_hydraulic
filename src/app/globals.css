@@ -26,3 +26,18 @@ body {
   margin: 0;
 }
 
+
+@keyframes movingGrid {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 40px 40px;
+  }
+}
+
+.animated-grid {
+  background-image: radial-gradient(circle at center, rgba(255,255,255,0.8) 1px, transparent 1px);
+  background-size: 20px 20px;
+  animation: movingGrid 12s linear infinite;
+}

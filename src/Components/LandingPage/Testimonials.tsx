@@ -1,33 +1,13 @@
-"use client";
-
 import { Quote } from "lucide-react";
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import toast from "react-hot-toast";
 
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || '';
 
-export default function Testimonials() {
-  const [testimonials, setTestimonials] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
+const Testimonials = async () => {
+  const res = await fetch(`${BASE_URL}/api/testimonial`, { cache: "no-store" });
+  const data = await res.json();
+  const testimonials = data?.data || [];
 
-  const fetchTestimonials = async () => {
-    try {
-      setLoading(true);
-      const res = await axios.get("/api/testimonial");
-      setTestimonials(res.data.data || []);
-    } catch (error) {
-      console.error(error);
-      toast.error("Failed to load testimonials");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchTestimonials();
-  }, []);
-
-  if (!loading && testimonials.length === 0) {
+  if (testimonials.length === 0) {
     return (
       <div className="text-center text-gray-500">No testimonials found.</div>
     );
@@ -47,30 +27,8 @@ export default function Testimonials() {
         </p>
       </div>
 
-      {loading ? (
-           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {[...Array(3)].map((_, i) => (
-            <div
-              key={i}
-              className="relative bg-white rounded-xl p-8 shadow-lg border border-gray-200 animate-pulse"
-            > 
-              <div className="h-4 bg-gray-300 rounded w-3/4 mb-4"></div>
-              <div className="h-4 bg-gray-300 rounded w-full mb-2"></div>
-              <div className="h-4 bg-gray-300 rounded w-5/6 mb-6"></div>
-              <div className="flex items-center gap-4 pt-4 border-t border-gray-100">
-                <div className="w-12 h-12 rounded-full bg-gray-300"></div>
-                <div className="flex-1">
-                  <div className="h-4 bg-gray-300 rounded w-1/2 mb-2"></div>
-                  <div className="h-3 bg-gray-300 rounded w-1/3"></div>
-                </div>
-              </div>
-            </div>
-          ))}
-
-        </div> ):(
-
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {testimonials.map((t, i) => (
+        {testimonials.map((t: any, i: any) => (
           <div
             key={i}
             className="relative bg-white rounded-xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-200 group"
@@ -88,15 +46,17 @@ export default function Testimonials() {
                 {t.userName.charAt(0)}
               </div>
               <div>
-                <h4 className="font-medium text-gray-900 text-sm">{t.userName}</h4>
+                <h4 className="font-medium text-gray-900 text-sm">
+                  {t.userName}
+                </h4>
                 <p className="text-sm text-gray-500">{t.userRole}</p>
               </div>
             </div>
           </div>
         ))}
       </div>
-        )}
-
     </section>
   );
-}
+};
+
+export default Testimonials;

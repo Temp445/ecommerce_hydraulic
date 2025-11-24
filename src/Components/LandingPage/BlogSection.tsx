@@ -1,34 +1,12 @@
-"use client";
+import { MoveRight } from "lucide-react";
+import Link from "next/link";
 
-import React, { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "";
 
-interface Blog {
-  _id: string;
-  title: string;
-  slug: string;
-  shortDescription: string;
-  imageUrl: string;
-}
-
-const BlogSection = () => {
-  const [blogs, setBlogs] = useState<Blog[]>([]);
-  const router = useRouter();
-
-  useEffect(() => {
-    const fetchBlogs = async () => {
-      try {
-        const res = await fetch("/api/blog");
-        const data = await res.json();
-        if (data.success && Array.isArray(data.data)) {
-          setBlogs(data.data);
-        }
-      } catch (err) {
-        console.error("Error fetching blogs:", err);
-      }
-    };
-    fetchBlogs();
-  }, []);
+const BlogSection = async () => {
+  const res = await fetch(`${BASE_URL}/api/blog`, { cache: "no-store" });
+  const data = await res.json();
+  const blogs = data?.data || [];
 
   return (
     <section className=" py-10 md:py-20 bg-gray-50">
@@ -49,9 +27,9 @@ const BlogSection = () => {
           </div>
 
           <div className="lg:col-span-3 space-y-4">
-            {blogs.slice(0, 5).map((blog, idx) => (
-              <button
-                onClick={() => router.push(`/blog/${blog.slug}`)}
+            {blogs.slice(0, 5).map((blog: any, idx: any) => (
+              <Link
+                href={`/blog/${blog.slug}`}
                 key={idx}
                 className="group flex flex-col md:flex-row bg-white hover:bg-gray-50 transition-all duration-300 border-l-4 border-gray-300 hover:border-gray-900 shadow-sm hover:shadow-lg"
               >
@@ -90,29 +68,17 @@ const BlogSection = () => {
                   <div className="flex items-end justify-end pt-4 border-t border-gray-200">
                     <div className="flex items-center gap-2 text-sm font-semibold text-gray-800 group-hover:gap-3 transition-all duration-300">
                       <span>Explore</span>
-                      <svg
-                        className="w-5 h-5"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2.5}
-                          d="M17 8l4 4m0 0l-4 4m4-4H3"
-                        />
-                      </svg>
+                      <MoveRight />
                     </div>
                   </div>
                 </div>
-              </button>
+              </Link>
             ))}
           </div>
         </div>
       </div>
     </section>
   );
-}
+};
 
-export default BlogSection
+export default BlogSection;
