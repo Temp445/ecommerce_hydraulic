@@ -40,7 +40,7 @@ const ProductsClient = () => {
 
   useEffect(() => {
     const cat = searchParams.get("category");
-    if (cat) setSelectedCategories([cat]);
+    setSelectedCategories(cat ? [cat] : []);
   }, [searchParams]);
 
   useEffect(() => {

@@ -1,29 +1,16 @@
-"use client";
-
 import Link from "next/link";
 import Image from "next/image";
 import Logo from "@/assets/AceLogo.png";
 import { Facebook, Twitter, Linkedin, Mail, Phone, MapPin, } from "lucide-react";
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || ''
 
-import React, { useEffect, useState } from "react";
-import axios from "axios";
 
-const Footer = () => {
-    const [categories, setCategories] = useState<any[]>([]);
+const Footer = async () => {
     
-      const fetchCategories = async () => {
-        try {
-          const res = await axios.get("/api/category");
-          setCategories(res.data.data || []);
-        } catch (err: any) {
-          console.error(err.response?.data?.message || "Failed to load categories");
-        } finally {
-        }
-      };
-    
-      useEffect(() => {
-        fetchCategories();
-      }, []);
+    const res = await fetch(`${BASE_URL}/api/category`, {cache: "no-store"})
+  const list = await res.json()
+  const categories = list?.data || []
+      
   return (
     <footer className="bg-gray-900 text-gray-300">
       
@@ -75,7 +62,7 @@ const Footer = () => {
               <span className="w-1 h-6 bg-white rounded"></span>
               Category
             </h3>
-            {categories.slice(0, 4).map((cat) => (
+            {categories.slice(0, 4).map((cat: any) => (
 
             <ul key={cat._id} className="space-y-3 text-sm">
               <li><Link href={`/products?category=${cat._id}`} className="text-gray-400 py-2 hover:text-white hover:translate-x-1 transition duration-300 inline-flex items-center">{cat.Name}</Link></li>

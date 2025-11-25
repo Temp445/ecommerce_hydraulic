@@ -2,8 +2,8 @@ import mongoose, { model, models } from 'mongoose'
 
 const offerSchema = new mongoose.Schema ({
     title: {type: String},
-    subTitle: {type: String},
-    btn: {type: String},
+    description: {type: String},
+    note: {type: String},
     active: {type: Boolean , default: false}
 })
 
