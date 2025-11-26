@@ -21,7 +21,6 @@ import {
 } from "lucide-react";
 import toast from "react-hot-toast";
 import AddToCartButton from "@/Components/Button/AddToCartButton";
-import { useAuth } from "@/context/AuthProvider";
 import RelatedProducts from "@/Components/ProductPage/RelatedProducts";
 import ProductReviews from "@/Components/ProductPage/ProductReviews";
 
@@ -31,7 +30,6 @@ const ProductDetailPage = () => {
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [loading, setLoading] = useState(true);
-  const { user } = useAuth();
 
   const allImages = product
   ? [product.thumbnail, ...(product.images || [])]
@@ -334,7 +332,6 @@ const ProductDetailPage = () => {
 
               <AddToCartButton
                 product={product}
-                userId={user?._id}
                 quantity={quantity}
                 className="text-white bg-gray-900 hover:bg-gray-950 transition disabled:opacity-50"
               />

@@ -41,7 +41,7 @@ interface ErrorState {
   [key: string]: string | undefined;
 }
 
-const ProductEditPage: React.FC = () => {
+const ProductEditPage = () => {
   const router = useRouter();
   const { pathUrl } = useParams() as { pathUrl: string };
 

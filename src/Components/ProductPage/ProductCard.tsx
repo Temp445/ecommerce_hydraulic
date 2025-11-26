@@ -5,11 +5,9 @@ import AddToCartButton from "@/Components/Button/AddToCartButton";
 export default function ProductCard({
   product,
   viewMode,
-  userId,
 }: {
   product: any;
   viewMode: "grid" | "list";
-  userId?: string;
 }) {
   const router = useRouter();
 
@@ -94,7 +92,6 @@ export default function ProductCard({
 
         <AddToCartButton
           product={product}
-          userId={userId}
           disabled={product.stock <= 0}
           className={`text-white bg-gray-900 hover:bg-gray-950 transition disabled:opacity-50 disabled:cursor-not-allowed`}
         />

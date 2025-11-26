@@ -1,7 +1,4 @@
-    "use client";
-
-    import React from "react";
-
+    
     const VisionMissionSection = () => {
     return (
         <section className="py-24">

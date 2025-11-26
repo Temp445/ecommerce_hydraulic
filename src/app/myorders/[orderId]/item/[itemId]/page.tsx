@@ -3,14 +3,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import axios from "axios";
 import toast from "react-hot-toast";
 import Link from "next/link";
 
 const OrderDetailPage = () => {
   const { itemId, orderId } = useParams();
-  const router = useRouter();
   const [updating, setUpdating] = useState(false);
   const [itemData, setItemData] = useState<any>(null);
   const [orderData, setOrderData] = useState<any>(null);

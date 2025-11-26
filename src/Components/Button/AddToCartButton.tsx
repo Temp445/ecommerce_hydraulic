@@ -6,6 +6,7 @@ import { ShoppingCart, Loader2 } from "lucide-react";
 import toast from "react-hot-toast";
 import { useCart } from "@/context/CartProvider";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/context/AuthProvider";
 
 interface AddToCartButtonProps {
   product: {
@@ -13,7 +14,6 @@ interface AddToCartButtonProps {
     name: string;
     price: number;
   };
-  userId?: string;
   quantity?: number;
   disabled?: boolean;
   className?: string;
@@ -21,7 +21,6 @@ interface AddToCartButtonProps {
 
 const AddToCartButton = ({
   product,
-  userId,
   quantity = 1,
   disabled,
   className,
@@ -29,6 +28,9 @@ const AddToCartButton = ({
   const [loading, setLoading] = useState(false);
   const { refreshCart } = useCart();
   const Router = useRouter()
+  const { user } = useAuth();
+  const userId = user?._id
+
 
   const handleAddToCart = async () => {
     try {

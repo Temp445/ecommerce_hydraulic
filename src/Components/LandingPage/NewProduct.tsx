@@ -1,23 +1,15 @@
-"use client";
 
 import Link from "next/link";
 import { CircleChevronRight } from "lucide-react";
-import { useAuth } from "@/context/AuthProvider";
 import AddToCartButton from "../Button/AddToCartButton";
 
-interface Product {
-  _id: string;
-  name: string;
-  description: string;
-  thumbnail?: string;
-  images: string[];
-  price: number;
-  discountPrice?: number;
-  stock?: number;
-}
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || ''
 
-const NewProduct = ({ products }: { products: Product[] }) => {
-  const { user } = useAuth();
+const NewProduct = async ({content}:{content: any}) => {
+  
+   const res = await fetch(`${BASE_URL}/api/product`, {cache: "no-store"})
+  const result = await res.json()
+  const products = result?.data || []
 
   const newArrivals = products.filter((p: any) => p.isNewArrival);
 
@@ -26,7 +18,7 @@ const NewProduct = ({ products }: { products: Product[] }) => {
       <div className="container mx-auto px-4 md:px-8">
         <div className="mb-7">
           <h2 className="text-2xl 2xl:text-4xl font-medium text-gray-900 mb-4 tracking-tight">
-            New Arrivals
+            {content?.sectionHeadings?.newArrivals}
           </h2>
         </div>
         {newArrivals.length > 0 && (
@@ -38,7 +30,7 @@ const NewProduct = ({ products }: { products: Product[] }) => {
               >
                 <div className="absolute top-0 right-0 w-full h-16">
                   <div className="absolute top-0 right-0 w-fit px-4 rounded-bl bg-slate-900 text-white text-center text-[10px] font-bold uppercase tracking-wider py-1 shadow-md">
-                    NEW
+                    {content?.sectionHeadings?.newArrivalsTag}
                   </div>
                 </div>
 
@@ -105,7 +97,6 @@ const NewProduct = ({ products }: { products: Product[] }) => {
                     <div className="bg-white text-red-500 text-xs mt-5">
                       <AddToCartButton
                         product={product}
-                        userId={user?._id}
                         disabled={product.stock <= 0}
                         className="bg-white border borde-gray-800 text-gray-900 disabled:opacity-50 disabled:cursor-not-allowed "
                       />

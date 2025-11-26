@@ -1,7 +1,7 @@
 import Link from "next/link";
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || ''
 
-const CategorySection = async () => {
+const CategorySection = async ({content}:{content: any}) => {
 
   const res = await fetch(`${BASE_URL}/api/category`, {cache: "no-store"})
   const list = await res.json()
@@ -12,7 +12,7 @@ const CategorySection = async () => {
       <div className="container mx-auto px-4 2xl:px-8">
         <div className=" mb-5 md:mb-16">
           <h2 className="text-2xl md:text-3xl lg:text-4xl font-light text-white mb-2">
-            Shop by Category
+            {content?.sectionHeadings?.categories}
           </h2>
           <div className="w-12 h-1 bg-white mt-4"></div>
         </div>

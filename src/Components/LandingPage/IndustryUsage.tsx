@@ -1,17 +1,15 @@
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || ''
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "";
 
-const IndustryUsage = async () => {
-  
-  const res = await fetch(`${BASE_URL}/api/application`, {cache: "no-store"})
-  const data = await res.json()
-  const applications = data?.data || []
+const IndustryUsage = async ({ content }: { content: any }) => {
+  const res = await fetch(`${BASE_URL}/api/application`, { cache: "no-store" });
+  const data = await res.json();
+  const applications = data?.data || [];
 
   return (
     <section className=" py-5 md:py-20 bg-gray-100">
       <div className="container mx-auto px-4 md:px-6">
         <h2 className=" text-2xl md:text-4xl font-medium text-gray-900 mb-6  tracking-tight">
-          Applications
-        
+          {content?.sectionHeadings?.Applications}
         </h2>
 
         {applications.length > 0 && (
@@ -46,7 +44,6 @@ const IndustryUsage = async () => {
             <p className="text-gray-600 text-base">No Applications found</p>
           </div>
         )}
-       
       </div>
     </section>
   );

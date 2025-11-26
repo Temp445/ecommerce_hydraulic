@@ -1,23 +1,16 @@
-"use client";
 
 import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 import AddToCartButton from "../Button/AddToCartButton";
-import { useAuth } from "@/context/AuthProvider";
 
-interface Product {
-  _id: string;
-  name: string;
-  description: string;
-  thumbnail?: string;
-  images: string[];
-  price: number;
-  discountPrice?: number;
-  stock?: number;
-}
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || ''
 
-const PopularProducts = ({ products }: { products: Product[] }) => {
-  const { user } = useAuth();
+
+const PopularProducts = async ( {content}:{content: any}) => {
+
+   const res = await fetch(`${BASE_URL}/api/product`, {cache: "no-store"})
+  const result = await res.json()
+  const products = result?.data || []
 
   if (products.length === 0) {
     return (
@@ -29,7 +22,7 @@ const PopularProducts = ({ products }: { products: Product[] }) => {
     <div className="bg-white px-4 md:px-8 lg:px-6 py-10 container mx-auto">
       <div className="pb-8 flex justify-between">
         <h2 className="text-2xl md:text-3xl xl:text-4xl max-w-52 md:max-w-max font-medium text-gray-900">
-          Most Popular Products
+         {content?.sectionHeadings?.popularProducts}
         </h2>
 
         <Link
@@ -90,7 +83,6 @@ const PopularProducts = ({ products }: { products: Product[] }) => {
                 <div className="text-sm">
                   <AddToCartButton
                     product={product}
-                    userId={user?._id}
                     disabled={product.stock <= 0}
                     className="text-white bg-gray-900 hover:bg-gray-950 transition disabled:opacity-50 disabled:cursor-not-allowed"
                   />

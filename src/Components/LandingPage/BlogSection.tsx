@@ -3,7 +3,7 @@ import Link from "next/link";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "";
 
-const BlogSection = async () => {
+const BlogSection = async ({content}: {content: any}) => {
   const res = await fetch(`${BASE_URL}/api/blog`, { cache: "no-store" });
   const data = await res.json();
   const blogs = data?.data || [];
@@ -15,11 +15,10 @@ const BlogSection = async () => {
           <div className="lg:col-span-1">
             <div className="sticky top-8">
               <div className="inline-block px-4 py-2 bg-gray-300 text-gray-900 text-xs font-bold uppercase tracking-wider mb-4">
-                Blogs
+                {content?.sectionHeadings?.blog}
               </div>
               <h2 className="text-2xl text-gray-900 mb-4 leading-tight">
-                Hydraulic
-                <br /> Cyclinders
+                {content?.sectionHeadings?.blogSubtitle}
               </h2>
 
               <div className="w-16 h-1 bg-gray-800"></div>

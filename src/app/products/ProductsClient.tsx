@@ -11,7 +11,6 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { Search, LayoutGrid, List, Filter } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useAuth } from "@/context/AuthProvider";
 import FiltersSidebar from "@/Components/ProductPage/FiltersSidebar";
 import ProductCard from "@/Components/ProductPage/ProductCard";
 import Pagination from "@/Components/Common/Pagination"; 
@@ -30,7 +29,6 @@ const ProductsClient = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 12; 
 
-  const { user } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -49,18 +47,29 @@ const ProductsClient = () => {
   }, [products, selectedCategories, priceRange, sortBy]);
 
   const fetchProducts = async () => {
-    try {
-      const res = await axios.get("/api/product");
-      const data = res.data?.data || [];
-      setProducts(data);
-      setFilteredProducts(data);
-    } catch (err) {
-      console.error("Error fetching products:", err);
-      toast.error("Failed to load products");
-    } finally {
-      setLoading(false);
+  try {
+    const res = await fetch("/api/product", {
+      method: "GET",
+      cache: "no-store", // optional, prevents caching issues
+    });
+
+    if (!res.ok) {
+      throw new Error("Failed to fetch products");
     }
-  };
+
+    const data = await res.json();
+    const products = data?.data || [];
+
+    setProducts(products);
+    setFilteredProducts(products);
+  } catch (err) {
+    console.error("Error fetching products:", err);
+    toast.error("Failed to load products");
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   const applyFilters = () => {
     let filtered = [...products];
@@ -255,7 +264,6 @@ const ProductsClient = () => {
                     key={product._id || product.id}
                     product={product}
                     viewMode={viewMode}
-                    userId={user?._id}
                   />
                 ))
               )}

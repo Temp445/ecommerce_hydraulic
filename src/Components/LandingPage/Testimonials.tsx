@@ -2,7 +2,7 @@ import { Quote } from "lucide-react";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || '';
 
-const Testimonials = async () => {
+const Testimonials = async ({content}: {content: any}) => {
   const res = await fetch(`${BASE_URL}/api/testimonial`, { cache: "no-store" });
   const data = await res.json();
   const testimonials = data?.data || [];
@@ -17,13 +17,13 @@ const Testimonials = async () => {
     <section className="relative px-4 md:px-6 max-w-7xl mx-auto py-5 lg:py-10 overflow-hidden">
       <div className="text-center mb-10 lg:mb-16">
         <span className="text- font-semibold text-sm uppercase tracking-wider mb-2 block">
-          Testimonials
+          {content?.sectionHeadings.testimonials}
         </span>
         <h2 className=" text-2xl md:text-3xl xl:text-4xl font-medium mb-4 text-gray-900">
-          What Our Clients Say
+          {content?.sectionHeadings?.testimonialsSubtitle}
         </h2>
         <p className="text-gray-600 max-w-2xl mx-auto">
-          Trusted by industry leaders for precision hydraulic solutions
+          {content?.sectionHeadings?.testimonialsDesc}
         </p>
       </div>
 
