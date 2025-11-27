@@ -78,8 +78,8 @@ const Footer = async () => {
             <ul className="space-y-3 text-sm">
               <li><Link href="/terms" className="text-gray-400 hover:text-white hover:translate-x-1 transition duration-300 inline-flex items-center">Terms & Conditions</Link></li>
               <li><Link href="/policy" className="text-gray-400 hover:text-white hover:translate-x-1 transition duration-300 inline-flex items-center">Privacy Policy</Link></li>
-              <li><Link href="/cancellation-refund" className="text-gray-400 hover:text-white hover:translate-x-1 transition duration-300 inline-flex items-center">Cancellation & Refund Policy</Link></li>
-              <li><Link href="/shipping-policy" className="text-gray-400 hover:text-white hover:translate-x-1 transition duration-300 inline-flex items-center">Shipping Policy</Link></li>
+              <li><Link href="/cancellation" className="text-gray-400 hover:text-white hover:translate-x-1 transition duration-300 inline-flex items-center">Cancellation & Refund Policy</Link></li>
+              <li><Link href="/shipping" className="text-gray-400 hover:text-white hover:translate-x-1 transition duration-300 inline-flex items-center">Shipping Policy</Link></li>
             </ul>
           </div>
 

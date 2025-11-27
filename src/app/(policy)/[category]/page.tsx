@@ -76,7 +76,7 @@ export default function DisplayPolicyPage() {
     [&>h3]:text-lg md:[&>h3]:text-xl
     [&>h3]:font-medium [&>h3]:mt-6 [&>h3]:mb-3
 
-    [&>p]:mb-6
+    [&>p]:mb-3
 
     [&>ul]:ml-6 [&>ul]:list-disc [&>ul>li]:mb-2
     [&>ol]:ml-6 [&>ol]:list-decimal [&>ol>li]:mb-2
