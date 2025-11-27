@@ -9,15 +9,15 @@ const HeroSection = ({content}: {content: any}) => {
       <div className="relative container mx-auto px-4 md:px-8 lg:px-12 z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-16 items-center">
           
-          <div className="flex flex-col justify-center">
-            <div className="inline-flex items-center gap-3 mb-8 w-fit">
+          <div className="flex flex-col justify-center order-2">
+            <div className="inline-flex items-center gap-3 mb-5 md:mb-8 w-fit">
               <div className="w-10 h-0.5 bg-gradient-to-r from-gray-900 to-gray-400"></div>
               <span className="text-xs font-semibold text-gray-600 tracking-widest uppercase">
                 {content?.hero?.note}
               </span>
             </div>
 
-            <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold text-gray-900 leading-tight tracking-tight ">
+            <h1 className="text-3xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold text-gray-900 leading-tight tracking-tight ">
               {content?.hero?.title}
             </h1>
 
@@ -39,11 +39,11 @@ const HeroSection = ({content}: {content: any}) => {
             </div>
           </div>
 
-          <div className="relative h-96 md:h-full min-h-96 flex items-center justify-center">
+          <div className="relative order-1 md:order-2  md:h-full md:min-h-96 flex items-center justify-center">
             <img
               src={content?.hero?.heroImage}
               alt="Hero Image"
-              className="relative w-full h-full object-cover"
+              className="relative w-full h-full object-contain"
             />
           </div>
         </div>

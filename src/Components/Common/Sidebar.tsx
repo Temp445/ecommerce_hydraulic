@@ -36,6 +36,7 @@ const Sidebar = () => {
       subItems: [
         { name: "Landing Page", href: "/admin/pages/landingpage" },
         { name: "About Page", href: "/admin/pages/aboutpage" },
+        { name: "Contact Page", href: "/admin/pages/contactpage" },
         { name: "Policy", href: "/admin/pages/policy" },
         
       ],

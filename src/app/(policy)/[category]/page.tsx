@@ -1,50 +1,20 @@
-"use client";
 
-import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
-import axios from "axios";
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || ''
 
-type Policy = {
-  _id: string;
-  category: string;
-  title: string;
-  shortDescription: string;
-  effectiveDate?: string;
-  content: string;
-};
 
-export default function DisplayPolicyPage() {
-  const { category } = useParams();
+const PolicyPage = async ({params}: {params: Promise<{category: string}>}) => {
+  const { category } = await params;
+  
+  const res = await fetch(`${BASE_URL}/api/pages/policy/${category}`,{cache:'no-store'})
+  const data = await res.json();
+  const policy = data?.data || []
 
-  const [policy, setPolicy] = useState<Policy | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  const fetchPolicy = async () => {
-    try {
-      const res = await axios.get(`/api/pages/policy/${category}`);
-      if (res.data.success) {
-        setPolicy(res.data.data);
-      }
-    } catch {
-      setPolicy(null);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchPolicy();
-  }, [category]);
-
-  if (loading) {
-    return <p className="text-center py-10 text-gray-500">Loading policy...</p>;
-  }
 
   if (!policy) {
     return (
       <div className="text-center py-16">
         <p className="text-gray-600 text-lg">
-          No policy found for this category.
+          No policy found.
         </p>
       </div>
     );
@@ -67,8 +37,7 @@ export default function DisplayPolicyPage() {
 
       <article className="prose prose-lg max-w-none">
         <div
-          className="
-    text-gray-700 leading-relaxed space-y-6
+          className="text-gray-700 leading-relaxed space-y-6
 
     [&>h2]:text-xl md:[&>h2]:text-2xl
     [&>h2]:font-semibold [&>h2]:mt-8 [&>h2]:mb-4
@@ -83,11 +52,12 @@ export default function DisplayPolicyPage() {
 
     [&>blockquote]:border-l-4 [&>blockquote]:border-blue-600 
     [&>blockquote]:pl-5 [&>blockquote]:italic 
-    [&>blockquote]:text-gray-600 [&>blockquote]:my-6
-  "
-          dangerouslySetInnerHTML={{ __html: policy.content }}
+    [&>blockquote]:text-gray-600 [&>blockquote]:my-6"
+    dangerouslySetInnerHTML={{ __html: policy.content || '<p class="text-center justify-center text-2xl text-gray-600"> No policy found.</p>' }}
         />
       </article>
     </div>
   );
 }
+
+export default PolicyPage

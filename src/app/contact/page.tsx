@@ -3,7 +3,14 @@
 import { Mail, Phone, MapPin } from "lucide-react";
 import ContactForm from "@/Components/ContactPage/ContactForm";
 
-const ContactPage = () => {
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "";
+
+const ContactPage = async () => {
+  const res = await fetch(`${BASE_URL}/api/pages/contactpage`, {
+    cache: "no-store",
+  });
+  const data = await res.json();
+  const content = data?.data || [];
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
@@ -20,7 +27,7 @@ const ContactPage = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-1">
             <div className="bg-white rounded-lg shadow-md p-6 sticky top-8">
-              <h2 className="text-2xl font-medium text-gray-900 mb-6">
+              <h2 className="text-xl md:text-2xl font-medium text-gray-900 mb-6">
                 Contact Information
               </h2>
 
@@ -29,7 +36,11 @@ const ContactPage = () => {
                   <Mail className="w-6 h-6 text-gray-900 mt-1 mr-4 flex-shrink-0" />
                   <div>
                     <h3 className="font-semibold text-gray-900 mb-1">Email</h3>
-                    <p className="text-gray-600">support@gmail.com</p>
+                    {content?.emails?.map((email: any, idx: number) => (
+                      <p key={idx} className="text-gray-600">
+                        {email}
+                      </p>
+                    ))}
                   </div>
                 </div>
 
@@ -37,9 +48,13 @@ const ContactPage = () => {
                   <Phone className="w-6 h-6 text-gray-900 mt-1 mr-4 flex-shrink-0" />
                   <div>
                     <h3 className="font-semibold text-gray-900 mb-1">Phone</h3>
-                    <p className="text-gray-600">+91 9876543210</p>
+                    {content?.numbers?.map((num: any, idx: number) => (
+                      <p key={idx} className="text-gray-600">
+                        {num}
+                      </p>
+                    ))}
                     <p className="text-sm text-gray-500 mt-1">
-                      Mon-Sat, 10am-6:30pm{" "}
+                      {content?.timing}
                     </p>
                   </div>
                 </div>
@@ -50,11 +65,7 @@ const ContactPage = () => {
                     <h3 className="font-semibold text-gray-900 mb-1">
                       Address
                     </h3>
-                    <p className="text-gray-600">
-                      #306, 2nd Floor, NSIC-Software Technology Business Park,
-                      B-24, Guindy Industrial Estate, Ekkatuthangal,
-                      Chennai-600032, India
-                    </p>
+                    <p className="text-gray-600">{content?.address}</p>
                   </div>
                 </div>
               </div>

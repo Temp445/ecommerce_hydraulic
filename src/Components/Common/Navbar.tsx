@@ -16,6 +16,25 @@ const Navbar = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const { user } = useAuth();
   const { cartCount } = useCart();
+const [contact, setContact] = useState<any>(null);
+
+  useEffect(() => {
+    const fetchContact = async () => {
+      try {
+        const res = await fetch("/api/pages/contactpage", {
+          cache: "no-store",
+        });
+
+        const data = await res.json();
+        setContact(data?.data || null);
+      } catch (error) {
+        console.error("Error fetching contact:", error);
+        setContact(null);
+      }
+    };
+
+    fetchContact();
+  }, []);
 
   useEffect(() => {
     const handleResize = () => {
@@ -30,6 +49,8 @@ const Navbar = () => {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, [isOpen, isSearchOpen]);
+
+
 
   useEffect(() => {
     if (isOpen) {
@@ -59,26 +80,25 @@ const Navbar = () => {
     <nav className="bg-white sticky inset-0.5 top-0 z-50 border-b border-gray-100">
       <div className="container mx-auto px-2 sm:px-4 lg:px-2 xl:px-6 ">
         <div className="flex justify-between items-center h-16 ">
-          <Link
-            href="/"
-            className="flex flex-col items-start sm:items-center flex-shrink-0 min-w-0"
-          >
-            <div className="flex items-end">
-              <Image
-                src={Logo}
-                alt="ACE Hydraulic logo"
-                width={32}
-                height={32}
-                className="w-8 h-9 flex-shrink-0"
-              />
-              <span className="font-medium text-xl 2xl:text-2xl font-sans text-gray-900">
-                ACE
-              </span>
-            </div>
-            <div className=" -mt-1 sm:-mt-1.5 font-medium uppercase text-xs 2xl:text-sm text-gray-600 whitespace-nowrap">
-              Hydraulic
-            </div>
-          </Link>
+         <Link
+  href="/"
+  className="flex items-center  sm:gap-3 flex-shrink-0"
+>
+  {/* Logo */}
+  <img
+    src={contact?.logo}
+    alt="logo"
+    width={40}
+    height={40}
+    className="w-8 h-8 md:w-10 md:h-10 object-contain"
+  />
+
+  {/* Title */}
+  <span className="font-semibold text-base sm:text-lg md:text-xl lg:text-2xl text-gray-900 whitespace-nowrap">
+    {contact?.websiteTitle}
+  </span>
+</Link>
+
 
           <div className="hidden lg:flex items-center space-x-4 xl:space-x-10">
             {allLinks.map((link) => (
@@ -108,7 +128,7 @@ const Navbar = () => {
                     {cartCount}
                   </span>
                 )}
-                <div className="text-sm 2xl:text-base">Cart</div>
+                <div className="text-sm 2xl:text-base hidden md:block">Cart</div>
               </Link>
             </div>
             <button
