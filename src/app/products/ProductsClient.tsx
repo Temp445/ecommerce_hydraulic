@@ -50,7 +50,7 @@ const ProductsClient = () => {
   try {
     const res = await fetch("/api/product", {
       method: "GET",
-      cache: "no-store", // optional, prevents caching issues
+      cache: "no-store",
     });
 
     if (!res.ok) {

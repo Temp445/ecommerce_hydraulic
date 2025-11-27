@@ -126,7 +126,6 @@ export async function PATCH(req: Request) {
     }
 
     const uploadToCloudinary = async (file: File | null, folder: string) => {
-      // ⛔ IMPORTANT FIX — skip if empty file
       if (!file || file.size === 0) return null;
 
       const buffer = Buffer.from(await file.arrayBuffer());

@@ -1,54 +1,30 @@
 //  List out All blog page
 
-"use client";
 
-import React, { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import { File } from 'lucide-react';
+import { File , ChevronRight, Image  } from 'lucide-react';
+import Link from "next/link";
 
-interface Blog {
-  _id: string;
-  title: string;
-  slug: string;
-  shortDescription: string;
-  imageUrl: string;
-  createdAt: string;
-}
 
-const BlogPage = () => {
-  const [blogs, setBlogs] = useState<Blog[]>([]);
-  const [loading, setLoading] = useState(true);
-  const router = useRouter();
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || ''
 
-  useEffect(() => {
-    const fetchBlogs = async () => {
-      try {
-        const res = await fetch("/api/blog");
-        const data = await res.json();
-        if (data.success && Array.isArray(data.data)) {
-          setBlogs(data.data);
-        }
-      } catch (err) {
-        console.error("Error fetching blogs:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchBlogs();
-  }, []);
+
+const BlogPage = async() => {
+
+  const res = await fetch(`${BASE_URL}/api/blog`, {cache: 'no-store'})
+  const data = await res.json()
+  const blogs = data?.data || []
+
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen mb-52 bg-white">
       <div className="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
           <div className="flex items-center gap-3 mb-4">
             <div className="w-1 h-12 bg-white"></div>
             <div>
-              <p className="text-white text-sm tracking-wider uppercase">
-                Knowledge Base
-              </p>
+              
               <h1 className="text-2xl md:text-4xl  text-white">
-                Hydraulic Insights
+                Blogs
               </h1>
             </div>
           </div>
@@ -59,26 +35,7 @@ const BlogPage = () => {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        {loading ? (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[...Array(6)].map((_, i) => (
-              <div
-                key={i}
-                className="bg-white border border-gray-200 overflow-hidden animate-pulse"
-              >
-                <div className="h-52 bg-gray-200" />
-                <div className="p-6 space-y-4">
-                  <div className="h-3 bg-gray-200 w-24"></div>
-                  <div className="h-6 bg-gray-200 w-3/4"></div>
-                  <div className="space-y-2">
-                    <div className="h-4 bg-gray-200 w-full"></div>
-                    <div className="h-4 bg-gray-200 w-5/6"></div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        ) : blogs.length === 0 ? (
+        { blogs.length === 0 ? (
           <div className="text-center py-20 border-2 border-dashed border-gray-300">
             <div className="inline-flex items-center justify-center w-20 h-20 bg-slate-100 mb-4">
               <File  className="w-8 h-8 text-gray-700"/>
@@ -92,10 +49,10 @@ const BlogPage = () => {
           </div>
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {blogs.map((blog) => (
-              <article
+            {blogs.map((blog:any) => (
+              <Link
+              href={`/blog/${blog.slug}`}
                 key={blog._id}
-                onClick={() => router.push(`/blog/${blog.slug}`)}
                 className="group bg-white border border-gray-200 hover:border-gray-900 transition-all duration-300 cursor-pointer overflow-hidden hover:shadow-lg"
               >
                 <div className="relative h-52 w-full overflow-hidden bg-slate-100">
@@ -110,19 +67,7 @@ const BlogPage = () => {
                     </>
                   ) : (
                     <div className="h-full flex items-center justify-center">
-                      <svg
-                        className="w-20 h-20 text-gray-300"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={1}
-                          d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-                        />
-                      </svg>
+                   <Image className='w-20 h-20 text-gray-300' />
                     </div>
                   )}
                   <div className="absolute top-0 left-0 w-full h-1 bg-gray-900 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300"></div>
@@ -153,23 +98,11 @@ const BlogPage = () => {
                       Read Article
                     </span>
                     <div className="w-8 h-8 bg-slate-900  flex items-center justify-center transition-colors">
-                      <svg
-                        className="w-4 h-4 text-white group-hover:translate-x-1 transition-transform"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M9 5l7 7-7 7"
-                        />
-                      </svg>
+                      <ChevronRight className='w-5 h-5 text-white group-hover:translate-x-1 transition-transform' />
                     </div>
                   </div>
                 </div>
-              </article>
+              </Link>
             ))}
           </div>
         )}

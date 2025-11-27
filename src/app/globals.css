@@ -41,3 +41,37 @@ body {
   background-size: 20px 20px;
   animation: movingGrid 12s linear infinite;
 }
+
+
+/* Custom styles for React Quill editor content */
+.ql-custom-styles .ql-editor h2 {
+  @apply text-3xl font-medium mt-5 mb-4 text-gray-900;
+}
+
+.ql-custom-styles .ql-editor h3 {
+  @apply text-xl font-medium mt-3 mb-4 text-gray-900;
+}
+
+.ql-custom-styles .ql-editor p {
+  @apply mb-2;
+}
+
+.ql-custom-styles .ql-editor ul {
+  @apply mb-6 ml-6;
+}
+
+.ql-custom-styles .ql-editor ul li {
+  @apply mb-3 ;
+}
+
+.ql-custom-styles .ql-editor ol {
+  @apply mb-6 ml-6;
+}
+
+.ql-custom-styles .ql-editor ol li {
+  @apply mb-3 ;
+}
+
+.ql-custom-styles .ql-editor blockquote {
+  @apply border-l-4 border-blue-600 pl-6 italic text-gray-600 my-6;
+}

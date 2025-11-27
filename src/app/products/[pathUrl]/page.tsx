@@ -1,152 +1,41 @@
 // Product Detail Page
 // Component used:
 // - @/Components/ProductPage/RelatedProducts
-// - @/Components/ProductPage/ProductReviews
-// - @/Components/Button/AddToCartButton
+// - @/Components/ProductDetailPage/ProductReviews
+// - @/Components/ProductDetailPage/ProductQuatity
+// - @/Components/ProductDetailPage/ProductGallery
 
-"use client";
-
-import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
-import axios from "axios";
 import {
-  Minus,
-  Plus,
   Package,
   Truck,
   Shield,
   Award,
   History,
-  MoveRight 
+  MoveRight,
 } from "lucide-react";
-import toast from "react-hot-toast";
-import AddToCartButton from "@/Components/Button/AddToCartButton";
-import RelatedProducts from "@/Components/ProductPage/RelatedProducts";
-import ProductReviews from "@/Components/ProductPage/ProductReviews";
+import RelatedProducts from "@/Components/ProductDetailPage/RelatedProducts";
+import ProductReviews from "@/Components/ProductDetailPage/ProductReviews";
+import ProductGallery from "@/Components/ProductDetailPage/ProductGallery";
+import ProductQuantity from "@/Components/ProductDetailPage/ProductQuantity";
 
-const ProductDetailPage = () => {
-  const { pathUrl } = useParams();
-  const [product, setProduct] = useState<any>(null);
-  const [selectedImage, setSelectedImage] = useState(0);
-  const [quantity, setQuantity] = useState(1);
-  const [loading, setLoading] = useState(true);
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "";
+
+const ProductDetailPage = async ({
+  params,
+}: {
+  params: Promise<{ pathUrl: string }>;
+}) => {
+  const { pathUrl } = await params;
+
+  const res = await fetch(`${BASE_URL}/api/product/${pathUrl}`, {
+    cache: "no-store",
+  });
+  const data = await res.json();
+  const product = data?.data || [];
 
   const allImages = product
-  ? [product.thumbnail, ...(product.images || [])]
-  : [];
-
-  useEffect(() => {
-    if (pathUrl) fetchProduct();
-  }, [pathUrl]);
-
-  const fetchProduct = async () => {
-    try {
-      const res = await axios.get(`/api/product/${pathUrl}`);
-      if (res.data.success) {
-        setProduct(res.data.data);
-      } else {
-        toast.error("Product not found");
-      }
-    } catch (err) {
-      toast.error("Failed to load product");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  if (loading) {
-  return (
-    <div className="min-h-screen bg-white animate-pulse">
-      <div className="container mx-auto px-4 md:px-6 lg:px-12 py-12">
-        <div className="grid lg:grid-cols-12 gap-16">
-          <div className="lg:col-span-7 space-y-6">
-            <div className="aspect-[4/3] bg-gray-200 rounded-md"></div>
-
-            <div className="flex md:gap-4 overflow-x-auto">
-              {Array.from({ length: 4 }).map((_, i) => (
-                <div key={i} className="w-24 h-24 bg-gray-200 rounded-md flex-shrink-0"></div>
-              ))}
-            </div>
-          </div>
-
-          <div className="lg:col-span-5 space-y-6">
-            <div className="w-40 h-4 bg-gray-200 rounded"></div>
-            <div className="h-8 bg-gray-300 rounded w-3/4"></div>
-            <div className="h-4 bg-gray-200 rounded w-1/3"></div>
-
-            <div className="space-y-2">
-              <div className="w-32 h-6 bg-gray-300 rounded"></div>
-              <div className="w-24 h-4 bg-gray-200 rounded"></div>
-            </div>
-
-            <div className="grid grid-cols-2 gap-4">
-              {Array.from({ length: 2 }).map((_, i) => (
-                <div key={i} className="border border-gray-200 p-4 rounded-md space-y-3">
-                  <div className="w-20 h-3 bg-gray-200 rounded"></div>
-                  <div className="w-24 h-4 bg-gray-300 rounded"></div>
-                </div>
-              ))}
-            </div>
-
-            <div className="flex flex-wrap gap-6">
-              {Array.from({ length: 2 }).map((_, i) => (
-                <div key={i} className="w-40 h-4 bg-gray-200 rounded"></div>
-              ))}
-            </div>
-
-            <div className="space-y-3">
-              <div className="w-24 h-3 bg-gray-200 rounded"></div>
-              <div className="flex items-center gap-2">
-                <div className="w-12 h-12 bg-gray-200 rounded"></div>
-                <div className="w-16 h-12 bg-gray-200 rounded"></div>
-                <div className="w-12 h-12 bg-gray-200 rounded"></div>
-              </div>
-            </div>
-
-            <div className="h-12 bg-gray-300 rounded-md w-full"></div>
-          </div>
-        </div>
-
-        <div className="mt-24 grid lg:grid-cols-12 gap-16">
-          <div className="lg:col-span-7 space-y-6">
-            <div className="w-48 h-6 bg-gray-300 rounded"></div>
-            <div className="space-y-3">
-              {Array.from({ length: 5 }).map((_, i) => (
-                <div key={i} className="h-4 bg-gray-200 rounded"></div>
-              ))}
-            </div>
-          </div>
-
-          <div className="lg:col-span-5 space-y-6">
-            <div className="w-44 h-6 bg-gray-300 rounded"></div>
-            {Array.from({ length: 5 }).map((_, i) => (
-              <div
-                key={i}
-                className="flex justify-between border-b border-gray-200 py-3"
-              >
-                <div className="w-24 h-3 bg-gray-200 rounded"></div>
-                <div className="w-32 h-3 bg-gray-200 rounded"></div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="mt-12 grid grid-cols-1 sm:grid-cols-3 gap-8">
-          {Array.from({ length: 3 }).map((_, i) => (
-            <div key={i} className="flex items-start gap-3">
-              <div className="w-8 h-8 bg-gray-300 rounded-full"></div>
-              <div className="flex-1 space-y-2">
-                <div className="w-32 h-4 bg-gray-200 rounded"></div>
-                <div className="w-24 h-3 bg-gray-200 rounded"></div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
-
+    ? [product.thumbnail, ...(product.images || [])]
+    : [];
 
   if (!product) {
     return (
@@ -168,41 +57,12 @@ const ProductDetailPage = () => {
       <div className="container mx-auto px-6 lg:px-12 py-12">
         <div className="grid lg:grid-cols-12 gap-16">
           <div className="lg:col-span-7">
-            <div className="relative mb-6 group">
-              <div className="aspect-[4/3] bg-neutral-50 border border-gray-200 rounded overflow-hidden">
-                {discountPercentage > 0 && (
-                  <span className="absolute md:top-6 md:right-5 text-xs font-medium tracking-widest text-white bg-emerald-600 rounded px-4 py-2 z-10">
-                    Upto {discountPercentage}% off
-                  </span>
-                )}
-                <img
-                  src={allImages[selectedImage]}
-                  alt={product.name}
-                  className="w-full h-full object-contain bg-white"
-                />
-              </div>
-            </div>
-
-           
-              <div className="flex gap-4 overflow-x-auto pb-2">
-                {allImages.map((img: string, idx: number) => (
-                  <button
-                    key={idx}
-                    onClick={() => setSelectedImage(idx)}
-                    className={`flex-shrink-0 w-24 h-24 rounded-sm overflow-hidden border transition-all ${
-                      selectedImage === idx
-                        ? "border-black"
-                        : "border-neutral-200 hover:border-neutral-400"
-                    }`}
-                  >
-                    <img
-                      src={img}
-                      alt={`View ${idx + 1}`}
-                      className="w-full h-full object-contain"
-                    />
-                  </button>
-                ))}
-              </div>
+            {/* Product Gallery */}
+            <ProductGallery
+              images={allImages}
+              discountPercentage={discountPercentage}
+              productName={product.name}
+            />
           </div>
 
           <div className="lg:col-span-5">
@@ -304,37 +164,8 @@ const ProductDetailPage = () => {
                   </div>
                 )}
               </div>
-
-              <div className="mb-8">
-                <label className="text-xs uppercase tracking-widest text-neutral-800 mb-3 block">
-                  Quantity
-                </label>
-                <div className="flex items-center rounded border border-neutral-300 w-fit">
-                  <button
-                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                    className="w-12 h-12 flex items-center justify-center hover:bg-neutral-100 transition-colors disabled:opacity-30"
-                    disabled={quantity <= 1}
-                  >
-                    <Minus size={16} />
-                  </button>
-                  <span className="w-16 h-12 flex items-center justify-center text-sm font-medium border-x border-neutral-300">
-                    {quantity}
-                  </span>
-                  <button
-                    onClick={() => setQuantity(quantity + 1)}
-                    className="w-12 h-12 flex items-center justify-center hover:bg-neutral-100 transition-colors disabled:opacity-30"
-                    disabled={quantity >= product.stock}
-                  >
-                    <Plus size={16} />
-                  </button>
-                </div>
-              </div>
-
-              <AddToCartButton
-                product={product}
-                quantity={quantity}
-                className="text-white bg-gray-900 hover:bg-gray-950 transition disabled:opacity-50"
-              />
+              {/* Product Quatity */}
+              <ProductQuantity stock={product.stock} product={product} />
             </div>
           </div>
         </div>
@@ -358,7 +189,7 @@ const ProductDetailPage = () => {
                 <div className="space-y-6">
                   {product.benefits.map((benefit: any, idx: number) => (
                     <div key={idx} className="flex gap-4 items-start">
-                      <MoveRight 
+                      <MoveRight
                         className="text-neutral-400 flex-shrink-0 mt-1"
                         size={20}
                       />
@@ -384,18 +215,18 @@ const ProductDetailPage = () => {
 
             <div className="space-y-4">
               {product.technicalDetails?.map((item: any, idx: number) => (
-                    <div
-                      key={idx}
-                      className="flex justify-between py-3 border-b border-neutral-200"
-                    >
-                      <span className="text-xs uppercase tracking-widest text-neutral-700">
-                        {item.title}
-                      </span>
-                      <span className="text-sm font-medium text-neutral-900 text-right max-w-[200px]">
-                        {item.value}
-                      </span>
-                    </div>
-                ))}
+                <div
+                  key={idx}
+                  className="flex justify-between py-3 border-b border-neutral-200"
+                >
+                  <span className="text-xs uppercase tracking-widest text-neutral-700">
+                    {item.title}
+                  </span>
+                  <span className="text-sm font-medium text-neutral-900 text-right max-w-[200px]">
+                    {item.value}
+                  </span>
+                </div>
+              ))}
 
               {(!product.technicalDetails ||
                 Object.keys(product.technicalDetails).filter(
@@ -455,9 +286,10 @@ const ProductDetailPage = () => {
             </div>
           </div>
         </div>
-
+        {/* Product Review */}
         <ProductReviews productId={product._id} />
-
+        
+         {/* Related Products */}
         {product?.category?._id && (
           <RelatedProducts
             categoryId={product.category._id}
@@ -467,6 +299,6 @@ const ProductDetailPage = () => {
       </div>
     </div>
   );
-}
+};
 
 export default ProductDetailPage;

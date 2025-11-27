@@ -13,11 +13,13 @@ import {
   ListTodo,
   UserStar,
   NotepadText,
+  ChevronDown,
+  Layers  
 } from "lucide-react";
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [pagesOpen, setPagesOpen] = useState(false); // dropdown state
+  const [pagesOpen, setPagesOpen] = useState(false); 
   const pathname = usePathname();
 
   const menuItems = [
@@ -30,18 +32,18 @@ const Sidebar = () => {
     { name: "Blog", href: "/admin/blog", icon: NotepadText },
     {
       name: "Pages",
-      icon: NotepadText,
+      icon: Layers,
       subItems: [
         { name: "Landing Page", href: "/admin/pages/landingpage" },
-        { name: "Contact", href: "/admin/pages/contact" },
-        { name: "FAQ", href: "/admin/pages/faq" },
+        { name: "About Page", href: "/admin/pages/aboutpage" },
+        { name: "Policy", href: "/admin/pages/policy" },
+        
       ],
     },
   ];
 
   return (
     <>
-      {/* Mobile Header */}
       <div className="md:hidden h-fit left-0 w-full bg-gray-900 text-white flex items-center justify-between p-4 z-50">
         <h1 className="text-lg font-medium">Admin Panel</h1>
         <button onClick={() => setIsOpen(!isOpen)}>
@@ -49,7 +51,6 @@ const Sidebar = () => {
         </button>
       </div>
 
-      {/* Sidebar */}
       <aside
         className={`absolute md:sticky md:top-0 left-0 h-full md:h-[100vh] w-48 lg:w-64 bg-gray-900 text-gray-100 z-40 transform transition-transform duration-300 ease-in-out
         ${isOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}`}
@@ -64,14 +65,12 @@ const Sidebar = () => {
           </button>
         </div>
 
-        {/* Navigation */}
         <nav className="flex-1 overflow-y-auto mt-4">
           <ul className="space-y-1">
             {menuItems.map((item) => {
               const Icon = item.icon;
               const active = pathname === item.href;
 
-              // Dropdown items
               if (item.subItems) {
                 return (
                   <li key={item.name}>
@@ -83,7 +82,7 @@ const Sidebar = () => {
                         <Icon size={18} />
                         {item.name}
                       </div>
-                      <span>{pagesOpen ? "▲" : "▼"}</span>
+                      <span>{pagesOpen ? <ChevronDown className="rotate-180" /> : <ChevronDown />}</span>
                     </button>
                     {pagesOpen && (
                       <ul className="pl-12 mt-1 space-y-1">
@@ -112,7 +111,6 @@ const Sidebar = () => {
                 );
               }
 
-              // Normal items
               return (
                 <li key={item.name}>
                   <Link

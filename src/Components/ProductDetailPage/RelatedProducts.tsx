@@ -5,7 +5,6 @@ import axios from "axios";
 import Link from "next/link";
 import { Loader2 } from "lucide-react";
 import AddToCartButton from "../Button/AddToCartButton";
-import { useAuth } from "@/context/AuthProvider";
 
 
 interface RelatedProductsProps {
@@ -13,13 +12,12 @@ interface RelatedProductsProps {
   currentProductId: string;
 }
 
-export default function RelatedProducts({
+const RelatedProducts = ({
   categoryId,
   currentProductId,
-}: RelatedProductsProps) {
+}: RelatedProductsProps) => {
   const [related, setRelated] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const { user } = useAuth();
 
 
   useEffect(() => {
@@ -55,31 +53,31 @@ export default function RelatedProducts({
         Related Products
       </h2>
       <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-6">
-        {related.map((item) => (
+        {related.map((product) => (
           <div
-            key={item._id}
+            key={product._id}
             className="group border border-gray-300 rounded-xl p-4 bg-white hover:shadow-md transition space-y-2"
           >
             <Link
-             href={`/products/${item.pathUrl}`}
+             href={`/products/${product.pathUrl}`}
              className="relative w-full aspect-auto h-fit mb-3">
               <img
-                src={item.images?.[0] || item.thumbnail || "/placeholder.jpg"}
-                alt={item.name}
+                src={product.images?.[0] || product.thumbnail || "/placeholder.jpg"}
+                alt={product.name}
                 className="rounded-lg h-52 w-full object-contain group-hover:scale-105 transition-transform"
               />
             </Link>
             <h3 className="font-semibold text-gray-800 text-sm">
-              {item.name}
+              {product.name}
             </h3>
-             <p className="line-clamp-2 text-sm">{item.description}</p>
+             <p className="line-clamp-2 text-sm">{product.description}</p>
             <p className="text-gray-900 font-semibold font-sans mt-1 text-lg py-1">
-              ₹{(item.discountPrice || item.price)?.toLocaleString()}
+              ₹{(product.discountPrice || product.price)?.toLocaleString()}
             </p>
             <AddToCartButton 
-               product={item._id}
-               userId={user?._id}
-               className="border"
+               product={product._id}
+               disabled={product.stock <= 0}
+               className="border disabled:opacity-50 disabled:cursor-not-allowed"
             />
           </div>
         ))}
@@ -87,3 +85,5 @@ export default function RelatedProducts({
     </div>
   );
 }
+
+export default RelatedProducts

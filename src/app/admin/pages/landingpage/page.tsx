@@ -2,26 +2,23 @@
 
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useRouter } from "next/navigation";
 import { Upload, X, Image as ImageIcon, Edit } from "lucide-react";
 import toast from "react-hot-toast";
 
-export default function LandingPageUpload() {
-  type Mode = "view" | "edit" | "upload";
-  const router = useRouter();
-  const [mode, setMode] = useState<Mode>("upload");
+
+const LandingPageUpload = () => {
+  const [mode, setMode] = useState<"view" | "edit" | "upload">("upload");
   const [loading, setLoading] = useState(false);
   const [landingData, setLandingData] = useState<any>(null);
   const [heroImagePreview, setHeroImagePreview] = useState<string | null>(null);
-  const [aboutImagePreview, setAboutImagePreview] = useState<string | null>(
-    null
-  );
+  const [aboutImagePreview, setAboutImagePreview] = useState<string | null>( null );
   const [heroImageFile, setHeroImageFile] = useState<File | null>(null);
   const [aboutImageFile, setAboutImageFile] = useState<File | null>(null);
 
   useEffect(() => {
     const fetchLanding = async () => {
       try {
+        setLoading(true);
         const res = await axios.get("/api/pages/landingpage");
         if (res.data?.data) {
           setLandingData(res.data.data);
@@ -34,6 +31,8 @@ export default function LandingPageUpload() {
       } catch (err) {
         console.log("No landing page found, upload mode");
         setMode("upload");
+        setLoading(false);
+
       }
     };
     fetchLanding();
@@ -120,13 +119,16 @@ export default function LandingPageUpload() {
     }
   };
 
+   if (loading && !landingData) {
+    return <p className="p-8 text-center">Loading...</p>;
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 py-8 px-4">
       <div className="max-w-5xl mx-auto">
-        <div className="mb-8">
+        <div className="mb-8 flex justify-between">
           <h1 className="text-3xl  text-slate-900 mb-2">
-            {mode === "upload" ? "Upload Landing Page" : "Edit Landing Page"}
-
+           {mode === "upload" ? "Upload Landing Page" : mode === "edit" ? "Edit Landing Page" : "Landing Page"}
           </h1>
 
           {mode === "view" && (
@@ -223,8 +225,6 @@ export default function LandingPageUpload() {
                       alt="Hero preview"
                       className="w-fit h-64 object-cover"
                     />
-
-                    
 
                     {mode === "edit" && (
                       <label className="absolute bottom-0 left-0 right-0 w-full h-full bg-opacity-50 text-white py-2 cursor-pointer text-center hover:bg-opacity-70 transition">
@@ -601,42 +601,41 @@ export default function LandingPageUpload() {
           </section>
 
           {mode !== "view" && (
-  <div className="flex justify-end pt-6 border-t border-slate-200 gap-3">
+            <div className="flex justify-end pt-6 border-t border-slate-200 gap-3">
+              {mode === "edit" && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setMode("view");
+                    setHeroImagePreview(landingData?.hero?.heroImage || null);
+                    setAboutImagePreview(landingData?.about?.bgImage || null);
+                  }}
+                  className="px-6 py-3 bg-slate-200 text-slate-700 font-semibold rounded-lg hover:bg-slate-300 transition"
+                >
+                  Cancel
+                </button>
+              )}
 
-    {mode === "edit" && (
-      <button
-        type="button"
-        onClick={() => {
-          setMode("view");
-          setHeroImagePreview(landingData?.hero?.heroImage || null);
-          setAboutImagePreview(landingData?.about?.bgImage || null);
-        }}
-        className="px-6 py-3 bg-slate-200 text-slate-700 font-semibold rounded-lg hover:bg-slate-300 transition"
-      >
-        Cancel
-      </button>
-    )}
-
-    <button
-      type="submit"
-      disabled={loading}
-      className="flex items-center gap-2 px-8 py-3 bg-emerald-500 text-white font-semibold rounded-lg transition disabled:bg-slate-400 disabled:cursor-not-allowed"
-    >
-      {loading ? (
-        "Processing..."
-      ) : (
-        <>
-          <Upload className="w-5 h-5" />
-          {mode === "upload" ? "Upload" : "Update"}
-        </>
-      )}
-    </button>
-
-  </div>
-)}
-
+              <button
+                type="submit"
+                disabled={loading}
+                className="flex items-center gap-2 px-8 py-3 bg-emerald-500 text-white font-semibold rounded-lg transition disabled:bg-slate-400 disabled:cursor-not-allowed"
+              >
+                {loading ? (
+                  "Processing..."
+                ) : (
+                  <>
+                    <Upload className="w-5 h-5" />
+                    {mode === "upload" ? "Upload" : "Update"}
+                  </>
+                )}
+              </button>
+            </div>
+          )}
         </form>
       </div>
     </div>
   );
-}
+};
+
+export default LandingPageUpload;

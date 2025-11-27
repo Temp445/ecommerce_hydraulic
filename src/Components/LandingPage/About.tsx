@@ -1,6 +1,5 @@
 
 import Link from "next/link";
-import Bg from "@/assets/Bg.png";
 
 const About = ({content}:{content: any}) => {
   return (

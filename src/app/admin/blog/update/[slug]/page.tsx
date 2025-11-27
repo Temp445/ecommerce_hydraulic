@@ -106,15 +106,29 @@ const UpdateBlogPage = () => {
     }
   };
 
-  const modules = {
+   const modules = {
     toolbar: [
       [{ header: [1, 2, 3, false] }],
       ["bold", "italic", "underline", "strike"],
       [{ list: "ordered" }, { list: "bullet" }],
+      ["blockquote", "code-block"],
       ["link", "image"],
       ["clean"],
     ],
   };
+
+  const formats = [
+    "header",
+    "bold",
+    "italic",
+    "underline",
+    "strike",
+    "blockquote",
+    "code-block",
+    "list",
+    "link",
+    "image",
+  ];
 
   if (loading)
     return (
@@ -182,7 +196,6 @@ const UpdateBlogPage = () => {
                 setImage(file);
                 const preview = URL.createObjectURL(file);
                 setPreviewUrl(preview);
-                toast("📸 New image selected", { icon: "🖼️" });
               }
             }}
           />
@@ -195,7 +208,7 @@ const UpdateBlogPage = () => {
           )}
         </div>
 
-        <div>
+        <div className="ql-custom-styles">
           <label className="block mb-2 text-gray-700 font-medium">
             Blog Content
           </label>
@@ -204,7 +217,8 @@ const UpdateBlogPage = () => {
             value={form.content}
             onChange={(value) => setForm((prev) => ({ ...prev, content: value }))}
             modules={modules}
-            style={{ minHeight: "350px" }}
+            formats={formats}
+            style={{ height: "400px" }}
           />
         </div>
 
@@ -213,7 +227,7 @@ const UpdateBlogPage = () => {
           disabled={saving}
           className={`${
             saving ? "bg-gray-400" : "bg-green-600 hover:bg-green-700"
-          } text-white px-6 py-2 rounded transition font-medium`}
+          } text-white px-6 py-2 mt-10 rounded transition font-medium`}
         >
           {saving ? "Updating..." : "Update Blog"}
         </button>

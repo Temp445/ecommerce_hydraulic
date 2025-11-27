@@ -1,15 +1,15 @@
     
-    const VisionMissionSection = () => {
+    const VisionMissionSection = ({ content }: { content: any }) => {
     return (
         <section className="py-24">
         <div className="max-w-7xl mx-auto px-6 md:px-12">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
             <div className="lg:col-span-4">
                 <h2 className="text-3xl font-light text-gray-900 mb-6">
-                Vision &<br />Mission
+                {content?.vision?.Heading}
                 </h2>
                 <p className="text-sm text-gray-500">
-                The principles that drive every decision we make and every cylinder we deliver.
+                {content?.vision?.description}
                 </p>
             </div>
 
@@ -17,21 +17,21 @@
                 <div className="bg-white border border-gray-200 p-8 md:p-12">
                 <div className="flex items-center gap-4 mb-6">
                     <div className="w-16 h-px bg-gray-300"></div>
-                    <span className="text-xs font-medium text-gray-400 uppercase tracking-wider"> Our Vision</span>
+                    <span className="text-xs font-medium text-gray-400 uppercase tracking-wider">{content?.vision?.visionTitle}</span>
                 </div>
                 <p className="text-xl md:text-xl text-gray-900 leading-relaxed">
-                    To empower every business with instant access to quality hydraulic cylinders, transforming how industries source critical components through technology and service excellence.
+                    {content?.vision?.visionDesc}
                 </p>
                 </div>
 
                 <div className="bg-gray-900 text-white p-8 md:p-12">
                 <div className="flex items-center gap-4 mb-6">
                     <div className="w-16 h-px bg-gray-600"></div>
-                    <span className="text-xs font-medium text-gray-400 uppercase tracking-wider"> Our Mission</span>
+                    <span className="text-xs font-medium text-gray-400 uppercase tracking-wider">{content?.vision?.missionTitle}</span>
                 </div>
                 <p className="text-xl md:text-xl leading-relaxed">
-                    Connect businesses with the hydraulic cylinders they need through an intuitive platform, comprehensive inventory, transparent pricing, and expert support—delivering reliability in every transaction.
-                </p>
+                    {content?.vision?.missionDesc}
+                 </p>
                 </div>
             </div>
             </div>

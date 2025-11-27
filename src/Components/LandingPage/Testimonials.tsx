@@ -2,10 +2,16 @@ import { Quote } from "lucide-react";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || '';
 
-const Testimonials = async ({content}: {content: any}) => {
+const Testimonials = async () => {
+  // testimonial api
   const res = await fetch(`${BASE_URL}/api/testimonial`, { cache: "no-store" });
   const data = await res.json();
   const testimonials = data?.data || [];
+
+  // landingpage api for title
+  const res1 = await fetch(`${BASE_URL}/api/pages/landingpage`, { cache: "no-store" } );
+  const result = await res1.json();
+  const content = result?.data || null
 
   if (testimonials.length === 0) {
     return (

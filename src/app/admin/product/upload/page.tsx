@@ -11,7 +11,7 @@ import {
   Plus,
   Package,
   IndianRupee ,
-  Truck,
+  Trash,
   FileImage,
   Wrench,
 } from "lucide-react";
@@ -370,7 +370,7 @@ const ProductUploadPage: React.FC = () => {
                     onClick={() => removeTechnicalDetails(i)}
                     className="text-red-600 hover:text-red-800 mt-3"
                   >
-                    <X className="w-5 h-5" />
+                    <Trash className="w-5 h-5" />
                   </button>
                 )}
               </div>
@@ -501,7 +501,7 @@ const ProductUploadPage: React.FC = () => {
                         onClick={() => removeImage(i)}
                         className="absolute top-1 right-1 bg-white text-red-600 rounded-full p-1 shadow"
                       >
-                        <X className="w-3 h-3" />
+                        <Trash className="w-3 h-3" />
                       </button>
                     </div>
                   ))}

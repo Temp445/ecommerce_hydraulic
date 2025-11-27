@@ -31,7 +31,7 @@ const page = async () => {
       <PopularProducts content={content}/>
       <About content={content}/>
       <IndustryUsage content={content}/>
-      <Testimonials content={content}/>
+      <Testimonials/>
       <BlogSection content={content}/>
     </div>
   )

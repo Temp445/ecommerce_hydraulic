@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState, ChangeEvent, FormEvent } from "react";
 import axios from "axios";
-import { Loader2, Upload, X, Plus, FileImage } from "lucide-react";
+import { Loader2, Upload, X, Trash, Plus, FileImage } from "lucide-react";
 import toast from "react-hot-toast";
 import { useRouter, useParams } from "next/navigation";
 
@@ -406,7 +406,7 @@ const ProductEditPage = () => {
                             onClick={() => removeTechnicalDetails(i)}
                             className="text-red-500 hover:text-red-700 rounded-lg   mt-2 transition-colors"
                           >
-                            <X className="w-5 h-5" />
+                            <Trash className="w-4 h-4" />
                           </button>
                         )}
                       </div>
@@ -473,7 +473,7 @@ const ProductEditPage = () => {
                             onClick={() => removeBenefit(index)}
                             className="text-red-500 hover:text-red-700  rounded-lg px-2 transition-colors"
                           >
-                            <X className="w-5 h-5" />
+                            <Trash className="w-5 h-5" />
                           </button>
                         )}
                       </div>
