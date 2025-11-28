@@ -5,7 +5,6 @@ import { CiLock } from "react-icons/ci";
 import { GoCheckCircleFill } from "react-icons/go";
 import { TbTruckDelivery } from "react-icons/tb";
 
-
 export default function FeaturesSection() {
   const features = [
     {
@@ -31,27 +30,30 @@ export default function FeaturesSection() {
   ];
 
   return (
-    <div className="w-full py-5 px-2 md:px-4">
+    <div className="w-full py-5 md:py-8 ">
       <div className="container mx-auto">
-        <div className="bg-white rounded-lg  py-10 md:px-4 ">
-          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-5 md:gap-10 ">
+        <div className="bg-white rounded-lg py-10 px-4">
+          <div className="grid grid-cols-4 sm:grid-cols-2 md:grid-cols-4 gap-6 md:gap-10">
+
             {features.map((feature, index) => (
-              <div key={index} className="flex flex-col items-center xl:ml-2 gap-2 md:gap-5">
-                <div className="flex-shrink-0 bg-gray-100 p-2 rounded-full">
-                  <div className="w-14 h-14 rounded-full flex items-center p-1 justify-center">
-                    {feature.icon && <feature.icon className="w-10 h-10 text-gray-800" />}
-                  </div>
+              <div 
+                key={index} 
+                className="flex flex-col items-center text-center gap-3 sm:gap-4"
+              >
+                <div className="bg-gray-100 p-3 rounded-full flex items-center justify-center">
+                  <feature.icon className="w-8 h-8 sm:w-10 sm:h-10 md:w-14 md:h-14 text-gray-800" />
                 </div>
-                <div className=" md:text-center">
-                  <h3 className="text-sm md:text-lg font-medium text-gray-900 mb-2">
-                    {feature.title}
-                  </h3>
-                  <p className="text-sm text-gray-500 leading-relaxed w-64 hidden md:block">
-                    {feature.description}
-                  </p>
-                </div>
+
+                <h3 className="text-xs sm:text-base md:text-lg  font-medium md:font-semibold text-gray-900">
+                  {feature.title}
+                </h3>
+
+                <p className="text-xs sm:text-sm hidden md:block text-gray-500 max-w-[160px] sm:max-w-[180px] md:max-w-[200px]">
+                  {feature.description}
+                </p>
               </div>
             ))}
+
           </div>
         </div>
       </div>

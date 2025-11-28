@@ -30,9 +30,9 @@ const UserMenu = () => {
         className="flex items-center gap-2 justify-center text-gray-800 rounded py-3 md:px-4 transition group"
       >
         {isLoggedIn ? (
-          <div className="flex gap-2 items-center">
-            <CircleUserRound className=" w-5 h-5 2xl:w-6 2xl:h-6" />
-            <span className="text-sm 2xl:text-base">{user?.firstName || "User"}</span>
+          <div className="flex md:gap-2 items-center">
+            <CircleUserRound className=" w-6 h-6 text-gray-600 md:text-gray-900" />
+            <span className="text-sm 2xl:text-base hidden md:block">{user?.firstName || "User"}</span>
             <ChevronUp
               className={`w-4 h-5 transition-transform duration-300 ${
                 isOpen ? "rotate-180" : "group-hover:rotate-180"

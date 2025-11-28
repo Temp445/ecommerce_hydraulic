@@ -11,13 +11,13 @@ const BlogSection = async ({content}: {content: any}) => {
   return (
     <section className=" py-10 md:py-20 bg-gray-50">
       <div className="container mx-auto px-6">
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-12 mb-16">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 md:gap-12 mb-16">
           <div className="lg:col-span-1">
             <div className="sticky top-8">
               <div className="inline-block px-4 py-2 bg-gray-300 text-gray-900 text-xs font-bold uppercase tracking-wider mb-4">
                 {content?.sectionHeadings?.blog}
               </div>
-              <h2 className="text-2xl text-gray-900 mb-4 leading-tight">
+              <h2 className="text-xl md:text-2xl text-gray-900 mb-1 md:mb-4 leading-tight">
                 {content?.sectionHeadings?.blogSubtitle}
               </h2>
 
@@ -33,11 +33,11 @@ const BlogSection = async ({content}: {content: any}) => {
                 className="group flex flex-col md:flex-row bg-white hover:bg-gray-50 transition-all duration-300 border-l-4 border-gray-300 hover:border-gray-900 shadow-sm hover:shadow-lg"
               >
                 <div className="w-[300px] flex items-center justify-center p-4 relative overflow-hidden">
-                  <div className="relative w-full h-40 md:h-full transform group-hover:scale-105 transition-transform duration-500">
+                  <div className="relative w-full h-20 md:h-full transform group-hover:scale-105 transition-transform duration-500">
                     <img
                       src={blog.imageUrl}
                       alt={blog.title}
-                      className="w-full h-52 object-contain"
+                      className="w-full h-32 md:h-52 object-contain"
                     />
                   </div>
                 </div>
@@ -51,14 +51,14 @@ const BlogSection = async ({content}: {content: any}) => {
                             {String(idx + 1).padStart(2, "0")}
                           </span>
                         </div>
-                        <h3 className="text-xl lg:text-2xl font-medium text-gray-900 mb-2 text-left transition-colors duration-300">
+                        <h3 className="text-sm md:text-xl lg:text-2xl font-medium text-gray-900 mb-2 text-left transition-colors duration-300">
                           {blog.title}
                         </h3>
                       </div>
                     </div>
 
                     <div className="mb-4">
-                      <p className="text-sm text-gray-700 text-left">
+                      <p className=" text-xs md:text-sm text-gray-700 text-left">
                         {blog.shortDescription}
                       </p>
                     </div>

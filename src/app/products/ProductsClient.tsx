@@ -196,13 +196,13 @@ const ProductsClient = () => {
 
           <main className="flex-1">
             <div className="flex flex-wrap items-center justify-between mb-6 bg-white border border-slate-200 rounded p-4 shadow-sm">
-              <h1 className="text-xl font-medium">Our Products</h1>
+              <h1 className="text-lg font-medium">Our Products</h1>
 
               <button
                 onClick={() => setShowFilters(true)}
-                className="flex items-center gap-2 px-4 py-2 border border-slate-300 rounded-md text-slate-700 hover:bg-slate-100 transition lg:hidden"
+                className="flex items-center gap-2 text-xs md:text-base px-4 py-2 border border-slate-300 rounded-md text-slate-700 hover:bg-slate-100 transition lg:hidden"
               >
-                <Filter size={18} />
+                <Filter className="w-4 h-4" />
                 Filters
               </button>
 

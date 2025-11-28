@@ -10,7 +10,7 @@ import { ShoppingCart } from "lucide-react";
 import { useCart } from "@/context/CartProvider";
 import Logo from "@/assets/AceLogo.png";
 
-const Navbar = ({contact}: {contact: any}) => {
+const Navbar = ({ contact }: { contact: any }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const { user } = useAuth();
@@ -29,8 +29,6 @@ const Navbar = ({contact}: {contact: any}) => {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, [isOpen, isSearchOpen]);
-
-
 
   useEffect(() => {
     if (isOpen) {
@@ -60,23 +58,19 @@ const Navbar = ({contact}: {contact: any}) => {
     <nav className="bg-white sticky inset-0.5 top-0 z-50 border-b border-gray-100">
       <div className="container mx-auto px-2 sm:px-4 lg:px-2 xl:px-6 ">
         <div className="flex justify-between items-center h-16 ">
- <Link
-  href="/"
-  className="flex items-center flex-shrink-0"
->
-  <img
-    src={contact?.logo || Logo}
-    alt="logo"
-    width={40}
-    height={40}
-    className="w-8 h-8 md:w-10 md:h-10 object-contain"
-  />
+          <Link href="/" className="flex items-center flex-shrink-0">
+            <img
+              src={contact?.logo || Logo}
+              alt="logo"
+              width={40}
+              height={40}
+              className="w-8 h-8 md:w-10 md:h-10 object-contain"
+            />
 
-  <span className="font-semibold text-base sm:text-lg md:text-xl lg:text-2xl text-gray-900 whitespace-nowrap">
-    {contact?.websiteTitle || 'ACE'}
-  </span>
-</Link>
-
+            <span className="font-semibold text-base sm:text-lg md:text-xl lg:text-2xl text-gray-900 whitespace-nowrap">
+              {contact?.websiteTitle || "ACE"}
+            </span>
+          </Link>
 
           <div className="hidden lg:flex items-center space-x-4 xl:space-x-10">
             {allLinks.map((link) => (
@@ -99,19 +93,21 @@ const Navbar = ({contact}: {contact: any}) => {
 
             <div className="flex items-center justify-center  py-4">
               <Link href="/cart" className="relative flex items-center gap-1">
-                <ShoppingCart className="w-5 2xl:w-6 2xl:h-6 text-gray-900" />
+                <ShoppingCart className="w-[21px] 2xl:w-6 2xl:h-6 text-gray-600 md:text-gray-900" />
                 {cartCount > 0 && (
                   <span className="absolute -top-1 md:-top-2 left-3 bg-red-600 text-white text-[10px]  md:text-xs rounded-full w-4 h-4 md:w-5 md:h-5 flex items-center justify-center">
                     {" "}
                     {cartCount}
                   </span>
                 )}
-                <div className="text-sm 2xl:text-base hidden md:block">Cart</div>
+                <div className="text-sm 2xl:text-base hidden md:block">
+                  Cart
+                </div>
               </Link>
             </div>
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="lg:hidden md:p-2 text-gray-700 hover:bg-blue-50 hover:text-blue-500 rounded-full transition-colors flex-shrink-0"
+              className="lg:hidden pl-2 md:p-2 text-gray-700 hover:bg-blue-50 hover:text-blue-500 rounded-full transition-colors flex-shrink-0"
               aria-label="Toggle menu"
             >
               {isOpen ? (
@@ -156,6 +152,6 @@ const Navbar = ({contact}: {contact: any}) => {
       </div>
     </nav>
   );
-}
+};
 
 export default Navbar;

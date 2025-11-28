@@ -21,13 +21,13 @@ const PopularProducts = async ( {content}:{content: any}) => {
   return (
     <div className="bg-white px-4 md:px-8 lg:px-6 py-10 container mx-auto">
       <div className="pb-8 flex justify-between">
-        <h2 className="text-2xl md:text-3xl xl:text-4xl max-w-52 md:max-w-max font-medium text-gray-900">
+        <h2 className="text-xl md:text-3xl xl:text-4xl max-w-52 md:max-w-max font-medium text-gray-900">
          {content?.sectionHeadings?.popularProducts}
         </h2>
 
         <Link
           href="/products"
-          className="bg-gray-900 text-white h-11 pl-3 pr-1 flex  items-center rounded text-sm"
+          className="bg-gray-900 text-white h-8 md:h-11 pl-3 pr-1 flex  items-center rounded text-xs md:text-sm"
         >
           View All <ChevronRight className="w-5 h-5" />{" "}
         </Link>
@@ -48,21 +48,21 @@ const PopularProducts = async ( {content}:{content: any}) => {
                   product.thumbnail || product.images?.[0] || "/placeholder.jpg"
                 }
                 alt={product.name}
-                className=" h-52 w-full object-contain group-hover:scale-110 transition-transform duration-300"
+                className="h-40 md:h-52 w-full object-contain group-hover:scale-110 transition-transform duration-300"
               />
             </Link>
 
             {product.stock === 0 && (
-              <span className="absolute top-3 right-2 pr-2 text-red-500 z-10">
+              <span className="text-xs md:text-base absolute top-3 right-2 pr-2 text-red-500 z-10">
                 Out of stock
               </span>
             )}
 
             <div className="p-4">
-              <h3 className="font-medium md:text-lg text-gray-800 mb-1 line-clamp-2">
+              <h3 className="font-medium text-sm md:text-lg text-gray-800 mb-1 line-clamp-2">
                 {product.name}
               </h3>
-              <p className="text-gray-600 text-sm mb-2 line-clamp-2">
+              <p className="text-gray-600 text-xs md:text-sm mb-2 line-clamp-2">
                 {product.description}
               </p>
               <div className="flex items-center justify-between">
@@ -84,7 +84,7 @@ const PopularProducts = async ( {content}:{content: any}) => {
                   <AddToCartButton
                     product={product}
                     disabled={product.stock <= 0}
-                    className="text-white bg-gray-900 hover:bg-gray-950 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="text-white text-xs md:text-sm bg-gray-900 hover:bg-gray-950 transition disabled:opacity-50 disabled:cursor-not-allowed"
                   />
                 </div>
               </div>

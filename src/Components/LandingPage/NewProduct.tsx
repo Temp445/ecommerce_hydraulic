@@ -16,8 +16,8 @@ const NewProduct = async ({content}:{content: any}) => {
   return (
     <section className="py-5 md:py-14 bg-gradient-to-b from-slate-100 to-white">
       <div className="container mx-auto px-4 md:px-8">
-        <div className="mb-7">
-          <h2 className="text-2xl 2xl:text-4xl font-medium text-gray-900 mb-4 tracking-tight">
+        <div className=" md:mb-7">
+          <h2 className="text-xl sm:text-2xl 2xl:text-4xl font-medium text-gray-900 mb-4 tracking-tight">
             {content?.sectionHeadings?.newArrivals}
           </h2>
         </div>
@@ -47,7 +47,7 @@ const NewProduct = async ({content}:{content: any}) => {
                           "/placeholder.jpg"
                         }
                         alt={product.name}
-                        className="object-contain w-full h-full"
+                        className="object-contain w-full h-32 md:h-full"
                       />
                     </Link>
                   </div>
@@ -65,8 +65,8 @@ const NewProduct = async ({content}:{content: any}) => {
                         {product.name}
                       </h3>
 
-                      <div className="space-y-2 mb-4 text-sm">
-                        <span className="font-mono line-clamp-2 font-bold text-gray-900">
+                      <div className="space-y-2 mb-4 text-xs md:text-sm">
+                        <span className=" line-clamp-2 text-gray-900">
                           {product.description}
                         </span>
                       </div>

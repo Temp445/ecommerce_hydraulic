@@ -52,7 +52,7 @@ export default function ProductCard({
             src={product.thumbnail || product.images?.[0]}
             alt={product.name}
             className={`w-full object-contain bg-white group-hover:scale-105 transition-transform duration-500 ${
-              viewMode === "list" ? "h-80" : "h-72"
+              viewMode === "list" ? "h-80" : "h-40 md:h-72"
             }`}
           />
       
@@ -61,18 +61,18 @@ export default function ProductCard({
       <div className={`p-6 flex flex-col ${viewMode === "list" ? "flex-1" : ""}`}>
         <h2
           onClick={handleNavigate}
-          className="text-lg font-medium text-slate-800 mb-2 cursor-pointer hover:text-gray-900 transition line-clamp-2 leading-snug"
+          className="text-sm md:text-lg font-medium text-slate-800 mb-2 cursor-pointer hover:text-gray-900 transition line-clamp-2 leading-snug"
         >
           {product.name}
         </h2>
 
-        <p className="text-sm text-slate-600 mb-4 line-clamp-2 flex-1 leading-relaxed">
+        <p className="text-xs md:text-sm text-slate-600 mb-4 line-clamp-2 flex-1 leading-relaxed">
           {product.description || "No description available."}
         </p>
 
         <div className="mb-4 font-sans">
           <div className="flex items-baseline gap-2 mb-1">
-            <p className="text-xl md:text-2xl font-medium text-slate-900">
+            <p className="text-lg md:text-2xl font-medium text-slate-900">
               ₹{(product.discountPrice || product.price)?.toLocaleString()}
             </p>
 
@@ -93,7 +93,7 @@ export default function ProductCard({
         <AddToCartButton
           product={product}
           disabled={product.stock <= 0}
-          className={`text-white bg-gray-900 hover:bg-gray-950 transition disabled:opacity-50 disabled:cursor-not-allowed`}
+          className={`text-white bg-gray-900 text-xs md:text-base hover:bg-gray-950 transition disabled:opacity-50 disabled:cursor-not-allowed`}
         />
       </div>
     </div>

@@ -12,10 +12,10 @@ const CategorySection = async ({content}:{content: any}) => {
       <div className="container mx-auto px-4 2xl:px-8">
        <div className="flex justify-between">
          <div className=" mb-5 md:mb-16">
-          <h2 className="text-2xl md:text-3xl lg:text-4xl font-light text-white mb-2">
+          <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-light text-white mb-2">
             {content?.sectionHeadings?.categories}
           </h2>
-          <div className="w-12 h-1 bg-white mt-4"></div>
+          <div className="w-12 h-1 bg-white md:mt-4"></div>
         </div>
           {categories.length > 5 && ( <Link href="/categories" className=" text-sm md:text-base text-white border p-2 h-fit rounded">View All</Link> ) }
 
@@ -28,14 +28,14 @@ const CategorySection = async ({content}:{content: any}) => {
                 href={`/products?category=${cat._id}`}
                 className="group flex flex-col items-center text-center transition-all duration-300"
               >
-                <div className="w-full aspect-square bg-white rounded flex items-center justify-center mb-4  transition-colors duration-300 border border-gray-200">
+                <div className="w-full aspect-square bg-white rounded flex items-center justify-center mb-2 md:mb-4  transition-colors duration-300 border border-gray-200">
                   <img
                     src={cat.CatImage}
                     alt={cat.Name}
-                    className="h-24 md:h-40 object-contain group-hover:scale-110 transition-transform duration-300"
+                    className="h-20 sm:h-24 md:h-40 object-contain group-hover:scale-110 transition-transform duration-300"
                   />
                 </div>
-                <h3 className="text-sm  font-medium text-white line-clamp-2">
+                <h3 className="text-xs sm:text-sm  font-medium text-white line-clamp-2">
                   {cat.Name}
                 </h3>
               </Link>

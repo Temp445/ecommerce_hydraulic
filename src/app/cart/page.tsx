@@ -372,7 +372,7 @@ const CartPage = () => {
           <div className="flex items-center gap-3">
             <ShoppingBag className="w-8 h-8" />
             <div>
-              <h1 className="text-3xl font-bold">My Cart</h1>
+              <h1 className="text-2xl md:text-3xl md:font-bold">My Cart</h1>
               <p className="text-sm text-gray-300">
                 {itemCount} {itemCount === 1 ? "item" : "items"}
               </p>
@@ -380,7 +380,7 @@ const CartPage = () => {
           </div>
           <Link
             href="/"
-            className="px-6 py-2 bg-white text-black rounded-lg hover:bg-gray-100 transition"
+            className=" px-2 md:px-6 py-2 bg-white text-black rounded-lg hover:bg-gray-100 transition"
           >
             Continue Shopping
           </Link>
