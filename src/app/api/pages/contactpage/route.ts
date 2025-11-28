@@ -3,7 +3,6 @@ import Contact from "@/models/Pages/ContactPage";
 import dbConnect from "@/lib/dbConnect";
 import cloudinary from "@/lib/cloudinary";
 
-// GET: fetch contact details
 export async function GET() {
   try {
     await dbConnect();
@@ -17,13 +16,11 @@ export async function GET() {
   }
 }
 
-// POST: create new contact
 export async function POST(req: Request) {
   try {
     await dbConnect();
     const formData = await req.formData();
 
-    // Upload logo
     let logoUrl = "";
     const logoFile = formData.get("logo") as File | null;
 
@@ -33,7 +30,7 @@ export async function POST(req: Request) {
       const uploadedLogo: any = await new Promise((resolve, reject) => {
         const uploadStream = cloudinary.uploader.upload_stream(
           {
-            folder: "website/contact",
+            folder: "ecom_products/contact",
             public_id: logoFile.name.replace(/\.[^/.]+$/, ""),
             use_filename: true,
             unique_filename: false,
@@ -69,7 +66,6 @@ export async function POST(req: Request) {
   }
 }
 
-// PATCH: update existing contact using findOne()
 export async function PATCH(req: Request) {
   try {
     await dbConnect();
@@ -83,7 +79,6 @@ export async function PATCH(req: Request) {
       );
     }
 
-    // Handle logo upload if a new file is provided
     let newLogoUrl = "";
     const logoFile = formData.get("logo") as File | null;
 
@@ -106,7 +101,6 @@ export async function PATCH(req: Request) {
       newLogoUrl = uploadedLogo.secure_url;
     }
 
-    // Build update object
     const updateData = {
       websiteTitle: formData.get("websiteTitle")?.toString() ?? existing.websiteTitle,
       emails: formData.get("emails")

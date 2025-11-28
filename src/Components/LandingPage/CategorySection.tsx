@@ -10,16 +10,19 @@ const CategorySection = async ({content}:{content: any}) => {
   return (
     <section className=" py-5 md:py-20 bg-gray-900">
       <div className="container mx-auto px-4 2xl:px-8">
-        <div className=" mb-5 md:mb-16">
+       <div className="flex justify-between">
+         <div className=" mb-5 md:mb-16">
           <h2 className="text-2xl md:text-3xl lg:text-4xl font-light text-white mb-2">
             {content?.sectionHeadings?.categories}
           </h2>
           <div className="w-12 h-1 bg-white mt-4"></div>
         </div>
+          {categories.length > 5 && ( <Link href="/categories" className=" text-sm md:text-base text-white border p-2 h-fit rounded">View All</Link> ) }
 
+       </div>
         {categories.length > 0 && (
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6">
-            {categories.slice(0, 5).map((cat: any) => (
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-[repeat(auto-fit,minmax(150px,1fr))] gap-4 md:gap-6 justify-center">
+            {categories.slice(0, 6).map((cat: any) => (
               <Link
                 key={cat._id}
                 href={`/products?category=${cat._id}`}

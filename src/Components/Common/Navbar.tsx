@@ -10,31 +10,11 @@ import { ShoppingCart } from "lucide-react";
 import { useCart } from "@/context/CartProvider";
 import Logo from "@/assets/AceLogo.png";
 
-const Navbar = () => {
+const Navbar = ({contact}: {contact: any}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [contact, setContact] = useState<any>(null);
   const { user } = useAuth();
   const { cartCount } = useCart();
-
-  useEffect(() => {
-    const fetchContact = async () => {
-      try {
-        const res = await fetch("/api/pages/contactpage", {
-          cache: "no-store",
-        });
-
-        const data = await res.json();
-        setContact(data?.data || null);
-      } catch (error) {
-        console.error("Error fetching contact:", error);
-        setContact(null);
-      }
-    };
-
-    fetchContact();
-  }, []);
-
 
   useEffect(() => {
     const handleResize = () => {

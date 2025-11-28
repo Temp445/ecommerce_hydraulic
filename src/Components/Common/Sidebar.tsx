@@ -38,6 +38,7 @@ const Sidebar = () => {
         { name: "About Page", href: "/admin/pages/aboutpage" },
         { name: "Contact Page", href: "/admin/pages/contactpage" },
         { name: "Policy", href: "/admin/pages/policy" },
+        { name: "Seo", href: "/admin/pages/seo" },
         
       ],
     },

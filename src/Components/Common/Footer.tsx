@@ -1,7 +1,6 @@
 import React from 'react';
 import { Instagram , Linkedin, Youtube , ChevronRight } from 'lucide-react';
 import { FaXTwitter } from "react-icons/fa6";
-
 import Link from 'next/link';
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "";
