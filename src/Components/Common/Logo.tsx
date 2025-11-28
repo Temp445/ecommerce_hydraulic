@@ -1,6 +1,5 @@
 import React from 'react'
 
-import Image from "next/image";
 import acelogo from "@/assets/AceLogo.png";
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || ''
 

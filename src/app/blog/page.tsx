@@ -1,33 +1,11 @@
 //  List out All blog page
 
-import type { Metadata } from 'next';
 import { File , ChevronRight, Image  } from 'lucide-react';
 import Link from "next/link";
 
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || ''
 
-export const metadata: Metadata = {
-  
-  title: 'ACE HYDRAULIC',
-  description: "ACE HYDRAULIC",
-   keywords: "ACE",
-   openGraph: { 
-    title: 'ACE HYDRAULIC',
-    description: 'ACE HYDRAULIC',
-    url: `${BASE_URL}/blog`,
-    siteName: 'ACE',
-    images: [
-      {
-        url: `${BASE_URL}/og-images/AceLogo.png`,
-        width: 1200,
-        height: 630,
-        alt: 'ACE',
-      },
-    ],
-    type: 'website',
-  },
-};
 
 const BlogPage = async() => {
 

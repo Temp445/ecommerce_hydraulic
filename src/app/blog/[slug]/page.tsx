@@ -1,39 +1,7 @@
 //  Blog Detail Page
-import type { Metadata } from 'next';
 import { Calendar, Clock } from "lucide-react";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "";
-
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
-  const { slug } = await params;
-
-  const res = await fetch(`${BASE_URL}/api/blog/${slug}`, { cache: "no-store" });
-  const data = await res.json();
-  const blog = data?.data || [];
-
-  return {
-    title:  blog.title || "ACE HYDRAULIC",
-    description: blog.shortDescription || "ACE HYDRAULIC Policy Page",
-
-    openGraph: {
-      title: blog.title || "ACE HYDRAULIC",
-      description: blog.shortDescription || "ACE HYDRAULIC Policy Page",
-      url: `${BASE_URL}/blog/${slug}`,
-      siteName: "ACE",
-      type: "article",
-      images: [
-        {
-          url: `${BASE_URL}/og-images/AceLogo.png`,
-          width: 1200,
-          height: 630,
-          alt: blog.title || "ACE",
-        },
-      ],
-    },
-  }
-}
-
-
 
 
 const BlogDetailPage = async ({ params }: { params: Promise<{ slug: string }> }) => {

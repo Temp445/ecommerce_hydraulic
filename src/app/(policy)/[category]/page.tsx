@@ -1,42 +1,5 @@
 
-import type { Metadata } from 'next';
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || ''
-
-// meta data
-export async function generateMetadata(
-  { params }: { params: Promise<{ category: string }> }
-): Promise<Metadata> {
-  const { category } = await params;
-
-  const res = await fetch(`${BASE_URL}/api/pages/policy/${category}`, {
-    cache: "no-store",
-  });
-
-  const data = await res.json();
-  const policy = data?.data;
-
-  return {
-    title:  policy.title || "ACE HYDRAULIC",
-    description: policy.shortDescription || "ACE HYDRAULIC Policy Page",
-
-    openGraph: {
-      title: policy.title || "ACE HYDRAULIC",
-      description: policy.shortDescription || "ACE HYDRAULIC Policy Page",
-      url: `${BASE_URL}/policy/${category}`,
-      siteName: "ACE",
-      type: "article",
-      images: [
-        {
-          url: `${BASE_URL}/og-images/AceLogo.png`,
-          width: 1200,
-          height: 630,
-          alt: policy.title || "ACE",
-        },
-      ],
-    },
-  };
-}
-
 
 
 const PolicyPage = async ({params}: {params: Promise<{category: string}>}) => {
