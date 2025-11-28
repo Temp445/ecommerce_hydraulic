@@ -3,38 +3,18 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Menu, X, Search } from "lucide-react";
-import Image from "next/image";
-import Logo from "@/assets/AceLogo.png";
 import UserMenu from "../Button/UserMenu";
 import { useAuth } from "@/context/AuthProvider";
 import SearchBar from "../Button/SearchBar";
 import { ShoppingCart } from "lucide-react";
 import { useCart } from "@/context/CartProvider";
-
+import Logo from './Logo'
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const { user } = useAuth();
   const { cartCount } = useCart();
-const [contact, setContact] = useState<any>(null);
 
-  useEffect(() => {
-    const fetchContact = async () => {
-      try {
-        const res = await fetch("/api/pages/contactpage", {
-          cache: "no-store",
-        });
-
-        const data = await res.json();
-        setContact(data?.data || null);
-      } catch (error) {
-        console.error("Error fetching contact:", error);
-        setContact(null);
-      }
-    };
-
-    fetchContact();
-  }, []);
 
   useEffect(() => {
     const handleResize = () => {
@@ -84,17 +64,7 @@ const [contact, setContact] = useState<any>(null);
   href="/"
   className="flex items-center flex-shrink-0"
 >
-  <img
-    src={contact?.logo}
-    alt="logo"
-    width={40}
-    height={40}
-    className="w-8 h-8 md:w-10 md:h-10 object-contain"
-  />
-
-  <span className="font-semibold text-base sm:text-lg md:text-xl lg:text-2xl text-gray-900 whitespace-nowrap">
-    {contact?.websiteTitle}
-  </span>
+  <Logo/>
 </Link>
 
 

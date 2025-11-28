@@ -1,5 +1,5 @@
 import React from 'react';
-import { Instagram , Twitter, Linkedin, Youtube , ChevronRight } from 'lucide-react';
+import { Instagram , Linkedin, Youtube , ChevronRight } from 'lucide-react';
 import { FaXTwitter } from "react-icons/fa6";
 
 import Link from 'next/link';
@@ -9,7 +9,7 @@ const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "";
 
 const Footer = async () => {
 
-      const response = await fetch(`${BASE_URL}/api/category`, {
+  const response = await fetch(`${BASE_URL}/api/category`, {
     cache: "no-store",
   });
   const result = await response.json();

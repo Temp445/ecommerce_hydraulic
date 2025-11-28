@@ -7,7 +7,7 @@
 // - @/Components/AboutPage/whyShopWithUs
 // - @/Components/LandingPage/Testimonials
 
-import React from "react";
+import type { Metadata } from 'next';
 import VisionMissionSection from "@/Components/AboutPage/VisionMissionSection";
 import HeroSection from "@/Components/AboutPage/HeroSection";
 import ManufacturingProcessSection from "@/Components/AboutPage/ManufacturingProcessSection";
@@ -16,6 +16,28 @@ import WhyShopWithUs from "@/Components/AboutPage/whyShopWithUs";
 import Testimonials from "@/Components/LandingPage/Testimonials";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || ''
+
+export const metadata: Metadata = {
+  
+  title: 'ACE HYDRAULIC',
+  description: "ACE HYDRAULIC",
+   keywords: "ACE",
+   openGraph: { 
+    title: 'ACE HYDRAULIC',
+    description: 'ACE HYDRAULIC',
+    url: `${BASE_URL}/about`,
+    siteName: 'ACE',
+    images: [
+      {
+        url: `${BASE_URL}/og-images/AceLogo.png`,
+        width: 1200,
+        height: 630,
+        alt: 'ACE',
+      },
+    ],
+    type: 'website',
+  },
+};
 
 const AboutPage = async () => {
   
