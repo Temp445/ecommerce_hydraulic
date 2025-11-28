@@ -8,12 +8,32 @@ import { useAuth } from "@/context/AuthProvider";
 import SearchBar from "../Button/SearchBar";
 import { ShoppingCart } from "lucide-react";
 import { useCart } from "@/context/CartProvider";
-import Logo from './Logo'
+import Logo from "@/assets/AceLogo.png";
+
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [contact, setContact] = useState<any>(null);
   const { user } = useAuth();
   const { cartCount } = useCart();
+
+  useEffect(() => {
+    const fetchContact = async () => {
+      try {
+        const res = await fetch("/api/pages/contactpage", {
+          cache: "no-store",
+        });
+
+        const data = await res.json();
+        setContact(data?.data || null);
+      } catch (error) {
+        console.error("Error fetching contact:", error);
+        setContact(null);
+      }
+    };
+
+    fetchContact();
+  }, []);
 
 
   useEffect(() => {
@@ -60,11 +80,21 @@ const Navbar = () => {
     <nav className="bg-white sticky inset-0.5 top-0 z-50 border-b border-gray-100">
       <div className="container mx-auto px-2 sm:px-4 lg:px-2 xl:px-6 ">
         <div className="flex justify-between items-center h-16 ">
-         <Link
+ <Link
   href="/"
   className="flex items-center flex-shrink-0"
 >
-  <Logo/>
+  <img
+    src={contact?.logo || Logo}
+    alt="logo"
+    width={40}
+    height={40}
+    className="w-8 h-8 md:w-10 md:h-10 object-contain"
+  />
+
+  <span className="font-semibold text-base sm:text-lg md:text-xl lg:text-2xl text-gray-900 whitespace-nowrap">
+    {contact?.websiteTitle || 'ACE'}
+  </span>
 </Link>
 
 
