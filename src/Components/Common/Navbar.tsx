@@ -82,9 +82,8 @@ const [contact, setContact] = useState<any>(null);
         <div className="flex justify-between items-center h-16 ">
          <Link
   href="/"
-  className="flex items-center  sm:gap-3 flex-shrink-0"
+  className="flex items-center flex-shrink-0"
 >
-  {/* Logo */}
   <img
     src={contact?.logo}
     alt="logo"
@@ -93,7 +92,6 @@ const [contact, setContact] = useState<any>(null);
     className="w-8 h-8 md:w-10 md:h-10 object-contain"
   />
 
-  {/* Title */}
   <span className="font-semibold text-base sm:text-lg md:text-xl lg:text-2xl text-gray-900 whitespace-nowrap">
     {contact?.websiteTitle}
   </span>
