@@ -6,6 +6,7 @@
 // - @/Components/AboutPage/ManufacturingProcessSection
 // - @/Components/AboutPage/whyShopWithUs
 // - @/Components/LandingPage/Testimonials
+
 import type { Metadata } from "next";
 import VisionMissionSection from "@/Components/AboutPage/VisionMissionSection";
 import HeroSection from "@/Components/AboutPage/HeroSection";
@@ -29,18 +30,19 @@ export async function generateMetadata(): Promise<Metadata> {
    const contact = data?.data;
 
    const logo = contact?.logo || `${BASE_URL}/og-images/AceLogo.png`;
+   const alts = contact?.websiteTitle || "About Us"
    const name = contact?.websiteTitle || "ACE";
    
 
     if (!seo) {
       return {
-        title: "About",
+        title: `About Us | ${contact?.websiteTitle } `,
         description: "Delivering top-tier hydraulic components, precision industrial equipment, and specialized hydraulic solutions for diverse commercial and manufacturing operations.",
       };
     }
 
     return {
-      title: seo.title || contact?.websiteTitle || "ACE",
+      title: seo.title || `About Us | ${contact?.websiteTitle }`,
       description: seo.description || "Delivering top-tier hydraulic components, precision industrial equipment, and specialized hydraulic solutions for diverse commercial and manufacturing operations.",
       keywords: seo.keywords || "hydraulic products, hydraulic equipment, hydraulic components, hydraulic systems, industrial hydraulics, hydraulic spare parts, hydraulic pumps, hydraulic valves, hydraulic cylinders, hydraulic hoses, hydraulic fittings, hydraulic power pack, hydraulic motors, hydraulic seals, hydraulic filters, hydraulic pipes, hydraulic tubes, hydraulic connectors, hydraulic hose assemblies, gear pump, piston pump, directional control valves, pressure control valves, flow control valves, oil cooler hydraulics, hydraulic manifolds, industrial machinery parts, manufacturing equipment, heavy equipment hydraulics, construction hydraulics, material handling hydraulics, industrial automation components, mechanical industrial supplies, buy hydraulic parts online, industrial hydraulic components supplier, heavy-duty hydraulic equipment for factories, best hydraulic pumps for machinery, custom hydraulic solutions for industries, hydraulic system spare parts online, affordable hydraulic cylinders for machines, quality hydraulic products, reliable industrial hydraulics, trusted hydraulic supplier, premium hydraulic components, durable hydraulic equipment",
 
@@ -49,7 +51,7 @@ export async function generateMetadata(): Promise<Metadata> {
       },
 
       openGraph: {
-        title: seo.ogTitle || seo.title || contact?.websiteTitle || "Premium Hydraulic Products & Industrial Equipment Supplier",
+        title: seo.ogTitle || seo.title || `About Us | ${contact?.websiteTitle }`,
         description: seo.ogDescription || seo.description || "Premium hydraulic products and industrial equipment designed for performance, durability, and commercial applications.",
         url: `${BASE_URL}/about`,
         siteName: name,
@@ -58,6 +60,7 @@ export async function generateMetadata(): Promise<Metadata> {
             url: logo,
             width: 1200,
             height: 630,
+            alt: alts,
           },
         ],
         type: "website",
@@ -65,8 +68,8 @@ export async function generateMetadata(): Promise<Metadata> {
 
       twitter: {
         card: "summary_large_image",
-        title: seo.twitterTitle || seo.title || contact?.websiteTitle || "",
-        description: seo.twitterDescription || seo.description || "",
+        title: seo.twitterTitle || seo.title ||  `About Us | ${contact?.websiteTitle}`,
+        description: seo.twitterDescription || seo.description || "Premium hydraulic products and industrial equipment designed for performance, durability, and commercial applications.",
         images: [logo],
       },
     };

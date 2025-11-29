@@ -44,11 +44,11 @@ export default function FeaturesSection() {
                   <feature.icon className="w-8 h-8 sm:w-10 sm:h-10 md:w-14 md:h-14 text-gray-800" />
                 </div>
 
-                <h3 className="text-xs sm:text-base md:text-lg  font-medium md:font-semibold text-gray-900">
+                <h3 className="text-xs sm:text-base lg:text-lg  font-medium md:font-semibold text-gray-900">
                   {feature.title}
                 </h3>
 
-                <p className="text-xs sm:text-sm hidden md:block text-gray-500 max-w-[160px] sm:max-w-[180px] md:max-w-[200px]">
+                <p className="text-xs sm:text-sm hidden lg:block text-gray-500 max-w-[160px] sm:max-w-[180px] md:max-w-[200px]">
                   {feature.description}
                 </p>
               </div>

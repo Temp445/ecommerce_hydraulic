@@ -93,7 +93,6 @@ const Payment = ({
     setPlacingOrder(true);
 
     try {
-      // ----------------- COD ORDER -----------------
       if (paymentMethod === "COD") {
         const payload = buildOrderPayload("Pending");
         const res = await axios.post("/api/orders", payload);
@@ -109,7 +108,6 @@ const Payment = ({
         return;
       }
 
-      // ----------------- ONLINE PAYMENT -----------------
       const razorpay = RazorpayPayment({
         user,
         cartItems,
@@ -152,7 +150,7 @@ const Payment = ({
           <CreditCard className="text-white w-5 h-5" />
         </div>
         <div>
-          <h2 className="text-xl text-gray-900">Payment Method</h2>
+          <h2 className=" text-lg md:text-xl text-gray-900">Payment Method</h2>
           <p className="text-sm text-gray-500">Choose how you’d like to pay</p>
         </div>
       </div>

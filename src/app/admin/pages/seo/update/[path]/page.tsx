@@ -3,10 +3,11 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { useRouter } from "next/navigation";
+import {useParams, useRouter } from "next/navigation";
+
 
 const SeoUpdateForm = () => {
-  const [path, setPath] = useState("home");
+  const { path } = useParams()
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [keywords, setKeywords] = useState("");
@@ -15,12 +16,10 @@ const SeoUpdateForm = () => {
   const [twitterTitle, setTwitterTitle] = useState("");
   const [twitterDescription, setTwitterDescription] = useState("");
   const [loading, setLoading] = useState(false);
-  const [fetching, setFetching] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
     const fetchSeo = async () => {
-      setFetching(true);
       try {
         const res = await axios.get(`/api/pages/seo/${path}`);
         const data = res.data.data;
@@ -35,8 +34,6 @@ const SeoUpdateForm = () => {
         }
       } catch (err: any) {
         toast.error(err.message || "Failed to fetch SEO data");
-      } finally {
-        setFetching(false);
       }
     };
 
@@ -78,23 +75,10 @@ const SeoUpdateForm = () => {
         }}
         className="max-w-xl mx-auto border border-gray-400 rounded p-4 space-y-4"
       >
-        <label className="block font-medium">Page</label>
-        <select
-          value={path}
-          onChange={(e) => setPath(e.target.value)}
-          className="w-full p-2 border border-gray-400 rounded"
-          required
-        >
-          <option value="home">Home</option>
-          <option value="about">About</option>
-          <option value="blog">Blog</option>
-          <option value="contact">Contact</option>
-          <option value="product">Product</option>
-          <option value="cart">Cart</option>
-          <option value="login">Login</option>
-          <option value="register">Register</option>
-          <option value="policy">Policy</option>
-        </select>
+       <div className="flex gap-2">
+         <label className="block font-medium">Page :</label>
+       <span className="font-semibold">{path}</span>
+       </div>
 
         <label className="block font-medium">Title (chars 50 ~ 60)</label>
         <input
@@ -165,13 +149,26 @@ const SeoUpdateForm = () => {
           className="w-full p-2 border border-gray-400 rounded"
         />
 
+      <div className="flex gap-4">
+
         <button
           type="submit"
-          disabled={loading || fetching}
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+          disabled={loading }
+          className="bg-emerald-600 text-white px-4 py-2 rounded"
         >
-          {loading ? "Updating..." : fetching ? "Loading..." : "Update"}
+          {loading ? "Updating..." : "Update"}
         </button>
+
+          <button
+            type="button"
+          className="bg-gray-500 text-white px-6 py-2 rounded "
+          onClick={() => router.push('/admin/pages/seo')}
+        >
+          Cancel
+        </button>
+
+        </div>
+        
       </form>
     </div>
   );

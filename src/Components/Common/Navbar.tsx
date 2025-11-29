@@ -56,7 +56,7 @@ const Navbar = ({ contact }: { contact: any }) => {
 
   return (
     <nav className="bg-white sticky inset-0.5 top-0 z-50 border-b border-gray-100">
-      <div className="container mx-auto px-2 sm:px-4 lg:px-2 xl:px-6 ">
+      <div className="2xl:container mx-auto px-2 sm:px-4  2xl:px-6 ">
         <div className="flex justify-between items-center h-16 ">
           <Link href="/" className="flex items-center flex-shrink-0">
             <img
@@ -64,10 +64,10 @@ const Navbar = ({ contact }: { contact: any }) => {
               alt="logo"
               width={40}
               height={40}
-              className="w-8 h-8 md:w-10 md:h-10 object-contain"
+              className="w-8 h-8 2xl:w-10 2xl:h-10 object-contain"
             />
 
-            <span className="font-semibold text-base sm:text-lg md:text-xl lg:text-2xl text-gray-900 whitespace-nowrap">
+            <span className="font-semibold text-base sm:text-lg md:text-lg 2xl:text-xl text-gray-900 whitespace-nowrap">
               {contact?.websiteTitle || "ACE"}
             </span>
           </Link>

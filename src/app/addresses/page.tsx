@@ -1,108 +1,57 @@
-// Address Page — List, Add, Edit, and Delete user addresses
-// Components Used:
-// - @/Components/AddressPage/AddressForm
-// - @/Components/AddressPage/AddressList
+import type { Metadata } from 'next';
+import Addresses from '@/Components/AddressPage/Addresses'
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || ''
 
-"use client";
+export async function generateMetadata(): Promise<Metadata> {
 
-import React, { useEffect, useState } from "react";
-import toast from "react-hot-toast";
-import axios from "axios";
-import { Plus } from "lucide-react";
-import { useAuth } from "@/context/AuthProvider";
-import AddressForm from "@/Components/AddressPage/AddressForm";
-import AddressList from "@/Components/AddressPage/AddressList";
+   const res = await fetch(`${BASE_URL}/api/pages/contactpage`, { cache: "no-store" });
+   const data = await res.json();
+   const contact = data?.data;
 
-interface AddressType {
-  _id?: string;
-  userId: string;
-  Name: string;
-  MobileNumber: string;
-  PinCode: string;
-  Address: string;
-  City: string;
-  LandMark?: string;
-  State?: string;
-  Country?: string;
+   const logo = contact?.logo || `${BASE_URL}/og-images/AceLogo.png`;
+   const alts = contact?.websiteTitle || "Your Addresses"
+   const name = contact?.websiteTitle || "ACE";
+
+    return {
+  
+      title:"Manage Addresses",
+      description:"Manage your saved delivery addresses, update details, and ensure your orders are shipped to the correct location with ease.",
+
+      alternates: {
+        canonical: `${BASE_URL}/addresses`,
+      },
+
+      openGraph: {
+        title: "Manage Addresses",
+        description:"View and update your saved delivery locations for a faster and smoother checkout experience.",
+        url: `${BASE_URL}/addresses`,
+        siteName: name,
+        images: [
+          {
+            url: logo,
+            width: 1200,
+            height: 630,
+            alt: alts,
+          },
+        ],
+        type: "website",
+      },
+
+      twitter: {
+        card: "summary_large_image",
+        title: "Manage Addresses",
+        description:"Add, edit, or remove your saved delivery addresses to ensure accurate and seamless future orders",
+        images: [logo],
+      },
+}
 }
 
 const AddressPage = () => {
-  const { user } = useAuth();
-  const [addresses, setAddresses] = useState<AddressType[]>([]);
-  const [editingAddress, setEditingAddress] = useState<AddressType | null>(null);
-  const [showForm, setShowForm] = useState(false);
-
-  const fetchAddresses = async (userId: string) => {
-    try {
-      const res = await axios.get(`/api/address?userId=${userId}`);
-      setAddresses(res.data.data || []);
-    } catch {
-      toast.error("Failed to load addresses");
-    }
-  };
-
-  useEffect(() => {
-    if (user?._id) fetchAddresses(user._id);
-  }, [user]);
-
-  const handleDelete = async (id: string) => {
-    if (!confirm("Are you sure you want to delete this address?")) return;
-    try {
-      const res = await axios.delete(`/api/address/${id}`);
-      toast.success(res.data.message || "Address deleted");
-      fetchAddresses(user?._id ?? "");
-    } catch {
-      toast.error("Failed to delete address");
-    }
-  };
-
-  const handleFormSave = () => {
-    setShowForm(false);
-    setEditingAddress(null);
-    fetchAddresses(user?._id ?? "");
-  };
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 py-8 px-4">
-      <div className="max-w-4xl mx-auto">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-slate-900 mb-2">Addresses</h1>
-          <p className="text-slate-600">Manage your delivery addresses</p>
-        </div>
-
-        {!showForm && (
-          <button
-            onClick={() => setShowForm(true)}
-            className="mb-6 flex items-center gap-2 text-gray-900 border px-6 py-3 rounded hover:text-white hover:bg-emerald-600 hover:border-emerald-600 transition-all shadow-md hover:shadow-lg"
-          >
-            <Plus size={20} />
-            Add New Address
-          </button>
-        )}
-
-        {showForm && user?._id && (
-          <AddressForm
-            userId={user._id}
-            editingAddress={editingAddress}
-            onSave={handleFormSave}
-            onCancel={() => {
-              setShowForm(false);
-              setEditingAddress(null);
-            }}
-          />
-        )}
-
-        <AddressList
-          addresses={addresses}
-          onEdit={(addr) => {
-            setEditingAddress(addr);
-            setShowForm(true);
-          }}
-          onDelete={handleDelete}
-        />
-      </div>
+    <div>
+      <Addresses/>
     </div>
-  );
-};
+  )
+}
 
-export default AddressPage;
+export default AddressPage

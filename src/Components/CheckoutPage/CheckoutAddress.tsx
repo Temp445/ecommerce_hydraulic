@@ -67,7 +67,7 @@ const CheckoutAddress = ({
   return (
     <section className="bg-white rounded-2xl p-2 md:p-6">
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-xl font- flex items-center gap-3 text-slate-900">
+        <h2 className="text-lg md:text-xl  flex items-center gap-3 text-slate-900">
           <div className="bg-emerald-500 p-2.5 rounded-xl">
             <MapPin className="text-white w-5 h-5" />
           </div>
@@ -109,7 +109,7 @@ const CheckoutAddress = ({
               </span>
             </div>
 
-            <p className="text-slate-800 leading-relaxed mb-3">
+            <p className="text-slate-800 leading-relaxed mb-3 text-sm md:text-base">
               {addr.Address && <>{addr.Address}, </>}
               {addr.City && <>{addr.City}, </>}
               {addr.State && <>{addr.State} - </>}
@@ -123,7 +123,7 @@ const CheckoutAddress = ({
 
             <div className="flex items-center gap-2 text-slate-800">
               <PhoneCall className="w-4 h-4 flex-shrink-0" />
-              <span className="font-medium">{addr.MobileNumber}</span>
+              <span className="font-medium text-sm md:text-base">{addr.MobileNumber}</span>
             </div>
           </div>
         </div>

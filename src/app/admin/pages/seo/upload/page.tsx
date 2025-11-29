@@ -32,10 +32,14 @@ const SeoUploadForm = () => {
         twitterDescription,
       });
 
-      if (res.data.success) toast.success("SEO created successfully!");
+      if (res.data.success) {
+         toast.success("SEO created successfully!");
        router.push('/admin/pages/seo')
+      } else{
+      toast.error(res.data.message || "Seo Already Exists!");
+      }
     } catch (err: any) {
-      toast.error(err.message || "Something went wrong!");
+      toast.error( err?.response?.data?.message || "Seo Already Exists");
     } finally {
       setLoading(false);
     }
@@ -67,8 +71,7 @@ const SeoUploadForm = () => {
           <option value="contact">Contact</option>
           <option value="product">Product</option>
           <option value="cart">Cart</option>
-          <option value="login">Login</option>
-          <option value="register">Register</option>
+          <option value="checkout">CheckOut</option>
           <option value="policy">Policy</option>
         </select>
 
@@ -133,6 +136,8 @@ const SeoUploadForm = () => {
           className="w-full p-2 border border-gray-400 rounded"
         />
 
+      <div className="flex gap-4">
+
         <button
           type="submit"
           disabled={loading}
@@ -140,6 +145,15 @@ const SeoUploadForm = () => {
         >
           {loading ? "Uploading..." : "Upload"}
         </button>
+
+         <button
+           type="button"
+          className="bg-gray-500 text-white px-6 py-2 rounded "
+          onClick={() => router.push('/admin/pages/seo')}
+        >
+          Cancel
+        </button>
+        </div>
       </form>
     </div>
   );

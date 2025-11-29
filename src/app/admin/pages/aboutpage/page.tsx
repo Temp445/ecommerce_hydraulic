@@ -162,7 +162,7 @@ export default function AboutPageAdmin() {
       <div className="max-w-6xl mx-auto">
         <div className="mb-6 flex items-start justify-between gap-4">
           <div>
-            <h1 className="text-3xl  text-slate-900">
+            <h1 className="text-2xl  font-medium  text-slate-900">
               {mode === "upload" ? "Upload About Page" : mode === "edit" ? "Edit About Page" : "About Page"}
             </h1>
            
@@ -183,7 +183,6 @@ export default function AboutPageAdmin() {
         </div>
 
         <form onSubmit={(e) => { e.preventDefault(); handleSubmit(); }} className="space-y-8 bg-white rounded-xl shadow p-8">
-          {/* HERO */}
           <section>
             <div className="flex items-center gap-3 mb-4">
               <div className="w-8 h-8 rounded-full bg-gray-900 text-white flex items-center justify-center text-sm">1</div>

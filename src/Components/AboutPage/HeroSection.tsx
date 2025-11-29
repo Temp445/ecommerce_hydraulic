@@ -10,15 +10,15 @@ const HeroSection = ({content}: {content: any}) => {
                            repeating-linear-gradient(0deg, #000 0, #000 1px, transparent 1px, transparent 80px)`
         }}></div>
       </div>
-      <div className="max-w-7xl relative mx-auto px-6 md:px-12 py-5 md:py-24 w-full">
+      <div className="max-w-7xl relative mx-auto px-6 md:px-12 py-5 md:py-10 xl:py-24 w-full">
         <div className="max-w-4xl">
           <span className="text-sm font-medium text-gray-500 uppercase tracking-wider">
             {content?.hero?.note}
           </span>
-          <h1 className="mt-6 text-xl md:text-5xl lg:text-7xl font-thin text-gray-900 leading-tight">
+          <h1 className="mt-6 text-xl md:text-5xl xl:text-7xl font-thin text-gray-900 leading-tight">
             {content?.hero?.title} 
           </h1>
-            <h2 className="text-gray-400  sm:text-5xl lg:text-7xl">{content?.hero?.subTitle} </h2>
+            <h2 className="text-gray-400  sm:text-5xl xl:text-7xl">{content?.hero?.subTitle} </h2>
 
           <p className="mt-8 text-sm md:text-xl text-gray-600 max-w-2xl leading-relaxed">
             {content?.hero?.description}

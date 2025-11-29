@@ -5,8 +5,15 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import Link from "next/link";
 
+interface SeoPage {
+  _id: string;
+  path: string;
+  title: string;
+  description: string;
+}
+
 const SeoListPage = () => {
-  const [seoList, setSeoList] = useState<any[]>([]);
+  const [seoList, setSeoList] = useState<SeoPage[]>([]);
   const [loading, setLoading] = useState(false);
 
   const fetchSeoList = async () => {
@@ -15,7 +22,8 @@ const SeoListPage = () => {
       const res = await axios.get("/api/pages/seo");
       setSeoList(res.data.data || []);
     } catch (err: any) {
-      toast.error(err.message || "Failed to fetch SEO list");
+      const message = err.response?.data?.message || err.message || "Failed to fetch SEO list";
+      toast.error(message);
     } finally {
       setLoading(false);
     }
@@ -25,42 +33,75 @@ const SeoListPage = () => {
     fetchSeoList();
   }, []);
 
-  return (
-    <div className="px-4 max-w-5xl mx-auto pb-32">
-      <div className="p-8 flex justify-between items-center">
-        <h1 className="text-2xl md:text-3xl">All SEO Pages</h1>
-        <Link
-          href="/admin/pages/seo/upload"
-          className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
-        >
-          New SEO
-        </Link>
-      </div>
 
-      {loading ? (
-        <p className="text-center">Loading...</p>
-      ) : (
-        <div className="max-w-4xl mx-auto space-y-4">
-          {seoList.length === 0 && <p className="text-center">No SEO entries found.</p>}
-          {seoList.map((seo) => (
-            <div key={seo._id} className="border p-4 rounded">
-              <p><strong>Path:</strong> {seo.path}</p>
-              <p><strong>Title:</strong> {seo.title}</p>
-              <p><strong>Description:</strong> {seo.description}</p>
-              <div className="mt-2">
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      <div className="px-4 max-w-7xl mx-auto py-8">
+        <div className="flex justify-between items-center mb-8">
+          <div>
+            <h1 className="text-2xl font-medium text-gray-900"> Manage SEO metadata</h1>
+          </div>
+          <Link
+            href="/admin/pages/seo/upload"
+            className="inline-flex items-center gap-2 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors font-medium"
+          >
+            + New SEO
+          </Link>
+        </div>
+
+        {loading && (
+          <div className="flex justify-center items-center py-16">
+            <div className="flex flex-col items-center gap-3">
+              <p className="text-gray-600">Loading...</p>
+            </div>
+          </div>
+        )}
+
+        {!loading && seoList.length === 0 && (
+          <div className="bg-white rounded-lg border border-gray-200 p-12 text-center">
+            <p className="text-gray-600 mb-4">No SEO entries found</p>
+            <Link
+              href="/admin/pages/seo/upload"
+              className="inline-block bg-gray-900 text-white px-4 py-2 rounded-lg"
+            >
+              Create your first SEO page
+            </Link>
+          </div>
+        )}
+
+        {!loading  && seoList.length > 0 && (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4">
+            {seoList.map((seo) => (
+              <div
+                key={seo._id}
+                className="bg-white rounded-lg border border-gray-200 p-5 hover:shadow-lg transition-shadow flex flex-col h-full"
+              >
+                <div className="flex-1">
+                  <p className="text-sm font-mono text-blue-600 mb-2">
+                    {seo.path}
+                  </p>
+                  <h3 className="font-semibold text-gray-900 line-clamp-2 mb-2">
+                    {seo.title || "Untitled"}
+                  </h3>
+                  <p className="text-sm text-gray-600 line-clamp-3 mb-4">
+                    {seo.description || "No description provided"}
+                  </p>
+                </div>
+
                 <Link
                   href={`/admin/pages/seo/update/${seo.path}`}
-                  className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700"
+                  className="inline-flex justify-center bg-gray-900 text-white px-3 py-2 rounded-lg text-sm font-medium"
                 >
                   Edit
                 </Link>
               </div>
-            </div>
-          ))}
-        </div>
-      )}
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
-}
+};
 
-export default SeoListPage
+export default SeoListPage;

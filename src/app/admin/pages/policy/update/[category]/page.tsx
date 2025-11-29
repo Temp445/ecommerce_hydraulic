@@ -108,7 +108,7 @@ const UpdatePolicyPage = () => {
 
   return (
     <div className="max-w-3xl mx-auto py-10">
-      <h1 className="text-2xl font-bold mb-6">
+      <h1 className="text-2xl font-medium mb-6">
         Edit Policy: {policy.category}
       </h1>
 
@@ -136,6 +136,7 @@ const UpdatePolicyPage = () => {
         onChange={(e) => setEffectiveDate(e.target.value)}
       />
 
+      <div className="ql-custom-styles">
       <label className="block mb-2 font-medium">Content </label>
       <ReactQuill
         theme="snow"
@@ -145,7 +146,7 @@ const UpdatePolicyPage = () => {
         formats={formats}
         style={{ height: "400px" }}
       />
-
+</div>
       <div className="flex gap-4 mt-16">
         <button
           className="bg-blue-600 text-white px-6 py-2 rounded"
@@ -156,6 +157,7 @@ const UpdatePolicyPage = () => {
         </button>
 
         <button
+          type="button"
           className="bg-gray-400 text-white px-6 py-2 rounded"
           onClick={() => router.back()}
         >

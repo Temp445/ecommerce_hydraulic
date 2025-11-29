@@ -6,7 +6,7 @@ const HeroSection = ({content}: {content: any}) => {
   return (
     <div className="overflow-hidden relative w-full h-fit mt-10 flex items-center">
       
-      <div className="relative container mx-auto px-4 md:px-8 lg:px-12 z-10">
+      <div className="relative container mx-auto px-4 lg:px-8 xl:px-12 z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5 lg:gap-16 items-center">
           
           <div className="flex flex-col justify-center order-2">
@@ -17,15 +17,15 @@ const HeroSection = ({content}: {content: any}) => {
               </span>
             </div>
 
-            <h1 className="text-2xl md:text-5xl lg:text-6xl xl:text-7xl md:font-semibold text-gray-900 leading-tight tracking-tight ">
+            <h1 className="text-2xl md:text-4xl lg:text-5xl xl:text-7xl md:font-semibold text-gray-900 leading-tight tracking-tight ">
               {content?.hero?.title}
             </h1>
 
-            <p className="text-xl md:text-2xl lg:text-5xl text-gray-500 font-light leading-relaxed mb-6">
+            <p className="text-xl md:text-2xl lg:text-4xl xl:text-5xl text-gray-500 font-light leading-relaxed mb-6">
               {content?.hero?.subTitle}
             </p>
 
-            <p className="text-sm md:text-lg text-gray-600 leading-relaxed font-light max-w-xl mb-5 md:mb-10">
+            <p className="text-sm lg:text-lg text-gray-600 leading-relaxed font-light max-w-xl mb-5 md:mb-10">
               {content?.hero?.description}
             </p>
 

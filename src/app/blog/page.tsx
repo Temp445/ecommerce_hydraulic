@@ -1,10 +1,68 @@
 //  List out All blog page
-
+import type { Metadata } from "next";
 import { File , ChevronRight, Image  } from 'lucide-react';
 import Link from "next/link";
 
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || ''
+
+// Meta tags
+export async function generateMetadata(): Promise<Metadata> {
+
+    const res = await fetch(`${BASE_URL}/api/pages/seo/blog`, { cache: "no-store"});
+
+    const json = await res.json();
+    const seo = json?.data;
+
+    const res1 = await fetch(`${BASE_URL}/api/pages/contactpage`, { cache: "no-store" });
+   const data = await res1.json();
+   const contact = data?.data;
+
+   const logo = contact?.logo || `${BASE_URL}/og-images/AceLogo.png`;
+   const alts = contact?.websiteTitle || "Blogs"
+   const name = contact?.websiteTitle || "ACE";
+   
+
+    if (!seo) {
+      return {
+        title: `Blogs | ${contact?.websiteTitle}`,
+        description: "Explore expert articles, guides, and resources on hydraulic systems, machinery components, maintenance tips, and industrial solutions from industry professionals.",
+      };
+    }
+
+    return {
+      title: seo.title || `Blogs | ${contact?.websiteTitle}`,
+      description: seo.description || "Explore expert articles, guides, and resources on hydraulic systems, machinery components, maintenance tips, and industrial solutions from industry professionals.",
+      keywords: seo.keywords || "Read informative blogs and updates on hydraulic technology, industrial components, troubleshooting tips, and product knowledge.",
+
+      alternates: {
+        canonical: `${BASE_URL}/blog`,
+      },
+
+      openGraph: {
+        title: seo.ogTitle || seo.title || `Blogs | ${contact?.websiteTitle}`,
+        description: seo.ogDescription || seo.description || "Explore expert articles, guides, and resources on hydraulic systems, machinery components, maintenance tips, and industrial solutions from industry professionals.",
+        url: `${BASE_URL}/blog`,
+        siteName: name,
+        images: [
+          {
+            url: logo,
+            width: 1200,
+            height: 630,
+            alt: alts,
+          },
+        ],
+        type: "website",
+      },
+
+      twitter: {
+        card: "summary_large_image",
+        title: seo.twitterTitle || seo.title || `Blogs | ${contact?.websiteTitle}`,
+        description: seo.twitterDescription || seo.description || "Explore expert articles, guides, and resources on hydraulic systems, machinery components, maintenance tips, and industrial solutions from industry professionals.",
+        images: [logo],
+      },
+    };
+}
 
 
 const BlogPage = async() => {

@@ -7,7 +7,6 @@ import {
   Upload,
   Image as ImageIcon,
   X,
-  ArrowLeft,
 } from "lucide-react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";

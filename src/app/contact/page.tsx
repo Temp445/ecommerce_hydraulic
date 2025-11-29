@@ -1,9 +1,66 @@
 // Contact Page
-
+import type { Metadata } from "next";
 import { Mail, Phone, MapPin } from "lucide-react";
 import ContactForm from "@/Components/ContactPage/ContactForm";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "";
+
+// Meta tags
+export async function generateMetadata(): Promise<Metadata> {
+
+    const res = await fetch(`${BASE_URL}/api/pages/seo/contact`, { cache: "no-store"});
+    const json = await res.json();
+    const seo = json?.data;
+
+   const res1 = await fetch(`${BASE_URL}/api/pages/contactpage`, { cache: "no-store" });
+   const data = await res1.json();
+   const contact = data?.data;
+
+   const logo = contact?.logo || `${BASE_URL}/og-images/AceLogo.png`;
+   const alts = `Contact Us | ${contact?.websiteTitle}` || "Contact Us"
+   const name = contact?.websiteTitle || "ACE";
+   
+
+    if (!seo) {
+      return {
+        title: `Contact Us | ${contact?.websiteTitle}`,
+        description: "Reach out to us for inquiries about hydraulic components, machinery parts, orders, or support. Our team is here to assist you with reliable guidance and quick responses.",
+      };
+    }
+
+    return {
+      title: seo.title || `Contact Us | ${contact?.websiteTitle}`,
+      description: seo.description || "Reach out to us for inquiries about hydraulic components, machinery parts, orders, or support. Our team is here to assist you with reliable guidance and quick responses.",
+      keywords: seo.keywords || "contact hydraulic supplier, hydraulic parts support, hydraulic components help, industrial solutions inquiries",
+
+      alternates: {
+        canonical: `${BASE_URL}/contact`,
+      },
+
+      openGraph: {
+        title: seo.ogTitle || seo.title || `Contact Us | ${contact?.websiteTitle}`,
+        description: seo.ogDescription || seo.description || "Contact our team for sales inquiries, product guidance, and reliable support for hydraulic and industrial components",
+        url: `${BASE_URL}/contact`,
+        siteName: name,
+        images: [
+          {
+            url: logo,
+            width: 1200,
+            height: 630,
+            alt: alts,
+          },
+        ],
+        type: "website",
+      },
+
+      twitter: {
+        card: "summary_large_image",
+        title: seo.twitterTitle || seo.title || `Contact Us | ${contact?.websiteTitle}`,
+        description: seo.twitterDescription || seo.description || "Contact our team for sales inquiries, product guidance, and reliable support for hydraulic and industrial components",
+        images: [logo],
+      },
+    };
+}
 
 const ContactPage = async () => {
   const res = await fetch(`${BASE_URL}/api/pages/contactpage`, {

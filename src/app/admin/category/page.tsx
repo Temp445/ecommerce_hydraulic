@@ -57,7 +57,7 @@ const CategoryPage = () => {
       <div className="max-w-7xl mx-auto">
 
         <div className="md:p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <h1 className="text-2xl text-gray-800 mb-2 sm:mb-0">
+          <h1 className="text-2xl font-medium text-gray-800 mb-2 sm:mb-0">
             Product Categories
           </h1>
           <Link

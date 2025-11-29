@@ -36,11 +36,13 @@ export async function generateMetadata(): Promise<Metadata> {
 
    const logo = contact?.logo || `${BASE_URL}/og-images/AceLogo.png`;
    const name = contact?.websiteTitle || "ACE";
+   const alts = contact?.websiteTitle || "ACE"
+
    
 
     if (!seo) {
       return {
-        title: "ACE",
+        title: contact?.websiteTitle,
         description: "Delivering top-tier hydraulic components, precision industrial equipment, and specialized hydraulic solutions for diverse commercial and manufacturing operations.",
       };
     }
@@ -64,6 +66,7 @@ export async function generateMetadata(): Promise<Metadata> {
             url: logo,
             width: 1200,
             height: 630,
+            alt: alts
           },
         ],
         type: "website",

@@ -62,9 +62,9 @@ const BlogListPage = () => {
   };
 
   return (
-    <div className="max-w-6xl mx-auto p-6 mb-32">
+    <div className="container mx-auto p-6 mb-32">
       <div className="flex items-center justify-between mb-8">
-        <h1 className="text-3xl font-bold text-gray-800">Blog Management</h1>
+        <h1 className="text-2xl font-medium text-gray-800">Blog Management</h1>
         <button
           onClick={() => router.push("/admin/blog/upload")}
           className="flex items-center gap-2 bg-gray-900 text-white px-4 py-2 rounded-lg"
@@ -95,17 +95,19 @@ const BlogListPage = () => {
               key={blog._id}
               className="bg-white border rounded-lg shadow-md hover:shadow-lg transition relative group overflow-hidden"
             >
-              {blog.imageUrl ? (
+              <div>
+                  {blog.imageUrl ? (
                 <img
                   src={blog.imageUrl}
                   alt={blog.title}
-                  className="w-full h-48 object-cover"
+                  className="w-full h-44 object-contain"
                 />
               ) : (
                 <div className="w-full h-48 bg-gray-100 flex items-center justify-center text-gray-400">
                   No Image
                 </div>
               )}
+              </div>
 
               <div className="p-4">
                 <h2 className="text-base font-medium mb-1 line-clamp-2 text-gray-800">

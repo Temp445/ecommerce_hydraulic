@@ -170,12 +170,8 @@ const Checkout = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="bg-white border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <h1 className="text-2xl  text-gray-900">Checkout</h1>
-          </div>
-        </div>
+      <div className="bg-gray-900 border-b border-gray-200">
+            <h1 className="text-xl md:text-2xl text-center max-w-7xl mx-auto p-4 text-white">Checkout</h1>
       </div>
 
       <div className="max-w-7xl mx-auto px-2 md:px-4 py-8">

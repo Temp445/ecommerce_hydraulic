@@ -125,9 +125,9 @@ const LandingPageUpload = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 py-8 px-4">
-      <div className="max-w-5xl mx-auto">
+      <div className="max-w-6xl mx-auto">
         <div className="mb-8 flex justify-between">
-          <h1 className="text-3xl  text-slate-900 mb-2">
+          <h1 className="text-2xl font-medium  text-slate-900 mb-2">
            {mode === "upload" ? "Upload Landing Page" : mode === "edit" ? "Edit Landing Page" : "Landing Page"}
           </h1>
 

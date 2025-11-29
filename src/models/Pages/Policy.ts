@@ -3,7 +3,6 @@ import mongoose, { model, models } from "mongoose";
 const PolicySchema = new mongoose.Schema({
   category: {
     type: String,
-    enum: ["terms", "privacy", "cancellation", "Shipping"],
     required: true,
     unique: true,
   },

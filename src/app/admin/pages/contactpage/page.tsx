@@ -159,7 +159,7 @@ export default function ContactAdminPage() {
   return (
     <div className="max-w-3xl mx-auto p-6">
       <div className="mb-6 flex justify-between items-center">
-        <h1 className="text-3xl font-bold text-gray-800">
+        <h1 className="text-2xl font-medium text-gray-800">
           {editing ? (isEditMode ? "Edit Contact Information" : "Contact Information") : "Create Contact Information"}
         </h1>
 
@@ -173,8 +173,8 @@ export default function ContactAdminPage() {
         )}
       </div>
 
-      <form onSubmit={onSubmit} className="space-y-6">
-        <div className="border-t pt-6">
+      <form onSubmit={onSubmit} className="space-y-6 p-4 border border-gray-400 rounded shadow">
+        <div className="">
           <label className="block font-semibold text-gray-700 mb-2">Website Logo</label>
 
           <input
@@ -182,14 +182,14 @@ export default function ContactAdminPage() {
             disabled={disabled}
             accept="image/*"
             onChange={handleLogoChange}
-            className={`border p-3 w-full rounded-lg ${disabled ? "bg-gray-100 cursor-not-allowed" : ""}`}
+            className={`border border-gray-400 p-3 w-full rounded-lg ${disabled ? " cursor-not-allowed" : ""}`}
           />
 
           {(data.logo || logoFile) && (
             <img
               src={logoFile ? URL.createObjectURL(logoFile) : data.logo}
               alt="Logo preview"
-              className="w-40 h-40 mt-4 object-contain border rounded-lg p-2 bg-gray-50"
+              className="w-40 h-40 mt-4 object-contain border border-gray-400 rounded-lg p-2 "
             />
           )}
         </div>
@@ -203,7 +203,7 @@ export default function ContactAdminPage() {
             disabled={disabled}
             value={data.websiteTitle}
             onChange={(e) => setData({ ...data, websiteTitle: e.target.value })}
-            className={`border p-3 w-full rounded-lg ${disabled ? "bg-gray-100 cursor-not-allowed" : ""}`}
+            className={`border border-gray-400 p-3 w-full rounded-lg ${disabled ? " cursor-not-allowed" : ""}`}
           />
         </div>
 
@@ -216,7 +216,7 @@ export default function ContactAdminPage() {
                 disabled={disabled}
                 value={email}
                 onChange={(e) => handleArrayChange(idx, e.target.value, "emails")}
-                className={`border p-3 flex-1 rounded-lg ${disabled ? "bg-gray-100 cursor-not-allowed" : ""}`}
+                className={`border border-gray-400 p-3 flex-1 rounded-lg ${disabled ? " cursor-not-allowed" : ""}`}
               />
               {!disabled && data.emails.length > 1 && (
                 <button
@@ -246,7 +246,7 @@ export default function ContactAdminPage() {
                 disabled={disabled}
                 value={num}
                 onChange={(e) => handleArrayChange(idx, e.target.value, "numbers")}
-                className={`border p-3 flex-1 rounded-lg ${disabled ? "bg-gray-100 cursor-not-allowed" : ""}`}
+                className={`border border-gray-400 p-3 flex-1 rounded-lg ${disabled ? " cursor-not-allowed" : ""}`}
               />
               {!disabled && data.numbers.length > 1 && (
                 <button
@@ -274,7 +274,7 @@ export default function ContactAdminPage() {
             disabled={disabled}
             value={data.address}
             onChange={(e) => setData({ ...data, address: e.target.value })}
-            className={`border p-3 w-full rounded-lg ${disabled ? "bg-gray-100 cursor-not-allowed" : ""}`}
+            className={`border border-gray-400 p-3 w-full rounded-lg ${disabled ? " cursor-not-allowed" : ""}`}
           />
         </div>
 
@@ -287,11 +287,11 @@ export default function ContactAdminPage() {
             value={data.timing}
             placeholder="Mon-Sat, 10am-6:30pm"
             onChange={(e) => setData({ ...data, timing: e.target.value })}
-            className={`border p-3 w-full rounded-lg ${disabled ? "bg-gray-100 cursor-not-allowed" : ""}`}
+            className={`border border-gray-400 p-3 w-full rounded-lg ${disabled ? " cursor-not-allowed" : ""}`}
           />
         </div>
 
-        <div className="border-t pt-6">
+        <div className="border-t border-gray-500 pt-6">
           <h2 className="text-xl font-semibold mb-4">Social Media Links</h2>
 
           {["youtube", "twitter", "linkedin", "instagram"].map((field) => (
@@ -302,7 +302,7 @@ export default function ContactAdminPage() {
                 disabled={disabled}
                 value={(data as any)[field]}
                 onChange={(e) => setData({ ...data, [field]: e.target.value })}
-                className={`border p-3 w-full rounded-lg ${disabled ? "bg-gray-100 cursor-not-allowed" : ""}`}
+                className={`border border-gray-400 p-3 w-full rounded-lg ${disabled ? " cursor-not-allowed" : ""}`}
               />
             </div>
           ))}
@@ -324,7 +324,7 @@ export default function ContactAdminPage() {
             <button
               type="button"
               disabled={loading}
-              className="border px-8 py-3 rounded-lg"
+              className="border border-gray-400 px-8 py-3 rounded-lg"
               onClick={handleCancelEdit}
             >
               Cancel

@@ -13,7 +13,7 @@ const categories = [
   { label: "Terms & Conditions", value: "terms" },
   { label: "Privacy Policy", value: "privacy" },
   { label: "Cancellation Policy", value: "cancellation" },
-  { label: "Shipping Policy", value: "Shipping" },
+  { label: "Shipping Policy", value: "shipping" },
 ];
 
 export default function UploadPolicyPage() {
@@ -151,6 +151,7 @@ export default function UploadPolicyPage() {
       </button>
 
         <button
+          type="button"
           className="bg-gray-400 text-white px-6 py-2 rounded "
           onClick={() => router.back()}
         >

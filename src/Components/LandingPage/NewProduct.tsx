@@ -15,9 +15,9 @@ const NewProduct = async ({content}:{content: any}) => {
 
   return (
     <section className="py-5 md:py-14 bg-gradient-to-b from-slate-100 to-white">
-      <div className="container mx-auto px-4 md:px-8">
+      <div className="container mx-auto px-4 xl:px-8">
         <div className=" md:mb-7">
-          <h2 className="text-xl sm:text-2xl 2xl:text-4xl font-medium text-gray-900 mb-4 tracking-tight">
+          <h2 className="text-xl sm:text-2xl md:text-3xl xl:text-4xl font-medium text-gray-900 mb-4 tracking-tight">
             {content?.sectionHeadings?.newArrivals}
           </h2>
         </div>

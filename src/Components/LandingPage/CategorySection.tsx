@@ -12,7 +12,7 @@ const CategorySection = async ({content}:{content: any}) => {
       <div className="container mx-auto px-4 2xl:px-8">
        <div className="flex justify-between">
          <div className=" mb-5 md:mb-16">
-          <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-light text-white mb-2">
+          <h2 className="text-xl sm:text-2xl md:text-3xl xl:text-4xl font-light text-white mb-2">
             {content?.sectionHeadings?.categories}
           </h2>
           <div className="w-12 h-1 bg-white md:mt-4"></div>

@@ -6,9 +6,9 @@ const WhyShopWithUs = ({ content }: { content: any }) => {
   return (
     <div>
           <section className="w-full bg-white py-10 md:py-20">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-0">
+      <div className="max-w-6xl mx-auto px-4 sm:px-12 xl:px-0">
         <div className="mb-10 md:mb-20">
-          <h2 className="text-xl md:text-2xl lg:text-5xl  text-gray-900 mb-2">
+          <h2 className="text-xl md:text-4xl xl:text-5xl  text-gray-900 mb-2">
            {content?.shopUs?.Heading}
           </h2>
         </div>

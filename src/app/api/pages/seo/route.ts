@@ -28,7 +28,7 @@ export async function POST(req: Request) {
     const existing = await Seo.findOne({ path });
     if (existing) {
       return NextResponse.json(
-        { success: false, message:"SEO entry already exists for this path" },
+        { success: false, message:"SEO entry already exists for this page" },
         { status: 400 }
       );
     }

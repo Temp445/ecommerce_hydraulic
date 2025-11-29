@@ -4,10 +4,10 @@ const ManufacturingProcessSection = ({ content }: { content: any }) => {
   
 
   return (
-    <section className="py-10 md:py-24 bg-gray-50">
+    <section className="py-10 lg:py-24 bg-gray-50">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
         <div className="mb-5 md:mb-16">
-          <h2 className="text-xl md:text-5xl font-thin text-gray-900 tracking-tight">
+          <h2 className="text-xl md:text-4xl xl:text-5xl font-thin text-gray-900 tracking-tight">
             {content?.process?.Heading}
           </h2>
           <div className="mt-1 md:mt-6 w-20 h-0.5 bg-gray-900"></div>
